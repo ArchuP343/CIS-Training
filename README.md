@@ -376,6 +376,238 @@ Store learning data
         ↓
 Improve future rankings
 ```
+# 9. Generate Natural-Language Answers
+
+## Goal
+
+Instead of displaying raw manual text, have the bot construct its own responses using information retrieved from the manual.
+
+This is one of the biggest improvements for making the bot feel like an AI assistant.
+
+---
+
+## Current Behaviour
+
+```text
+Question
+↓
+Find matching section
+↓
+Display section text
+```
+
+Example:
+
+Manual:
+
+"To export a report, open the Reports menu, select Export, choose PDF format and click Save."
+
+Bot response:
+
+"To export a report, open the Reports menu, select Export, choose PDF format and click Save."
+```
+
+---
+
+## Target Behaviour
+
+```text
+Question
+↓
+Find matching section(s)
+↓
+Extract important information
+↓
+Construct response
+↓
+Return answer
+```
+
+Example:
+
+Bot response:
+
+"To save a report as a PDF:
+
+1. Open the Reports menu.
+2. Select Export.
+3. Choose PDF format.
+4. Click Save.
+
+The completed PDF will then be generated."
+```
+
+---
+
+## Method 1: Template-Based Response Generation
+
+Extract key information from matched sections:
+
+```javascript
+{
+    action: "export a report",
+    steps: [
+        "open the Reports menu",
+        "select Export",
+        "choose PDF format",
+        "click Save"
+    ]
+}
+```
+
+Generate:
+
+```javascript
+return `
+To ${action}:
+
+1. ${steps[0]}
+2. ${steps[1]}
+3. ${steps[2]}
+4. ${steps[3]}
+`;
+```
+
+### Benefits
+
+- Feels intelligent
+- Consistent answers
+- Easy to implement
+- No AI model required
+
+---
+
+## Method 2: Multi-Section Answer Stitching
+
+Allow the bot to combine information from multiple manual sections.
+
+Example:
+
+Section A:
+
+```text
+Reports can be exported as PDFs.
+```
+
+Section B:
+
+```text
+The Export button is located in the Reports menu.
+```
+
+Section C:
+
+```text
+Generated files are saved in the Output folder.
+```
+
+Construct:
+
+```text
+Reports can be exported as PDFs using the Export button in the Reports menu. Generated files are automatically saved in the Output folder.
+```
+
+### Benefits
+
+- More complete answers
+- Appears to understand the manual
+- Reduces need for users to read multiple sections
+
+---
+
+## Method 3: Learn Better Wording
+
+Store successful answers:
+
+```javascript
+{
+    question: "How do I save a report as PDF?",
+    answer: "To save a report as a PDF..."
+}
+```
+
+If similar questions appear later:
+
+```text
+How do I export a report?
+
+How do I create a PDF report?
+
+How do I generate a report PDF?
+```
+
+Reuse and adapt successful answer wording.
+
+### Benefits
+
+- Responses improve over time
+- Feels more conversational
+- Creates an evolving knowledge base
+
+---
+
+## Future Upgrade: Local Language Model
+
+A small browser-based language model could eventually be used.
+
+Process:
+
+```text
+Question
+↓
+Find best manual sections
+↓
+Provide sections as context
+↓
+Local model generates answer
+```
+
+Possible technologies:
+
+- Transformers.js
+- WebLLM
+- ONNX Runtime Web
+
+This would produce genuinely original responses while remaining client-side.
+
+---
+
+## Recommended Immediate Approach
+
+For a manual under 100 pages:
+
+```text
+Question
+↓
+Search Manual
+↓
+Retrieve Top 3 Sections
+↓
+Extract Key Sentences
+↓
+Remove Duplicate Information
+↓
+Generate Structured Answer
+↓
+Display Response
+```
+
+This will likely provide most of the perceived benefits of AI without the complexity of running a language model.
+
+---
+
+## Long-Term Goal
+
+The bot should eventually:
+
+- Search the manual
+- Detect user intent
+- Combine information from multiple sections
+- Rewrite information into natural language
+- Learn from user feedback
+- Improve answer quality over time
+
+At this point the bot behaves much more like an AI assistant rather than a traditional search engine.
 
 # End Goal
 
