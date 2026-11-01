@@ -1,0 +1,56 @@
+# GOA test questions for the SAMPLE manual. Replace with questions for the real manual.
+# question => Section title | NONE | CLARIFY        "> " = follow-up to the line above
+
+# --- direct questions
+where do I open the app from => Opening the app
+how do i get the newest version => Opening the app
+how do I pick a project => Choosing a project
+which project am i in => Choosing a project
+what does the shed map show => The shed map
+how do I zoom in on the map => The shed map
+what columns does the import need => CSV format
+what format should my spreadsheet be in => CSV format
+how do I import boxes => Running an import
+can I import more than one hole => Running an import
+why did some rows fail => Import errors
+the import says my depth is wrong => Import errors
+will importing again make duplicates => Import errors
+how do I group boxes by feature => Grouping boxes
+how do I select a whole hole at once => Grouping boxes
+how do I put boxes into a rack => Placing boxes on racks
+what does a red slot mean => Clashes and red slots
+why can't I export => Clashes and red slots
+how do I undo a move => Undoing a move
+I made a mistake, how do I go back => Undoing a move
+how do I take a box out of the plan => Undoing a move
+where is my plan saved => Saving a project
+how do I know if I've saved => Saving a project
+how do I export a move list => Exporting a move list
+where does the export go => Exporting a move list
+what if two people edit the same project => Working with other people
+someone else has my project open => Working with other people
+the app shows a blank page => The app won't open or shows a blank page
+I can't find my project => My project is missing
+what is a hole id => Terms
+
+# --- casual wording that relies on example questions (Questions: lines)
+I stuffed up a placement => Undoing a move
+the planner is just white => The app won't open or shows a blank page
+send the shed crew the list => Exporting a move list
+
+# --- follow-ups
+what does a red slot mean => Clashes and red slots
+> how do I fix it => Clashes and red slots
+how do I export a move list => Exporting a move list
+> where does it go => Exporting a move list
+> what about undoing a move => Undoing a move
+what's the CSV format => CSV format
+> and what if a row fails => Import errors
+
+# --- vague or off-topic
+how do I do it => CLARIFY
+pizza recipe => NONE
+what's the weather like => NONE
+who won the footy => NONE
+how do I undo it => Undoing a move
+how do I fix it => CLARIFY

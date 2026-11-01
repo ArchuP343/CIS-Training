@@ -1,0 +1,34 @@
+# Held-out questions: never used for tuning. This score is the honest one.
+how do I start a new project => Choosing a project
+can I see what's in a slot => The shed map
+do the column names have to match exactly => CSV format
+what units are the depths in => CSV format
+my rows are coming up red when importing => Import errors
+how do I sort the boxes by hole => Grouping boxes
+can I select a range of boxes => Grouping boxes
+do boxes from the same hole stay in order => Placing boxes on racks
+what's the dashed outline on a box => Placing boxes on racks
+the slot is full => Clashes and red slots
+can I redo something I undid => Undoing a move
+does undo still work after I close the project => Undoing a move
+what's the dot next to the project name => Saving a project
+what's in the move list file => Exporting a move list
+someone else's name is showing in a banner => Working with other people
+can two of us work at once => Working with other people
+which browser should I use => The app won't open or shows a blank page
+what does from and to mean => Terms
+what's a slot => Terms
+
+# follow-ups
+how do I import a csv => Running an import
+> can I do it with more than one hole => Running an import
+> what about duplicates => Import errors
+how do I save => Saving a project
+> where does it go => Saving a project
+> and how do I export a move list => Exporting a move list
+
+# off-topic / vague
+what's for lunch => NONE
+tell me a joke => NONE
+how do I fix it => CLARIFY
+help => CLARIFY

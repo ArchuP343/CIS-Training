@@ -1,0 +1,1719 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Core Inventory System Training</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: navy header band, then a grid of lesson cards; lesson = sectioned column with a floating tracker; GOA docked bottom-right.
+   Brand: Sunwater cyan on deep navy with a teal accent, Manrope throughout (matches Core Rack Planner). */
+:root {
+  --bg: #f3f6f7;
+  --surface: #ffffff;
+  --sunken: #e7eef1;
+  --ink: #0f2433;
+  --muted: #5a6b76;
+  --line: #dbe3e7;
+  --brand: #00b0c9;
+  --brand-ink: #062130;
+  --navy: #0a1f2e;
+  --navy-ink: #ffffff;
+  --accent: #007f93;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcf2f6;
+  --marker: #9a4f08;
+  --marker-soft: #fbecd8;
+  --done: #2b7549;
+  --bubble-bot: #e8eef1;
+  --shadow: 0 1px 2px rgb(10 31 46 / .06), 0 4px 14px rgb(10 31 46 / .08);
+  --shadow-lift: 0 2px 4px rgb(10 31 46 / .08), 0 18px 34px rgb(10 31 46 / .18);
+  --f-display: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-code: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a1720; --surface: #10212c; --sunken: #0c1b24; --ink: #e4eef2; --muted: #93a8b3; --line: #22394a;
+    --brand: #18c3db; --brand-ink: #04161f; --navy: #061520; --navy-ink: #ffffff;
+    --accent: #3fc9de; --accent-ink: #04161f; --accent-soft: #123845;
+    --marker: #f0a95e; --marker-soft: #3b2b17; --done: #80d09e; --bubble-bot: #1a303d;
+    --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 4px 14px rgb(0 0 0 / .28);
+    --shadow-lift: 0 2px 4px rgb(0 0 0 / .3), 0 18px 34px rgb(0 0 0 / .5);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+    --bg: #0a1720; --surface: #10212c; --sunken: #0c1b24; --ink: #e4eef2; --muted: #93a8b3; --line: #22394a;
+    --brand: #18c3db; --brand-ink: #04161f; --navy: #061520; --navy-ink: #ffffff;
+    --accent: #3fc9de; --accent-ink: #04161f; --accent-soft: #123845;
+    --marker: #f0a95e; --marker-soft: #3b2b17; --done: #80d09e; --bubble-bot: #1a303d;
+    --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 4px 14px rgb(0 0 0 / .28);
+    --shadow-lift: 0 2px 4px rgb(0 0 0 / .3), 0 18px 34px rgb(0 0 0 / .5);
+    color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+img { max-width: 100%; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.eyebrow { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* Header */
+header.top { background: var(--surface); border-bottom: 1px solid var(--line); }
+header.top .wrap { padding-block: 22px 20px; display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; justify-content: space-between; }
+.brand { display: grid; gap: 4px; min-width: 0; }
+.brand h1 { font-family: var(--f-display); font-weight: 700; font-size: 34px; line-height: 1.02; margin: 0; text-wrap: balance; }
+.brand p { margin: 0; color: var(--muted); max-width: 58ch; }
+.overall { display: flex; align-items: center; gap: 14px; }
+.overall-text { display: grid; gap: 1px; }
+.overall-text strong { font-family: var(--f-display); font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.overall-text span { font-size: 13px; color: var(--muted); }
+.sample-note { flex-basis: 100%; margin: 0; font-size: 13px; background: var(--marker-soft); border: 1px solid var(--marker); border-radius: 8px; padding: 7px 12px; }
+.sample-note code { font-family: var(--f-code); font-size: 12.5px; }
+
+/* Rings */
+.ring { position: relative; display: inline-block; vertical-align: top; flex: none; line-height: 0; }
+.ring svg { position: absolute; top: 0; left: 0; display: block; transform: rotate(-90deg); }
+.ring .track { stroke: var(--sunken); }
+.ring .fill { stroke: var(--accent); transition: stroke-dashoffset .5s ease; }
+.ring.full .fill { stroke: var(--done); }
+.ring > span { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; white-space: nowrap; line-height: 1; font-family: var(--f-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* Home */
+.home .wrap { padding-block: 32px 120px; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.section-head h2 { font-family: var(--f-display); font-weight: 700; font-size: 24px; margin: 0; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+.card {
+  appearance: none; text-align: left; cursor: pointer; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface); box-shadow: var(--shadow); padding: 20px; display: grid; gap: 14px;
+  grid-template-rows: auto 1fr auto; min-height: 220px; position: relative; overflow: hidden;
+  transition: box-shadow .22s, border-color .22s, background-color .22s;
+}
+.card::before { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: var(--sunken); }
+.card.started::before { background: var(--accent); }
+.card.complete::before { background: var(--done); }
+.card:hover, .card:focus-visible { box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 28%, transparent), 0 6px 26px color-mix(in srgb, var(--brand) 30%, transparent); border-color: var(--brand); background: color-mix(in srgb, var(--brand) 5%, var(--surface)); }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.card-num { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); display: grid; gap: 2px; }
+.card-num b { font-family: var(--f-display); font-weight: 700; font-size: 44px; line-height: .9; letter-spacing: 0; color: var(--ink); }
+.card h3 { font-family: var(--f-display); font-weight: 700; font-size: 23px; line-height: 1.1; margin: 0 0 6px; text-wrap: balance; }
+.card p { margin: 0; color: var(--muted); font-size: 14px; }
+.card-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px solid var(--line); padding-top: 12px; }
+.card-foot .meta { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.go { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; color: var(--accent); }
+.go i { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-style: normal; transition: transform .22s; }
+.card:hover .go i { transform: translateX(4px); }
+
+/* Lesson view */
+.lesson-view .wrap { padding-block: 20px 140px; }
+.back { appearance: none; border: 0; background: none; cursor: pointer; color: var(--muted); font-weight: 500; font-size: 14px; padding: 6px 0; display: inline-flex; gap: 6px; align-items: center; }
+.back:hover { color: var(--accent); }
+.lesson-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 32px; align-items: start; margin-top: 10px; }
+.lesson-main { display: grid; gap: 24px; min-width: 0; }
+.lesson-head { display: grid; gap: 8px; }
+.lesson-head h2 { font-family: var(--f-display); font-weight: 700; font-size: 40px; line-height: 1.02; margin: 0; text-wrap: balance; }
+.lesson-head p { margin: 0; color: var(--muted); max-width: 64ch; font-size: 16px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-family: var(--f-mono); font-size: 12px; padding: 2px 9px; border-radius: 99px; background: var(--surface); color: var(--muted); border: 1px solid var(--line); }
+
+.sec { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; display: grid; gap: 14px; scroll-margin-top: 20px; min-width: 0; transition: border-color .25s; }
+.sec.is-done { border-color: color-mix(in srgb, var(--done) 45%, var(--line)); }
+.sec-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.sec-num { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; flex: none; font-family: var(--f-mono); font-weight: 500; border: 2px solid var(--accent); color: var(--accent); }
+.sec.is-done .sec-num { background: var(--done); border-color: var(--done); color: var(--surface); }
+.sec-head h3 { font-family: var(--f-display); font-weight: 700; font-size: 23px; line-height: 1.15; margin: 0; flex: 1; min-width: 160px; }
+.check { appearance: none; cursor: pointer; border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 5px 12px 5px 8px; display: inline-flex; gap: 7px; align-items: center; font-size: 13px; font-weight: 500; color: var(--muted); }
+.check i { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid currentColor; display: grid; place-items: center; font-style: normal; font-size: 10px; }
+.check:hover { border-color: var(--done); color: var(--done); }
+.check[aria-pressed="true"] { background: var(--done); border-color: var(--done); color: var(--surface); }
+.check[aria-pressed="true"] i { border-color: var(--surface); }
+.sec-body { display: grid; gap: 12px; padding-left: 48px; min-width: 0; }
+.sec-body p, .sec-body ul, .sec-body ol { margin: 0; max-width: 66ch; }
+.sec-body ul, .sec-body ol { padding-left: 20px; }
+code { font-family: var(--f-mono); font-size: .88em; background: var(--sunken); padding: 1px 5px; border-radius: 4px; }
+.video-frame { position: relative; aspect-ratio: 16 / 9; max-width: 100%; background: #0B0F0E; border-radius: 8px; overflow: hidden; }
+.video-frame video { width: 100%; height: 100%; display: block; }
+.placeholder { position: absolute; inset: 0; display: grid; place-content: center; gap: 8px; text-align: center; padding: 20px; color: var(--muted);
+  background: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--line) 45%, transparent) 14px 15px), var(--sunken); }
+.placeholder strong { color: var(--ink); font-family: var(--f-display); font-weight: 600; font-size: 18px; }
+.placeholder code { color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 2px 8px; word-break: break-all; }
+figure.shot { margin: 2px 0 0; display: grid; gap: 6px; }
+.shot-btn { appearance: none; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--sunken); cursor: zoom-in; overflow: hidden; display: block; width: 100%; position: relative; }
+.shot-btn img { display: block; width: 100%; height: auto; }
+.shot-btn .placeholder { position: relative; aspect-ratio: 16 / 9; }
+figcaption { font-size: 13px; color: var(--muted); }
+.tip { border-left: 3px solid var(--marker); background: var(--marker-soft); padding: 8px 12px; border-radius: 0 8px 8px 0; font-size: 14px; max-width: 66ch; }
+.tip b { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; margin-right: 6px; }
+.lesson-end { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 20px 22px; border-radius: var(--radius); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); }
+.lesson-end p { margin: 0 auto 0 0; font-weight: 500; }
+.btn { appearance: none; cursor: pointer; font-weight: 500; font-size: 14px; padding: 9px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); }
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.08); }
+
+/* Tracker */
+.tracker { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; display: grid; gap: 12px; }
+.tracker-head { display: flex; align-items: center; gap: 12px; appearance: none; background: none; border: 0; padding: 0; text-align: left; cursor: default; width: 100%; }
+.tracker-head div { display: grid; gap: 1px; flex: 1; min-width: 0; }
+.tracker-head strong { font-family: var(--f-display); font-size: 18px; font-weight: 700; }
+.tracker-head span { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tracker-head .chev { display: none; color: var(--muted); transition: transform .2s; }
+.tracker ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; position: relative; }
+.tracker li button { appearance: none; border: 0; background: none; cursor: pointer; width: 100%; text-align: left; display: flex; gap: 10px; align-items: center; padding: 7px 8px; border-radius: 6px; font-size: 13.5px; color: var(--muted); }
+.tracker li button:hover { background: var(--bg); color: var(--ink); }
+.tracker li button.current { background: var(--accent-soft); color: var(--ink); font-weight: 500; }
+.dot { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; flex: none; font-size: 10px; font-family: var(--f-mono); background: var(--surface); }
+.current .dot { border-color: var(--accent); color: var(--accent); }
+.done .dot { background: var(--done); border-color: var(--done); color: var(--surface); }
+
+/* Lightbox */
+.lightbox { position: fixed; inset: 0; z-index: 40; background: rgb(0 0 0 / .82); display: grid; place-items: center; cursor: zoom-out;
+  padding: calc(env(safe-area-inset-top, 0px) + 56px) max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 24px) max(16px, env(safe-area-inset-left, 0px)); }
+.lightbox img { max-width: 100%; max-height: 100%; border-radius: 8px; background: var(--surface); }
+.lightbox .btn { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 12px); right: max(12px, env(safe-area-inset-right, 0px)); }
+
+/* GOA launcher */
+.launcher { position: fixed; z-index: 30; right: max(22px, calc(env(safe-area-inset-right, 0px) + 12px)); bottom: calc(env(safe-area-inset-bottom, 0px) + 22px); display: flex; align-items: flex-end; gap: 10px; }
+.launch-btn { appearance: none; cursor: pointer; width: 68px; height: 68px; border-radius: 50%; padding: 0; border: 3px solid var(--accent); background: var(--surface); box-shadow: var(--shadow-lift); display: grid; place-items: center; position: relative; transition: transform .2s; }
+.launch-btn:hover { transform: scale(1.06) rotate(-4deg); }
+.launch-btn .goa { width: 56px; height: 56px; animation: bob 3.2s ease-in-out infinite; }
+.badge { position: absolute; top: -3px; right: -3px; min-width: 20px; height: 20px; border-radius: 10px; background: #D2453A; color: #fff; font-size: 11px; font-weight: 600; display: grid; place-items: center; border: 2px solid var(--surface); }
+.nudge { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 14px 14px 4px 14px; padding: 9px 12px; font-size: 13.5px; max-width: 210px; margin-bottom: 14px; cursor: pointer; }
+.nudge b { display: block; font-family: var(--f-display); font-size: 15px; }
+@keyframes bob { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
+.goa .eyes { transform-box: fill-box; transform-origin: center; animation: blinkeye 5s infinite; }
+@keyframes blinkeye { 0%, 92%, 100% { transform: scaleY(1) } 95% { transform: scaleY(.1) } }
+
+/* Chat window */
+.chat { position: fixed; z-index: 31; right: max(22px, calc(env(safe-area-inset-right, 0px) + 12px)); bottom: calc(env(safe-area-inset-bottom, 0px) + 22px);
+  width: 380px; height: min(620px, calc(100vh - 44px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));
+  background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow-lift); display: flex; flex-direction: column; overflow: hidden;
+  transform-origin: bottom right; animation: pop .22s cubic-bezier(.2,.9,.3,1.2); }
+@keyframes pop { from { transform: scale(.6); opacity: 0 } to { transform: scale(1); opacity: 1 } }
+.chat-head { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--accent); color: var(--accent-ink); }
+.chat-head .av { width: 44px; height: 44px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; flex: none; }
+.chat-head .av .goa { width: 38px; height: 38px; }
+.chat-head div { flex: 1; min-width: 0; display: grid; }
+.chat-head strong { font-family: var(--f-display); font-size: 19px; font-weight: 700; line-height: 1.1; }
+.chat-head span { font-size: 12.5px; opacity: .85; display: flex; align-items: center; gap: 6px; }
+.chat-head span::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #7CF29A; }
+.x { appearance: none; border: 0; cursor: pointer; width: 34px; height: 34px; border-radius: 50%; background: rgb(255 255 255 / .16); color: inherit; font-size: 18px; line-height: 1; display: grid; place-items: center; }
+.x:hover { background: rgb(255 255 255 / .28); }
+.chat-log { flex: 1; overflow-y: auto; padding: 16px 14px 8px; display: flex; flex-direction: column; gap: 4px; min-height: 0; background: var(--bg); }
+.day { align-self: center; font-size: 11.5px; color: var(--muted); background: var(--surface); padding: 2px 10px; border-radius: 99px; margin-bottom: 8px; }
+.row { display: flex; gap: 8px; align-items: flex-end; max-width: 100%; }
+.row.me { justify-content: flex-end; }
+.row .mini { width: 28px; height: 28px; flex: none; }
+.row .mini.ghost { visibility: hidden; }
+.bubble { max-width: 82%; padding: 9px 13px; border-radius: 18px; font-size: 14.5px; line-height: 1.45; overflow-wrap: anywhere; min-width: 0; }
+.bubble p { margin: 0 0 6px; } .bubble p:last-child { margin-bottom: 0; }
+.bubble ul, .bubble ol { margin: 4px 0 6px; padding-left: 18px; }
+.them .bubble { background: var(--bubble-bot); border-bottom-left-radius: 5px; }
+.me .bubble { background: var(--accent); color: var(--accent-ink); border-bottom-right-radius: 5px; }
+.me .bubble code { background: rgb(255 255 255 / .2); }
+.time { font-size: 11px; color: var(--muted); margin: 2px 4px 10px; }
+.time.me { text-align: right; } .time.them { margin-left: 40px; }
+.src { display: block; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 8px; padding-top: 7px; border-top: 1px solid color-mix(in srgb, var(--muted) 30%, transparent); }
+.more { appearance: none; border: 0; background: none; padding: 0; margin-top: 6px; cursor: pointer; color: var(--accent); font-weight: 500; font-size: 13px; }
+.more:hover { text-decoration: underline; }
+.full { margin-top: 8px; padding: 10px; border-radius: 10px; background: var(--surface); font-size: 13.5px; }
+.typing { display: inline-flex; gap: 4px; padding: 5px 2px; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: tdot 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes tdot { 0%, 100% { opacity: .25; transform: translateY(0) } 50% { opacity: 1; transform: translateY(-2px) } }
+.quick { display: flex; gap: 6px; overflow-x: auto; padding: 8px 14px; background: var(--bg); scrollbar-width: none; }
+.pill { appearance: none; cursor: pointer; flex: none; font-size: 13px; border: 1px solid var(--accent); color: var(--accent); background: var(--surface); padding: 5px 11px; border-radius: 99px; white-space: nowrap; }
+.pill:hover { background: var(--accent); color: var(--accent-ink); }
+.related { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 8px 36px; }
+.related .pill { white-space: normal; text-align: left; font-size: 12.5px; }
+form.compose { display: flex; gap: 8px; align-items: center; padding: 10px 12px 12px; border-top: 1px solid var(--line); background: var(--surface); }
+form.compose input { flex: 1; min-width: 0; font: inherit; font-size: 15px; padding: 10px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+form.compose input:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
+.send { appearance: none; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; flex: none; }
+.send svg { width: 18px; height: 18px; }
+
+@media (max-width: 900px) {
+  .lesson-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .tracker { grid-row: 1; top: calc(env(safe-area-inset-top, 0px) + 8px); z-index: 5; padding: 12px 14px; }
+  .tracker-head { cursor: pointer; }
+  .tracker-head .chev { display: block; }
+  .tracker:not(.open) ol { display: none; }
+  .tracker.open .chev { transform: rotate(180deg); }
+}
+@media (max-width: 560px) {
+  .brand h1 { font-size: 28px; } .lesson-head h2 { font-size: 31px; }
+  .sec { padding: 16px; } .sec-body { padding-left: 0; }
+  .chat { right: 0; bottom: 0; width: 100%; height: 100%; border-radius: 0; border: 0; padding-top: env(safe-area-inset-top, 0px); }
+  .nudge { display: none; }
+}
+
+/* ---- Sunwater brand layer ---- */
+body::before { background: var(--navy); }
+header.top { background: var(--navy); color: var(--navy-ink); border-bottom: 0; }
+header.top .eyebrow { color: var(--brand); }
+.brand h1 { color: var(--navy-ink); font-weight: 800; font-size: 32px; letter-spacing: -.02em; }
+.brand p { color: rgb(255 255 255 / .74); }
+.overall-text strong { font-weight: 800; font-size: 18px; }
+.overall-text span { color: rgb(255 255 255 / .7); }
+.top .ring .track { stroke: rgb(255 255 255 / .14); }
+.top .ring .fill, .top .ring.full .fill { stroke: var(--brand); }
+.top .ring > span { color: var(--navy-ink); }
+.sample-note { color: var(--ink); }
+.section-head h2 { font-weight: 800; font-size: 22px; letter-spacing: -.01em; }
+.card { border-radius: 12px; }
+.card.started::before { background: var(--brand); }
+.card-num b { font-weight: 800; font-size: 38px; letter-spacing: -.03em; }
+.card h3 { font-weight: 800; font-size: 20px; letter-spacing: -.01em; }
+.go i { background: var(--brand); color: var(--brand-ink); }
+.lesson-head h2 { font-weight: 800; font-size: 34px; letter-spacing: -.02em; }
+.sec-head h3 { font-weight: 700; font-size: 19px; letter-spacing: -.01em; }
+.sec { border-radius: 12px; }
+.btn.primary { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); font-weight: 700; }
+.tracker { border-radius: 12px; }
+.tracker-head strong { font-weight: 800; font-size: 16px; }
+.chat-head { background: var(--navy); color: var(--navy-ink); }
+.chat-head strong { font-weight: 800; font-size: 17px; letter-spacing: .01em; }
+.chat-head .av { background: var(--brand); }
+.chat-head span::before { background: var(--brand); }
+.nudge b { font-weight: 800; font-size: 14px; }
+@media (max-width: 560px) { .brand h1 { font-size: 26px; } .lesson-head h2 { font-size: 28px; } }
+
+.eyebrow, .card-num, .card-foot .meta, .chip, .src, .tip b { font-weight: 700; letter-spacing: .09em; font-variant-numeric: tabular-nums; }
+.chip, .card-foot .meta { letter-spacing: .02em; font-weight: 600; }
+.ring > span, .sec-num, .dot { font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+
+/* ---- GOA launcher: peeks out of the circle, pops out and waves on hover ---- */
+.launch-btn { overflow: visible; border-color: var(--brand); background: var(--navy); }
+.launch-btn:hover { transform: none; }
+.peek { position: absolute; left: 50%; bottom: -3px; width: 88px; height: 88px; margin-left: -44px; pointer-events: none;
+  clip-path: polygon(75.0px 54.0px, 73.9px 62.0px, 70.8px 69.5px, 65.9px 75.9px, 59.5px 80.8px, 52.0px 83.9px, 44.0px 85.0px, 36.0px 83.9px, 28.5px 80.8px, 22.1px 75.9px, 17.2px 69.5px, 14.1px 62.0px, 13.0px 54.0px, 13.0px 54.0px, 14.1px 46.0px, 17.2px 38.5px, 22.1px 32.1px, 28.5px 27.2px, 36.0px 24.1px, 44.0px 23.0px, 52.0px 24.1px, 59.5px 27.2px, 65.9px 32.1px, 70.8px 38.5px, 73.9px 46.0px, 75.0px 54.0px); transition: clip-path .4s cubic-bezier(.3,1.4,.5,1); }
+.peek .goa { width: 88px; height: 88px; display: block; transform-origin: 44px 88px; transform: translateY(18px); transition: transform .45s cubic-bezier(.34,1.56,.5,1); animation: none; }
+/* Hover: the hole opens above its rim (the lower half of the circle stays as the hole's edge) and he leans out on an angle */
+.launch-btn:hover .peek, .launch-btn:focus-visible .peek { clip-path: polygon(75.0px 54.0px, 73.9px 62.0px, 70.8px 69.5px, 65.9px 75.9px, 59.5px 80.8px, 52.0px 83.9px, 44.0px 85.0px, 36.0px 83.9px, 28.5px 80.8px, 22.1px 75.9px, 17.2px 69.5px, 14.1px 62.0px, 13.0px 54.0px, -86.0px 54.0px, -81.6px 20.4px, -68.6px -11.0px, -47.9px -37.9px, -21.0px -58.6px, 10.4px -71.6px, 44.0px -76.0px, 77.6px -71.6px, 109.0px -58.6px, 135.9px -37.9px, 156.6px -11.0px, 169.6px 20.4px, 174.0px 54.0px); }
+.launch-btn:hover .peek .goa, .launch-btn:focus-visible .peek .goa { transform: translate(6px, -2px) rotate(-16deg); }
+.launch-btn:hover .arm-r, .launch-btn:focus-visible .arm-r { animation: raise .45s cubic-bezier(.3,.9,.4,1) .1s both, wave .55s ease-in-out .55s infinite alternate; }
+.launch-btn:hover .mouth-closed, .launch-btn:focus-visible .mouth-closed { display: none; }
+.goa .mouth-open { display: none; }
+.launch-btn:hover .mouth-open, .launch-btn:focus-visible .mouth-open { display: inline; }
+.badge { z-index: 2; }
+.goa .arm-r { transform-box: view-box; transform-origin: 85px 70px; transform: rotate(105deg); transition: transform .3s; }
+@keyframes raise { from { transform: rotate(105deg) } to { transform: rotate(-25deg) } }
+@keyframes wave { from { transform: rotate(-25deg) } to { transform: rotate(18deg) } }
+.goa .eyes { animation: blinkeye 4.5s infinite; }
+.row .mini { width: 32px; height: 32px; }
+
+/* ---- GOA wandering the home screen ---- */
+.roamer { position: fixed; left: 0; top: 0; width: 76px; height: 76px; z-index: 29; padding: 0; border: 0; background: none; cursor: pointer; transform-origin: 38px 70.9px; will-change: transform; }
+.roamer .goa { width: 100%; height: 100%; display: block; }
+.roamer:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.roamer:hover .mouth-closed { display: none; }
+.roamer:hover .mouth-open { display: inline; }
+.roamer:hover .arm-r { animation: raise .45s cubic-bezier(.3,.9,.4,1) both, wave .55s ease-in-out .45s infinite alternate; }
+.launcher.away .peek { visibility: hidden; }
+.launcher.away .nudge { display: none; }
+.launcher.returning .peek .goa { transform: translateY(70px); transition: none; }
+.card.bumped { transform: translateY(4px); transition: transform .08s ease-out; }
+
+/* ---- GOA's adventures ---- */
+.roamer .goa, .roamer svg { overflow: visible; }
+#goaStage { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 28; overflow: hidden; }
+.actor, .prop, .px, .say { position: absolute; left: 0; top: 0; }
+.actor svg, .prop svg { display: block; width: 100%; height: 100%; }
+.prop svg { transform-origin: 50% 100%; }
+.actor.working svg, .roamer.working .goa { animation: work .3s ease-in-out infinite alternate; transform-origin: 50% 100%; }
+@keyframes work { from { transform: translateY(0) rotate(-2deg) } to { transform: translateY(-3px) rotate(2deg) } }
+.actor.baby .baby-sleep { display: none; }
+.actor.baby.asleep .baby-face { display: none; }
+.actor.baby.asleep .baby-sleep { display: inline; }
+.say { transform: translate(-50%, calc(-100% - 10px)); background: var(--surface); color: var(--ink); border: 2px solid #13222D; border-radius: 12px; padding: 4px 10px;
+  font-weight: 700; font-size: 12.5px; line-height: 1.3; white-space: nowrap; box-shadow: var(--shadow); animation: sayin .18s ease-out; }
+.say::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 10px; height: 10px; margin-left: -5px; background: var(--surface); border-right: 2px solid #13222D; border-bottom: 2px solid #13222D; transform: rotate(45deg); }
+.say.below { transform: translate(-50%, 10px); }
+.say.below::after { bottom: auto; top: -7px; transform: rotate(225deg); }
+@keyframes sayin { from { opacity: 0 } to { opacity: 1 } }
+.decal { position: absolute; pointer-events: none; z-index: 3; }
+.decal.crack { color: var(--ink); transform-origin: 50% 0; transition: transform .12s ease-out; }
+.decal.crack svg { width: 100%; height: 100%; display: block; }
+.decal.shaft { background: linear-gradient(90deg, #1B130F, #4A382D 45%, #1B130F); border-radius: 0 0 5px 5px; overflow: hidden; }
+.decal.shaft i { position: absolute; left: 3.5px; width: 5px; top: 0; bottom: 0; background: repeating-linear-gradient(180deg, #A9B5BD 0 4px, #6B7A84 4px 8px); animation: rodspin .16s linear infinite; }
+@keyframes rodspin { from { background-position: 0 0 } to { background-position: 0 8px } }
+.rig.drilling .rig-head { animation: headdown 2.8s linear forwards; }
+.rig.retracting .rig-head { animation: headup .7s ease-in forwards; }
+.rig.drilling .spin { animation: dashspin .18s linear infinite; }
+@keyframes headdown { from { transform: translateY(0) } to { transform: translateY(44px) } }
+@keyframes headup { from { transform: translateY(44px) } to { transform: translateY(0) } }
+@keyframes dashspin { from { stroke-dashoffset: 0 } to { stroke-dashoffset: -7 } }
+.goa .tool { display: none; }
+.roamer.hammering .hammer, .roamer.lensing .lens { display: inline; }
+.roamer.hammering .arm-r, .roamer.hammering:hover .arm-r { animation: swing .34s cubic-bezier(.55,0,.85,.55) infinite alternate; }
+.roamer.lensing .arm-r, .roamer.lensing:hover .arm-r { animation: none; transform: rotate(-8deg); }
+@keyframes swing { from { transform: rotate(-50deg) } to { transform: rotate(95deg) } }
+
+/* ---- poses ---- */
+#goaFront { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 30; overflow: hidden; }
+.roamer.sitting .feet { transform: translate(16px, 9px); }
+.roamer.sitting .goa { transform: rotate(-5deg); transform-origin: 50% 92%; }
+.roamer.hanging .arm-r, .roamer.hanging:hover .arm-r { animation: none; transform: rotate(-35deg); }
+.roamer.climbing .arm-r, .roamer.climbing:hover .arm-r { animation: climb .25s ease-in-out infinite alternate; }
+.roamer.climbing .feet { animation: kick .25s ease-in-out infinite alternate; }
+@keyframes climb { from { transform: rotate(-50deg) } to { transform: rotate(15deg) } }
+@keyframes kick { from { transform: translateY(0) } to { transform: translateY(-5px) } }
+.decal.squeezed { z-index: 4; background: #CDBFB7; border: 1.5px solid #13222D; border-radius: 4px; }
+.decal.squeezed::before { content: ""; position: absolute; left: 1px; top: 5px; width: 2px; height: 2px; border-radius: 50%; background: #13222D; box-shadow: 3px 0 #13222D; }
+
+/* ---- lesson content blocks ---- */
+.tip.warn { border-left-color: #C2412D; background: color-mix(in srgb, #C2412D 11%, var(--surface)); }
+.tip.warn b { color: #C2412D; }
+:root[data-theme="dark"] .tip.warn b { color: #F28B82; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tip.warn b { color: #F28B82; } }
+.media-todo { border: 2px dashed var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 4px; max-width: 66ch;
+  background: repeating-linear-gradient(135deg, transparent 0 12px, color-mix(in srgb, var(--line) 35%, transparent) 12px 13px), var(--surface); }
+.media-todo span { font-weight: 800; font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--accent); }
+.media-todo p { margin: 0; color: var(--muted); }
+.options { display: grid; gap: 8px; max-width: 66ch; }
+.options details { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); transition: border-color .2s, box-shadow .2s; }
+.options details[open] { border-color: var(--brand); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 18%, transparent); }
+.options summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; font-weight: 700; border-radius: 10px; }
+.options summary::-webkit-details-marker { display: none; }
+.options summary:hover { background: color-mix(in srgb, var(--brand) 6%, var(--surface)); }
+.options summary i { width: 24px; height: 24px; border-radius: 50%; background: var(--accent-soft); position: relative; flex: none; }
+.options summary i::before, .options summary i::after { content: ""; position: absolute; left: 7px; top: 11px; width: 10px; height: 2px; background: var(--accent); transition: transform .2s; }
+.options summary i::after { transform: rotate(90deg); }
+.options details[open] summary i::after { transform: rotate(0deg); }
+.opt-body { padding: 0 16px 14px; display: grid; gap: 10px; }
+.opt-body p { margin: 0; }
+.meet-goa { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+.meet-goa-text { flex: 1 1 280px; min-width: 0; display: grid; gap: 12px; justify-items: start; }
+.meet-goa-text p { margin: 0; }
+.meet-goa img { width: 160px; height: auto; filter: drop-shadow(0 8px 14px rgb(10 31 46 / .18)); }
+.card.soon { opacity: .7; }
+.card.soon .go { color: var(--muted); }
+.card.soon .go i { background: var(--sunken); color: var(--muted); }
+.soon-box { padding: 28px; border: 2px dashed var(--line); border-radius: 12px; display: grid; gap: 4px; text-align: center; color: var(--muted); }
+.soon-box strong { color: var(--ink); font-size: 17px; }
+.sec-body a { color: var(--accent); font-weight: 600; }
+
+/* ---- one step at a time ---- */
+.sec { align-content: start; }
+.sec-body .shot, .sec-body .media-todo, .sec-body .video-frame { max-width: none; width: 100%; }
+.sec-body .shot-btn img { width: 100%; }
+.sec-body .media-todo { aspect-ratio: 16 / 9; place-content: center; justify-items: center; text-align: center; gap: 8px; padding: 24px; }
+.sec-body .media-todo span { font-size: 13px; }
+.sec-body .media-todo p { max-width: 46ch; font-size: 16px; }
+.stepnav { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.stepbtn { appearance: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px 8px 8px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface); font-weight: 700; font-size: 15px; box-shadow: var(--shadow); transition: box-shadow .2s, border-color .2s; }
+.stepbtn i { font-style: normal; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 17px; }
+.stepbtn.next { padding: 8px 8px 8px 20px; background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+.stepbtn.next i { background: rgb(255 255 255 / .38); color: var(--brand-ink); }
+.stepbtn:hover:not(:disabled) { box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 25%, transparent), var(--shadow); border-color: var(--brand); }
+.stepbtn:disabled { opacity: .4; cursor: default; box-shadow: none; }
+.stepinfo { display: grid; justify-items: center; gap: 6px; min-width: 0; }
+.stepinfo b { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.stepdots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.stepdots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: width .2s, background .2s; }
+.stepdots i.done { background: color-mix(in srgb, var(--done) 70%, var(--line)); }
+.stepdots i.on { width: 22px; border-radius: 4px; background: var(--brand); }
+@media (max-width: 560px) { .stepbtn span { display: none; } .stepbtn, .stepbtn.next { padding: 6px; } }
+
+/* ---- compact progress box ---- */
+.lesson-grid { grid-template-columns: minmax(0, 1fr) 220px; gap: 28px; }
+.tracker { padding: 12px; gap: 8px; }
+.tracker-head { gap: 10px; }
+.tracker-head strong { font-size: 14px; }
+.tracker-head span { font-size: 11.5px; }
+.tracker li button { padding: 5px 6px; font-size: 12.5px; gap: 8px; }
+.tracker .dot { width: 17px; height: 17px; font-size: 9px; }
+.stepnav.bottom { margin-top: 4px; }
+@media (max-width: 900px) { .lesson-grid { grid-template-columns: minmax(0, 1fr); } }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+
+<!-- ============================================================
+     CONFIG — edit this section to add your own lessons.
+     Paths are relative to this HTML file. Each lesson becomes:
+     section 1 = the video, then one section per step.
+     ============================================================ -->
+<script>
+const CONFIG = {
+  appName: "Core Inventory System",
+  showSampleNotice: true,        // set to false once you've swapped in your own content
+  helpContact: "the Core Rack Planner owner",
+  storageKey: "crp-training-v2",
+  // Set to "hammer", "lens", "stomp", "drill", "downunder", "baby" or "friend" to make GOA do that adventure
+  // after 3 seconds of idle, every time. Set back to "" before sharing.
+  goaTest: "",
+  botName: "GOA",
+  botTitle: "Lord of Core",
+  botGreeting: "Greetings, traveller! I am GOA, Lord of Core. I know this program inside out. Ask me anything and I'll find you the answer."
+};
+
+</script>
+
+<!-- Lessons are built from Lessons/Lessons.docx by build-lessons.py -->
+<script src="lessons-data.js"></script>
+
+<!-- ============================================================
+     MANUAL — paste your manual here as Markdown.
+     # = chapter, ## / ### = section. Keep sections short and
+     titled the way people ask questions. Name a chapter the same
+     as a lesson's "manualSection" to favour it on that lesson.
+     Under any heading, add example phrasings people might use:
+       Questions: how do I undo | I stuffed up | go back a step
+     GOA matches these as well as the text. They are never shown.
+     ============================================================ -->
+<script type="text/markdown" id="manual">
+# Getting started
+
+## Opening the app
+Core Rack Planner runs from the program folder on the shared drive. Open `Core Rack Planner.html` from that folder in your web browser. Always open it from the shared folder rather than a copy on your desktop, because the app saves and loads project data from the `data` folder that sits beside it.
+
+To get the latest version, download the app file from the GitHub releases page and replace the old file in the program folder. Your project data in the `data` folder is not affected.
+
+## Choosing a project
+The start screen lists every project in the data folder, newest first. Click a project to open it. Choose **New project** to create one; you'll be asked for a project name and which shed it covers. The open project's name is always shown in the top bar.
+
+## The shed map
+The shed map shows the core shed as a set of racks. Each rack is a column of bays and each bay has numbered shelf slots. Empty slots are outlined. Occupied slots are filled and labelled with the hole ID of the boxes in them. Hover over a slot to see every box it holds, with box numbers and depths. Use the zoom buttons or Ctrl + scroll to zoom the map.
+
+# Importing core boxes
+
+## CSV format
+The import needs a CSV file with these columns: Hole ID, Box number, From (m), To (m) and Feature. Column names don't have to match exactly; the import preview lets you match each column by hand. Depths are in metres and can have up to two decimal places. Feature is optional but needed if you want to group by feature later.
+
+## Running an import
+Open the **Boxes** panel and choose **Import CSV**, then pick your file. The preview shows the first 20 rows with each column matched. Check the matches and choose **Import**. You can import several holes in one file.
+
+## Import errors
+Rows that fail are listed in red with a reason. Common reasons are a missing hole ID, a missing box number, a depth that isn't a number, or a To depth that is smaller than the From depth. Fix the rows in your spreadsheet and import the file again. Re-importing a box with the same hole ID and box number updates it instead of creating a duplicate.
+
+# Planning moves
+
+## Grouping boxes
+In the **Boxes** panel, choose **Group by** and pick feature, hole, box or depth. Each group has a checkbox on its heading that selects every box in the group. You can also select single boxes, or hold Shift to select a range.
+
+## Placing boxes on racks
+Drag selected boxes onto a slot on the shed map. The planner fills that slot and the following slots in order. Boxes from the same hole stay in depth order. A placed box shows a dashed outline until you save the plan.
+
+## Clashes and red slots
+A slot turns red when there's a clash: the slot is already full, or the boxes don't fit in the space. Click a red slot to see what clashes. Move the boxes to another slot or remove them from the plan with **Remove from plan**. You can't export a move list while any clashes remain.
+
+## Undoing a move
+Questions: how do I undo | I made a mistake, go back | I stuffed up a placement | take a box out of the plan | reverse my last change | ctrl z
+Press Ctrl+Z to undo the last placement, or Ctrl+Y to redo it. To remove a box from the plan entirely, select it and choose **Remove from plan**. Undo history is cleared when you close the project.
+
+# Saving and sharing
+
+## Saving a project
+Questions: where is my plan saved | how do I save | did it save | where does my work go | have I saved
+Choose **Save** in the top bar. The project is saved to the `data` folder in the program folder on the shared drive. The top bar shows the time it was last saved. Unsaved changes are marked with a dot next to the project name.
+
+## Exporting a move list
+Questions: send the shed crew the list | give the crew the moves | print the moves | get a list of moves
+Choose **Export → Move list** to create a CSV of every planned move. Each row lists the hole ID, box number, depths, the current slot and the new slot. The file is saved in the `exports` folder. Clear all clashes before exporting.
+
+## Working with other people
+Only one person should edit a project at a time. If someone else has a project open, a banner shows their name when you open it. Wait for them to close it, or choose **Open a copy** to work on a separate version. Two people saving the same project will overwrite each other's changes.
+
+# Troubleshooting
+
+## The app won't open or shows a blank page
+Questions: the planner is just white | nothing loads | the screen is empty | the app is broken
+Make sure you're opening the file from the shared program folder and that you're connected to the work network. Try a different browser such as Edge or Chrome.
+
+## My project is missing
+Questions: I can't find my project | my project disappeared | where did my project go | project not in the list
+Projects only appear if they're in the `data` folder next to the app file. If you opened a copy of the app from somewhere else, it won't see the shared data. Open the app from the shared program folder.
+
+# Glossary
+
+## Terms
+- **Hole ID**: the identifier of the drill hole the core came from.
+- **Box**: one core tray, numbered in depth order down the hole.
+- **From / To**: the top and bottom depth of the core in a box, in metres.
+- **Feature**: the dam feature or site area the hole relates to.
+- **Slot**: one shelf position in a rack bay.
+</script>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <span class="eyebrow" id="appEyebrow">Core Inventory System</span>
+      <h1>Training lessons</h1>
+      <p>Pick a lesson to watch the video and follow the written steps. Stuck? Ask GOA in the bottom corner.</p>
+    </div>
+    <div class="overall" id="overall"></div>
+    <p class="sample-note" id="sampleNote" hidden>Draft lessons from <code>Lessons.docx</code>. GOA is still answering from a sample manual until the CIS manual goes in.</p>
+  </div>
+</header>
+
+<main>
+  <section class="home" id="home">
+    <div class="wrap">
+      <div class="section-head"><h2>Lessons</h2><span class="eyebrow" id="lessonCount"></span></div>
+      <div class="cards" id="cards"></div>
+    </div>
+  </section>
+  <section class="lesson-view" id="lessonView" hidden>
+    <div class="wrap">
+      <button class="back" type="button" id="backBtn">← All lessons</button>
+      <div class="lesson-grid">
+        <div class="lesson-main" id="lessonMain"></div>
+        <aside class="tracker" id="tracker" aria-label="Lesson progress"></aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="launcher" id="launcher">
+  <div class="nudge" id="nudge"><b>Need a hand?</b>Ask me anything about CIS.</div>
+  <button class="launch-btn" type="button" id="launchBtn" aria-label="Chat with GOA" aria-expanded="false" aria-controls="chat">
+    <span id="launchAvatar"></span><span class="badge" id="badge">1</span>
+  </button>
+</div>
+
+<div class="chat" id="chat" role="dialog" aria-label="Chat with GOA" hidden>
+  <div class="chat-head">
+    <div class="av" id="headAvatar"></div>
+    <div><strong id="botName">GOA</strong><span id="botTitle">Lord of Core</span></div>
+    <button class="x" type="button" id="closeChat" aria-label="Close chat">×</button>
+  </div>
+  <div class="chat-log" id="log" aria-live="polite"></div>
+  <div class="quick" id="quick"></div>
+  <form class="compose" id="compose" autocomplete="off">
+    <label for="msgInput" hidden>Message</label>
+    <input id="msgInput" type="text" placeholder="Message GOA…">
+    <button class="send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button>
+  </form>
+</div>
+
+<div class="lightbox" id="lightbox" hidden>
+  <img id="lightboxImg" alt="">
+  <button class="btn" type="button" id="lightboxClose">Close</button>
+</div>
+
+<script>
+(() => {
+  const LESSONS = window.LESSONS || [];
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, t, u) => /^(https?:|file:|\.{0,2}\/)/i.test(u) ? `<a href="${u}" target="_blank" rel="noopener">${t}</a>` : m)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`(.+?)`/g, "<code>$1</code>");
+  const pad = (n) => String(n).padStart(2, "0");
+  function md(text) {
+    let html = "", list = null, para = [];
+    const fp = () => { if (para.length) { html += "<p>" + inline(para.join(" ")) + "</p>"; para = []; } };
+    const fl = () => { if (list) { html += `</${list}>`; list = null; } };
+    for (const raw of text.trim().split("\n")) {
+      const line = raw.trim(), ul = line.match(/^[-*]\s+(.*)/), ol = line.match(/^\d+\.\s+(.*)/);
+      if (ul || ol) { fp(); const t = ul ? "ul" : "ol"; if (list !== t) { fl(); html += `<${t}>`; list = t; } html += "<li>" + inline((ul || ol)[1]) + "</li>"; }
+      else if (!line) { fp(); fl(); } else { fl(); para.push(line); }
+    }
+    fp(); fl(); return html;
+  }
+  const store = {
+    get() { try { const v = JSON.parse(localStorage.getItem(CONFIG.storageKey) || "{}"); return v && typeof v === "object" ? v : {}; } catch { return {}; } },
+    set(v) { try { localStorage.setItem(CONFIG.storageKey, JSON.stringify(v)); } catch {} }
+  };
+
+  /* ---------- GOA, Lord of Core: a cartoon stick of granite drill core ---------- */
+  let goaCount = 0;
+  function goaSVG() {
+    const id = "goa" + (++goaCount), O = "#13222D";   // O = outline ink
+    const flecks = [
+      // [x, y, rx, ry, rotate, colour] — pink feldspar, black biotite, white quartz
+      [38, 56, 4.2, 2.6, -20, "#E79486"], [80, 52, 3.4, 2.2, 30, "#E79486"], [36, 86, 3.8, 2.4, 15, "#E79486"], [77, 90, 4.6, 2.8, -10, "#E79486"], [58, 96, 3, 2, 40, "#E79486"],
+      [45, 49, 1.5, 1.5, 0, "#2A2424"], [84, 66, 1.7, 1.7, 0, "#2A2424"], [41, 93, 1.4, 1.4, 0, "#2A2424"], [67, 92, 1.8, 1.3, 20, "#2A2424"], [35, 70, 1.3, 1.3, 0, "#2A2424"], [86, 84, 1.3, 1.3, 0, "#2A2424"],
+      [73, 47, 2.2, 1.4, 10, "#FBF7F2"], [47, 98, 2, 1.3, -15, "#FBF7F2"], [83, 76, 1.6, 1.1, 0, "#FBF7F2"]
+    ].map(([x, y, rx, ry, r, c]) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${c}" transform="rotate(${r} ${x} ${y})"/>`).join("");
+    return `<svg class="goa" viewBox="0 0 120 120" aria-hidden="true">
+      <defs><clipPath id="${id}b"><path d="M32,38 A28,10 0 0 1 88,38 L88,98 A28,10 0 0 1 32,98 Z"/></clipPath></defs>
+      <ellipse cx="60" cy="112" rx="30" ry="4.5" fill="#000" opacity=".18"/>
+      <!-- feet -->
+      <g class="feet"><ellipse cx="48" cy="107" rx="8" ry="5" fill="#5E534E" stroke="${O}" stroke-width="3"/>
+      <ellipse cx="72" cy="107" rx="8" ry="5" fill="#5E534E" stroke="${O}" stroke-width="3"/></g>
+      <!-- left arm, resting -->
+      <path d="M36,70 Q26,78 25,89" fill="none" stroke="${O}" stroke-width="9.5" stroke-linecap="round"/>
+      <path d="M36,70 Q26,78 25,89" fill="none" stroke="#C7B9B1" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="25" cy="90" r="5.2" fill="#C7B9B1" stroke="${O}" stroke-width="3"/>
+      <!-- right arm, waves on hover -->
+      <g class="arm-r">
+        <path d="M85,70 Q96,66 101,54" fill="none" stroke="${O}" stroke-width="9.5" stroke-linecap="round"/>
+        <path d="M85,70 Q96,66 101,54" fill="none" stroke="#C7B9B1" stroke-width="4.5" stroke-linecap="round"/>
+        <g class="tool hammer">
+          <path d="M101,53 L117,35" stroke="${O}" stroke-width="8" stroke-linecap="round"/>
+          <path d="M101,53 L117,35" stroke="#A0682E" stroke-width="4.2" stroke-linecap="round"/>
+          <path d="M-11,-4 H6 L15,0 L6,4 H-11 Z" transform="translate(118 34) rotate(41)" fill="#7C8A94" stroke="${O}" stroke-width="2.2" stroke-linejoin="round"/>
+        </g>
+        <g class="tool lens">
+          <path d="M101,52 L107,44" stroke="${O}" stroke-width="6.5" stroke-linecap="round"/>
+          <path d="M101,52 L107,44" stroke="#6B4A2B" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="111" cy="38" r="8.5" fill="#CFEFF7" fill-opacity=".65" stroke="${O}" stroke-width="2.6"/>
+          <path d="M106.5,35 q2,-3.5 5.5,-3.5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </g>
+        <circle cx="102" cy="51" r="6" fill="#C7B9B1" stroke="${O}" stroke-width="3"/>
+      </g>
+      <!-- body: the core stick -->
+      <g clip-path="url(#${id}b)">
+        <rect x="28" y="26" width="64" height="86" fill="#CDBFB7"/>
+        <path d="M74,26 Q80,60 74,112 L96,112 L96,26 Z" fill="#AE9E96"/>
+        ${flecks}
+        <rect x="36" y="44" width="6" height="44" rx="3" fill="#fff" opacity=".45"/>
+      </g>
+      <path d="M32,38 L32,98 A28,10 0 0 0 88,98 L88,38" fill="none" stroke="${O}" stroke-width="3.4" stroke-linejoin="round"/>
+      <!-- sawn top face -->
+      <ellipse cx="60" cy="38" rx="28" ry="10" fill="#E3D9D2" stroke="${O}" stroke-width="3.4"/>
+      <ellipse cx="50" cy="38" rx="3" ry="1.6" fill="#E79486"/><circle cx="70" cy="40" r="1.3" fill="#2A2424"/><ellipse cx="66" cy="34.5" rx="2.2" ry="1.1" fill="#E79486"/>
+      <!-- crown, worn at a jaunty angle -->
+      <g transform="rotate(-14 62 30)">
+        <path d="M45,36 L42,15 L52,24 L61,10 L70,24 L80,15 L77,36 Q61,40 45,36 Z" fill="#FFC83D" stroke="${O}" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M46,31 Q61,35 76,31" fill="none" stroke="#E0A010" stroke-width="2.4"/>
+        <circle cx="42" cy="14" r="3" fill="#FFC83D" stroke="${O}" stroke-width="2.4"/><circle cx="61" cy="9" r="3.4" fill="#FFC83D" stroke="${O}" stroke-width="2.4"/><circle cx="80" cy="14" r="3" fill="#FFC83D" stroke="${O}" stroke-width="2.4"/>
+        <circle cx="61" cy="27" r="3.4" fill="#E2453B" stroke="${O}" stroke-width="2"/>
+        <path d="M66,18 l4,6" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+      </g>
+      <!-- face -->
+      <path d="M40,51 Q47,45 55,50" fill="none" stroke="${O}" stroke-width="4.4" stroke-linecap="round"/>
+      <path d="M80,51 Q73,45 65,50" fill="none" stroke="${O}" stroke-width="4.4" stroke-linecap="round"/>
+      <g class="eyes">
+        <ellipse cx="49" cy="63" rx="8.5" ry="10.5" fill="#fff" stroke="${O}" stroke-width="3"/>
+        <ellipse cx="71" cy="63" rx="8.5" ry="10.5" fill="#fff" stroke="${O}" stroke-width="3"/>
+        <ellipse cx="51" cy="65" rx="5" ry="6" fill="${O}"/><ellipse cx="73" cy="65" rx="5" ry="6" fill="${O}"/>
+        <circle cx="53" cy="62" r="2.2" fill="#fff"/><circle cx="75" cy="62" r="2.2" fill="#fff"/>
+        <circle cx="49.5" cy="68" r="1" fill="#fff"/><circle cx="71.5" cy="68" r="1" fill="#fff"/>
+      </g>
+      <ellipse cx="38" cy="78" rx="5" ry="3" fill="#F08A80" opacity=".75"/><ellipse cx="82" cy="78" rx="5" ry="3" fill="#F08A80" opacity=".75"/>
+      <g class="mouth-closed"><path d="M51,79 Q60,88 69,79" fill="none" stroke="${O}" stroke-width="3.2" stroke-linecap="round"/></g>
+      <g class="mouth-open"><path d="M49,78 Q60,94 71,78 Q60,82 49,78 Z" fill="#6B1E26" stroke="${O}" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M54,85 Q60,82 66,85 Q60,90 54,85 Z" fill="#F07575"/></g>
+    </svg>`;
+  }
+
+  /* GOA-ENGINE-START — GOA's question answering. No page code in here, so the test script can run it too. */
+  function createEngine(manualSrc, extraSynonyms = {}) {
+    const STOP = new Set(("a an the and or but if of to in on at for with by from is are was were be been being it its this that these those i me you we they my your our " +
+      "can do does did how what why when where which who will would should could may might there here as so not no into out up about then than too very just also " +
+      "get got have has had want need use using help please tell know any some all goa lord core im i'm ok okay hey hi thanks thank " +
+      "whats thats theres heres wheres hows whos lets something anything thing things stuff bit way really still mean means").split(" "));
+    const SYNONYMS = Object.assign({
+      delete: "remove", erase: "remove", unplace: "remove", tray: "box", trays: "box", shelf: "slot", shelves: "slot", position: "slot",
+      location: "slot", spreadsheet: "csv", excel: "csv", upload: "import", load: "import", print: "export", download: "export", conflict: "clash",
+      red: "clash", reverse: "undo", revert: "undo", store: "save", stored: "save", colleague: "other", team: "share", fail: "error", failed: "error", wrong: "error",
+      pick: "choose", newest: "latest", update: "latest", crew: "share", sort: "group",
+      undid: "undo", redid: "redo", chose: "choose", saw: "see", went: "go", broke: "broken", gone: "missing", lost: "missing"
+    }, extraSynonyms);
+    function stem(w) {
+      if (w.length > 4 && w.endsWith("ies")) w = w.slice(0, -3) + "y";
+      else if (w.length > 3 && w.endsWith("s") && !w.endsWith("ss")) w = w.slice(0, -1);
+      if (w.length > 5 && w.endsWith("ing")) w = w.slice(0, -3);
+      else if (w.length > 4 && w.endsWith("ed")) w = w.slice(0, -2);
+      if (w.length > 3 && w.endsWith("e")) w = w.slice(0, -1);
+      if (w.length > 3 && w[w.length - 1] === w[w.length - 2] && !/[aeiou]/.test(w[w.length - 1])) w = w.slice(0, -1);
+      return w;
+    }
+    // Synonyms apply to the word as typed and to its trimmed form, so "fails", "failed" and "failing" all become "error"
+    const SYN_STEM = {}; for (const k in SYNONYMS) SYN_STEM[stem(k)] = stem(SYNONYMS[k]);
+    const tokenize = (s) => s.toLowerCase().replace(/[’']/g, "").split(/[^a-z0-9]+/).filter(t => t && !STOP.has(t))
+      .map(t => { const st = stem(SYNONYMS[t] || t); return SYN_STEM[st] || st; });
+    const sentences = (s) => s.split(/(?<=[.!?])\s+(?=[A-Z`*"(])/).map(x => x.trim()).filter(Boolean);
+    function toUnits(text) {
+      const out = []; let listId = 0;
+      for (const block of text.split(/\n\s*\n/)) {
+        let para = [];
+        const flush = () => { if (para.length) { sentences(para.join(" ")).forEach(t => out.push({ t, type: "p" })); para = []; } };
+        for (const raw of block.split("\n")) {
+          const line = raw.trim(), m = line.match(/^(?:[-*]|\d+\.)\s+(.*)/);
+          if (m) { flush(); const prev = out[out.length - 1]; if (!prev || prev.type !== "li") listId++; out.push({ t: m[1], type: "li", list: listId }); }
+          else if (line) para.push(line);
+        }
+        flush();
+      }
+      out.forEach(u => u.terms = new Set(tokenize(u.t)));
+      return out;
+    }
+
+    /* --- index the manual. "Questions: a | b | c" lines under a heading are example phrasings for that section --- */
+    const chunks = []; let chapter = "", section = null, buf = [], qs = [];
+    const push = () => {
+      const text = buf.join("\n").trim();
+      if (text || qs.length) chunks.push({ chapter, title: section || chapter || "Manual", text, questions: qs });
+      buf = []; qs = [];
+    };
+    for (const line of manualSrc.split("\n")) {
+      const h = line.match(/^(#{1,3})\s+(.*)/), q = line.match(/^\s*(?:questions?|q)\s*:\s*(.*)$/i);
+      if (h) { push(); if (h[1].length === 1) { chapter = h[2].trim(); section = null; } else section = h[2].trim(); }
+      else if (q) qs.push(...q[1].split("|").map(x => x.trim()).filter(Boolean));
+      else buf.push(line);
+    }
+    push();
+    chunks.forEach(c => {
+      const toks = tokenize(c.text).concat(tokenize(c.title), tokenize(c.title), tokenize(c.chapter));
+      c.len = toks.length; c.tf = {}; toks.forEach(t => c.tf[t] = (c.tf[t] || 0) + 1);
+      c.units = toUnits(c.text);
+      c.qTerms = c.questions.map(q => [...new Set(tokenize(q))]).filter(a => a.length);
+      c.vocab = new Set([...Object.keys(c.tf), ...c.qTerms.flat()]);
+    });
+    const df = {}; chunks.forEach(c => c.vocab.forEach(t => df[t] = (df[t] || 0) + 1));
+    const N = chunks.length, avg = chunks.reduce((a, c) => a + c.len, 0) / Math.max(1, N);
+    const idf = (t) => { const d = df[t] || 0; return Math.log(1 + (N - d + .5) / (d + .5)); };
+
+    /* --- follow-up detection: refers back, continues, or has almost nothing of its own --- */
+    const REFERS_BACK = /\b(it|that|this|them|those|these|there|one)\b/i;
+    const CONTINUES = /^\s*(and|also|then|so|but|ok(ay)?|what about|how about|what if)\b/i;
+    const isFollowUp = (q, terms) => terms.length <= 1 || REFERS_BACK.test(q) || CONTINUES.test(q) && terms.length <= 2;
+
+    /* --- ranking --- */
+    const Q_WEIGHT = 6;   // how much a close match to an example question counts, versus the manual text itself
+    function rank(weights, chapterBoost, ctxChunk) {
+      const k1 = 1.2, b = .75, qNorm = Math.sqrt([...weights].reduce((s, [t, w]) => s + w * idf(t), 0)) || 1;
+      return chunks.map(c => {
+        let score = 0;
+        for (const [t, w] of weights) {
+          const f = c.tf[t]; if (!f) continue;
+          score += w * idf(t) * (f * (k1 + 1)) / (f + k1 * (1 - b + b * c.len / avg));
+        }
+        let qBest = 0;
+        for (const qt of c.qTerms) {
+          let common = 0; for (const t of qt) if (weights.has(t)) common += weights.get(t) * idf(t);
+          if (common) qBest = Math.max(qBest, common / (qNorm * Math.sqrt(qt.reduce((s, t) => s + idf(t), 0))));
+        }
+        // Only a close paraphrase counts: half-matching an example question adds nothing
+        score += Q_WEIGHT * Math.max(0, (qBest - .5) / .5);
+        if (chapterBoost && c.chapter === chapterBoost) score *= 1.25;
+        if (ctxChunk) { if (c === ctxChunk) score *= 1.5; else if (c.chapter === ctxChunk.chapter) score *= 1.15; }
+        return { c, score, qBest };
+      }).filter(r => r.score > 0).sort((a, b) => b.score - a.score);
+    }
+
+    /* --- choose the 1–3 sentences that answer it --- */
+    const HINTS = { where: ["folder", "slot", "panel", "menu", "bar"], when: ["until", "after", "befor", "onc"] };
+    const DOING = /^(\*\*)?(choose|click|press|open|select|drag|go|use|hold|type|enter|pick|fix|move|make|check|save|wait|put|add|set|wait|close|import|export)\b/i;
+    function snippet(results, weights, question, preferChunk) {
+      const qw = (question.toLowerCase().match(/^\W*(\w+)/) || [])[1];
+      const wantSteps = qw === "how" || /\b(steps?|procedure|process|way to)\b/i.test(question);
+      const hints = (HINTS[qw] || []).filter(h => !weights.has(h));
+      const hasTerm = (u) => [...weights.keys()].some(t => u.terms.has(t));
+      const defining = /^\s*(what'?s|what is|what are|define|meaning of)\b/i.test(question);
+      const unitScore = (u) => {
+        let s = 0; for (const [t, w] of weights) if (u.terms.has(t)) s += w * idf(t);
+        if (s && defining && /^\*\*[^*]+\*\*\s*[:—–-]/.test(u.t)) s += 1.5;
+        if (s) s += hints.reduce((a, h) => a + (u.terms.has(h) ? idf(h) * .6 : 0), 0);
+        if (wantSteps && DOING.test(u.t) && (s || preferChunk)) s += 1.2;
+        return s;
+      };
+      let best = null;
+      results.slice(0, 3).filter(r => r.score >= results[0].score * .85).forEach((r, ri) => {
+        const head = new Set(tokenize(r.c.title)); let headBonus = 0;
+        for (const [t, w] of weights) if (head.has(t)) headBonus += w * idf(t) * .8;
+        r.c.units.forEach((u, i) => {
+          const s = unitScore(u); if (!s) return;
+          const total = s + headBonus + r.score * .2 - ri * .15;
+          if (!best || total > best.total) best = { c: r.c, i, s, total };
+        });
+      });
+      // Matched through an example question but no sentence shares the words: open the section from the top
+      if (!best || (results[0].qBest > .75 && best.c !== results[0].c)) {
+        const c = results[0].c; if (!c.units.length) return null;
+        const lead = c.units.findIndex(u => wantSteps && DOING.test(u.t));
+        best = { c, i: lead >= 0 ? lead : 0, s: 1, total: 0 };
+      }
+      const U = best.c.units, pick = new Set([best.i]), b = U[best.i];
+      const listItems = (id) => U.map((u, k) => ({ u, k })).filter(x => x.u.type === "li" && x.u.list === id);
+      const addList = (id) => { const items = listItems(id); (items.length <= 6 ? items : items.filter(x => unitScore(x.u) > 0)).forEach(x => pick.add(x.k)); };
+      if (b.type === "li") {
+        const first = listItems(b.list)[0].k;
+        if (first > 0 && U[first - 1].type === "p") pick.add(first - 1);
+        addList(b.list);
+      } else {
+        if (/:$/.test(b.t) && U[best.i + 1] && U[best.i + 1].type === "li") addList(U[best.i + 1].list);
+        if (/^(It|This|That|They|These|Those|Then)\b/.test(b.t) && best.i > 0 && U[best.i - 1].type === "p") pick.add(best.i - 1);
+        const sentCount = () => [...pick].filter(k => U[k].type === "p").length;
+        const next = U[best.i + 1];
+        if (next && next.type === "p" && b.t.split(/\s+/).length < 16 && unitScore(next) > 0) pick.add(best.i + 1);
+        U.map((u, k) => ({ k, s: u.type === "p" ? unitScore(u) : 0 })).filter(x => !pick.has(x.k) && x.s >= best.s * .6)
+          .sort((a, c) => c.s - a.s).forEach(x => { if (sentCount() < 3) pick.add(x.k); });
+        const words = () => [...pick].reduce((n, k) => n + U[k].t.split(/\s+/).length, 0);
+        const lastK = Math.max(...pick), after = U[lastK + 1];
+        if (words() < 18 && after) { if (after.type === "li") addList(after.list); else pick.add(lastK + 1); }
+      }
+      return { c: best.c, idxs: [...pick].sort((a, c) => a - c) };
+    }
+
+    /* --- the one entry point ---
+       ctx: the section GOA last answered from (or null). Returns one of:
+       { kind: "answer", chunk, idxs, related, followUp }  |  { kind: "clarify" }  |  { kind: "none" } */
+    function answer(question, { chapter = null, ctx = null } = {}) {
+      const terms = [...new Set(tokenize(question))];
+      let follow = !!ctx && isFollowUp(question, terms);
+      if (!terms.length && !follow) return { kind: "clarify" };
+      // "How do I fix it?" with nothing to refer back to: ask rather than guess
+      if (!ctx && terms.length === 1 && REFERS_BACK.test(question) && ["fix", "chang", "work", "mak", "stop", "handl", "sort"].includes(terms[0])) return { kind: "clarify" };
+      const own = new Map(terms.map(t => [t, 1]));
+      const coverageOf = (r) => terms.length ? terms.filter(t => r.c.vocab.has(t)).length / terms.length : 1;
+      const passes = (r) => r && (r.qBest >= .75 || (r.score >= 1 && coverageOf(r) >= .34));
+      // A follow-up that clearly names a different topic on its own ("what about undoing a move?") starts a new topic
+      const alone = rank(own, chapter, null);
+      if (follow && terms.length >= 2 && passes(alone[0]) && coverageOf(alone[0]) >= .99 && alone[0].c !== ctx) follow = false;
+      const weights = new Map(own);
+      if (follow) tokenize(ctx.title + " " + ctx.chapter).forEach(t => { if (!weights.has(t)) weights.set(t, .5); });
+      let results = follow ? rank(weights, chapter, ctx) : alone;
+      if (/^\s*(what'?s|what is|what are|what does .+ mean|define|meaning of)\b/i.test(question) && terms.length) {
+        const isDef = (u) => /^\*\*[^*]+\*\*\s*[:—–-]/.test(u.t) && terms.every(t => u.terms.has(t));
+        const topScore = results.length ? results[0].score : 0;
+        results = results.map(r => r.c.units.some(isDef) ? { ...r, score: Math.max(r.score + 3, topScore + 1) } : r).sort((a, b) => b.score - a.score);
+      }
+      const top = results[0];
+      if (!top) return { kind: "none" };
+      // Staying on the previous topic doesn't need the follow-up's own words to appear there ("how do I fix it?")
+      if (!(follow && top.c === ctx && top.score >= 1) && !passes(top)) return { kind: "none" };
+      const snip = snippet(results, weights, question, follow && top.c === ctx);
+      if (!snip) return { kind: "none" };
+      const seen = new Set([snip.c.title]);
+      const related = results.slice(1).filter(r => r.score > top.score * .4 && !seen.has(r.c.title) && seen.add(r.c.title)).slice(0, 2).map(r => r.c);
+      return { kind: "answer", chunk: snip.c, idxs: snip.idxs, related, followUp: follow && snip.c === ctx };
+    }
+    return { answer, chunks, tokenize };
+  }
+  /* GOA-ENGINE-END */
+  const ENGINE = createEngine($("manual").textContent);
+  const INDEX = { chunks: ENGINE.chunks };
+
+  function renderUnits(U, idxs) {
+    let html = "", para = [], list = null, last = -2;
+    const fp = () => { if (para.length) { html += "<p>" + para.map(inline).join(" ") + "</p>"; para = []; } };
+    const fl = () => { if (list) { html += "</ul>"; list = null; } };
+    for (const k of idxs) {
+      const u = U[k];
+      if (k !== last + 1) { fp(); fl(); }
+      if (u.type === "li") { fp(); if (list !== u.list) { fl(); html += "<ul>"; list = u.list; } html += "<li>" + inline(u.t) + "</li>"; }
+      else { fl(); para.push(u.t); }
+      last = k;
+    }
+    fp(); fl(); return html;
+  }
+
+  /* ---------- state ---------- */
+  let progress = store.get();
+  let current = null;
+  const sectionsOf = (l) => (l.video ? [{ id: "video", title: "Watch the video" }] : []).concat(l.steps.map((s, i) => ({ id: "step-" + i, title: s.title })));
+  const doneMap = (l) => (progress[l.id] && typeof progress[l.id] === "object") ? progress[l.id] : {};
+  const pct = (l) => { const s = sectionsOf(l), d = doneMap(l); return s.length ? Math.round(100 * s.filter(x => d[x.id]).length / s.length) : 0; };
+  const maxNum = () => Math.max(0, ...LESSONS.map(l => l.num || 0));
+
+  function ring(p, size, stroke, fontSize) {
+    const r = (size - stroke) / 2, c = 2 * Math.PI * r;
+    return `<span class="ring ${p >= 100 ? "full" : ""}" style="width:${size}px;height:${size}px" role="img" aria-label="${p}% complete">
+      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle class="track" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke-width="${stroke}"/>
+      <circle class="fill" cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${c.toFixed(2)}" stroke-dashoffset="${(c * (1 - p / 100)).toFixed(2)}"/></svg>
+      <span style="font-size:${p >= 100 ? fontSize * .8 : fontSize}px;letter-spacing:${p >= 100 ? "-.04em" : "0"}">${p}%</span></span>`;
+  }
+
+  /* ---------- home ---------- */
+  function renderOverall() {
+    const all = LESSONS.flatMap(l => sectionsOf(l).map(s => !!doneMap(l)[s.id]));
+    const p = all.length ? Math.round(100 * all.filter(Boolean).length / all.length) : 0;
+    const doneLessons = LESSONS.filter(l => pct(l) === 100).length;
+    $("overall").innerHTML = `${ring(p, 58, 6, 13)}<div class="overall-text"><strong>${doneLessons} of ${LESSONS.length} lessons</strong><span>completed overall</span></div>`;
+  }
+  function renderHome() {
+    $("lessonCount").textContent = `${LESSONS.length} lessons`;
+    $("cards").innerHTML = LESSONS.map((l) => {
+      const n = sectionsOf(l).length, p = pct(l), state = !n ? "soon" : p === 100 ? "complete" : p > 0 ? "started" : "";
+      const cta = !n ? "Preview" : p === 100 ? "Review" : p > 0 ? "Continue" : "Start";
+      const label = l.num == null ? `OVERVIEW<b>00</b>` : `LESSON<b>${pad(l.num)}</b>`;
+      const meta = n ? `${l.video ? "Video · " : ""}${n} sections` : "Coming soon";
+      return `<button type="button" class="card ${state}" data-id="${l.id}" aria-label="${l.num == null ? "Overview" : "Lesson " + l.num}: ${esc(l.title)}, ${n ? p + "% complete" : "coming soon"}. ${cta}">
+        <div class="card-top"><span class="card-num">${label}</span>${ring(p, 54, 5, 12)}</div>
+        <div><h3>${esc(l.title)}</h3><p>${inline(l.summary || "")}</p></div>
+        <div class="card-foot"><span class="meta">${meta}</span><span class="go">${cta}<i>→</i></span></div>
+      </button>`;
+    }).join("");
+  }
+
+  /* ---------- lesson ---------- */
+  function placeholder(kind, path) {
+    return `<div class="placeholder"><strong>${kind} not added yet</strong><span>Put the file here:</span><code>${esc(path)}</code></div>`;
+  }
+  const checkBtn = (sid, on) => `<button type="button" class="check" data-sec="${sid}" aria-pressed="${on}"><i>${on ? "✓" : ""}</i>${on ? "Done" : "Mark done"}</button>`;
+
+  const shot = (src, cap) => `<figure class="shot"><button type="button" class="shot-btn" data-src="${esc(encodeURI(src))}" aria-label="Enlarge: ${esc(cap || "screenshot")}"><img src="${esc(encodeURI(src))}" alt="${esc(cap || "")}" loading="lazy"></button>${cap ? `<figcaption>${inline(cap)}</figcaption>` : ""}</figure>`;
+  const tipBox = (b) => `<div class="tip ${b.type === "warn" ? "warn" : ""}"><b>${b.type === "warn" ? "Important" : "Tip"}</b>${inline(b.md)}</div>`;
+  function renderBlocks(blocks, title) {
+    return blocks.map((b, i) => {
+      if (b.skip) return "";
+      switch (b.type) {
+        case "text": return md(b.md);
+        case "tip": case "warn": return tipBox(b);
+        case "image": return shot(b.src, b.caption);
+        case "media": return b.src ? shot(b.src, b.desc)
+          : `<div class="media-todo"><span>${b.kind === "gif" ? "GIF" : b.kind === "video" ? "Video" : "Screenshot"} coming</span><p>${inline(b.desc)}</p></div>`;
+        case "goa": {
+          // GOA's picture sits beside the paragraph that follows it
+          const next = blocks[i + 1], text = next && next.type === "text" ? md(next.md) : "";
+          return `<div class="meet-goa"><img src="goa-art/goa-waving.png" alt="GOA, a cartoon piece of granite drill core wearing a crown, waving"><div class="meet-goa-text">${text}<button type="button" class="btn primary" data-act="say-hi">Say hi to GOA</button></div></div>`;
+        }
+        case "options": return `<div class="options">${b.items.map(it => `<details><summary><span>${inline(it.title)}</span><i aria-hidden="true"></i></summary><div class="opt-body">${md(it.md)}${(it.notes || []).map(tipBox).join("")}</div></details>`).join("")}</div>`;
+        default: return "";
+      }
+    }).join("");
+  }
+  // mark the paragraph after a GOA picture as already shown
+  const prepBlocks = (blocks) => { blocks.forEach((b, i) => { if (b.type === "goa" && blocks[i + 1] && blocks[i + 1].type === "text") blocks[i + 1].skip = true; }); return blocks; };
+  function legacyBody(s) {
+    return md(s.body || "") + (s.image ? shot(s.image, s.caption || s.title) : "") + (s.tip ? tipBox({ type: "tip", md: s.tip }) : "");
+  }
+
+  function renderLesson() {
+    const l = current, d = doneMap(l), secs = sectionsOf(l);
+    let n = 0;
+    const section = (id, title, body) => {
+      n++; const done = !!d[id];
+      return `<section class="sec ${done ? "is-done" : ""}" id="sec-${id}" data-sec="${id}">
+        <div class="sec-head"><span class="sec-num">${done ? "✓" : n}</span><h3>${inline(title)}</h3>${checkBtn(id, done)}</div>${body}</section>`;
+    };
+    $("lessonMain").innerHTML = `
+      <div class="lesson-head">
+        <span class="eyebrow">${l.num == null ? "Start here" : `Lesson ${pad(l.num)} of ${pad(maxNum())}`}</span>
+        <h2>${esc(l.title)}</h2>
+        <p>${inline(l.summary || "")}</p>
+        ${secs.length ? `<div class="chips">${l.video ? `<span class="chip">Video${l.duration ? " · " + esc(l.duration) : ""}</span>` : ""}<span class="chip">${secs.length} sections</span></div>` : ""}
+      </div>
+      ${l.video ? section("video", "Watch the video", `<div class="video-frame"><video controls preload="metadata" playsinline src="${esc(encodeURI(l.video))}"></video></div>`) : ""}
+      ${l.steps.map((s, k) => section("step-" + k, s.title, `<div class="sec-body">${s.blocks ? renderBlocks(prepBlocks(s.blocks), s.title) : legacyBody(s)}</div>`)).join("")}
+      ${secs.length ? `<nav class="stepnav bottom" id="stepBottom" aria-label="Lesson steps"></nav>` : ""}
+      ${secs.length ? "" : `<div class="soon-box"><strong>This lesson is still being written.</strong><span>Check back soon, or ask GOA in the meantime.</span></div>`}
+      <div class="lesson-end" id="lessonEnd"></div>`;
+    $("tracker").hidden = !secs.length;
+    $("lessonMain").querySelectorAll('[data-act="say-hi"]').forEach(b => b.addEventListener("click", () => openChat(true)));
+
+    const v = $("lessonMain").querySelector("video");
+    if (v) {
+      v.addEventListener("error", () => { v.parentElement.innerHTML = placeholder("Video", l.video); }, { once: true });
+      v.addEventListener("ended", () => setDone("video", true));
+    }
+    $("lessonMain").querySelectorAll(".shot-btn img").forEach(img => img.addEventListener("error", () => {
+      const btn = img.parentElement; btn.innerHTML = placeholder("Screenshot", btn.dataset.src); btn.disabled = true; btn.style.cursor = "default";
+    }, { once: true }));
+    $("lessonMain").querySelectorAll(".shot-btn").forEach(btn => btn.addEventListener("click", () => {
+      $("lightboxImg").src = btn.dataset.src; $("lightboxImg").alt = btn.getAttribute("aria-label"); $("lightbox").hidden = false; $("lightboxClose").focus();
+    }));
+    $("lessonMain").querySelectorAll(".check").forEach(b => b.addEventListener("click", () => setDone(b.dataset.sec, b.getAttribute("aria-pressed") !== "true")));
+    if (secs.length) {
+      const saved = progress[l.id] && progress[l.id]._step;
+      showStep(Number.isInteger(saved) ? saved : 0, false);
+    }
+    renderEnd();
+    renderQuick();
+  }
+
+  /* ---------- one step at a time ---------- */
+  let stepIdx = 0;
+  function showStep(i, scroll = true) {
+    const l = current, secs = sectionsOf(l); if (!secs.length) return;
+    stepIdx = Math.max(0, Math.min(secs.length - 1, i));
+    $("lessonMain").querySelectorAll(".sec").forEach((el, k) => {
+      el.hidden = k !== stepIdx;
+      if (k !== stepIdx) { const v = el.querySelector("video"); if (v) v.pause(); }
+    });
+    currentSec = secs[stepIdx].id;
+    progress[l.id] = doneMap(l); progress[l.id]._step = stepIdx; store.set(progress);
+    renderStepNav(); renderTracker(); renderEnd();
+    if (scroll) $("lessonMain").scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" });
+  }
+  function nextStep() {
+    const secs = sectionsOf(current), last = stepIdx === secs.length - 1;
+    if (!doneMap(current)[secs[stepIdx].id]) setDone(secs[stepIdx].id, true);   // moving on counts as done
+    if (last) { renderEnd(); $("lessonEnd").scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); }
+    else showStep(stepIdx + 1);
+  }
+  function renderStepNav() {
+    const secs = sectionsOf(current), n = secs.length, last = stepIdx === n - 1;
+    const html = `<button type="button" class="stepbtn prev" data-dir="-1" ${stepIdx === 0 ? "disabled" : ""}><i aria-hidden="true">←</i><span>Previous</span></button>
+      <div class="stepinfo"><b>Step ${stepIdx + 1} of ${n}</b><span class="stepdots" aria-hidden="true">${secs.map((s, k) => `<i class="${k === stepIdx ? "on" : ""} ${doneMap(current)[s.id] ? "done" : ""}"></i>`).join("")}</span></div>
+      <button type="button" class="stepbtn next" data-dir="1"><span>${last ? "Finish" : "Next"}</span><i aria-hidden="true">${last ? "✓" : "→"}</i></button>`;
+    ["stepTop", "stepBottom"].forEach(id => {
+      const nav = $(id); if (!nav) return;
+      nav.innerHTML = html;
+      nav.querySelector(".prev").addEventListener("click", () => showStep(stepIdx - 1));
+      nav.querySelector(".next").addEventListener("click", nextStep);
+    });
+  }
+
+  function renderEnd() {
+    const l = current, p = pct(l), next = LESSONS[LESSONS.indexOf(l) + 1];
+    const n = sectionsOf(l).length;
+    $("lessonEnd").hidden = n > 0 && stepIdx !== n - 1;
+    $("lessonEnd").innerHTML = `<p>${!n ? "More lessons are on the way." : p === 100 ? "Lesson complete. Nice work!" : "Mark each section done as you go to track your progress."}</p>
+      <button class="btn" type="button" data-nav="home">All lessons</button>
+      ${next ? `<button class="btn primary" type="button" data-nav="${next.id}">Next: ${esc(next.title)} →</button>` : ""}`;
+    $("lessonEnd").querySelectorAll("[data-nav]").forEach(b => b.addEventListener("click", () => route(b.dataset.nav === "home" ? "" : b.dataset.nav)));
+  }
+
+  let currentSec = "video";
+  function renderTracker() {
+    const l = current, d = doneMap(l), secs = sectionsOf(l), done = secs.filter(s => d[s.id]).length, open = $("tracker").classList.contains("open");
+    const cur = secs.find(s => s.id === currentSec) || secs[0];
+    $("tracker").innerHTML = `
+      <button type="button" class="tracker-head" id="trackerToggle" aria-expanded="${open}">
+        ${ring(pct(l), 36, 4, 9)}
+        <div><strong>Your progress</strong><span>${done} of ${secs.length} sections done</span></div>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ol>${secs.map((s, n) => `<li><button type="button" data-target="sec-${s.id}" class="${d[s.id] ? "done" : ""} ${s.id === cur.id ? "current" : ""}"><span class="dot">${d[s.id] ? "✓" : n + 1}</span>${inline(s.title)}</button></li>`).join("")}</ol>`;
+    $("trackerToggle").addEventListener("click", () => {
+      if (!matchMedia("(max-width: 900px)").matches) return;
+      $("tracker").classList.toggle("open"); $("trackerToggle").setAttribute("aria-expanded", $("tracker").classList.contains("open"));
+    });
+    $("tracker").querySelectorAll("[data-target]").forEach(b => b.addEventListener("click", () => {
+      $("tracker").classList.remove("open");
+      showStep(sectionsOf(current).findIndex(x => "sec-" + x.id === b.dataset.target));
+    }));
+  }
+
+  let observer;
+  function observeSections() {
+    observer?.disconnect();
+    if (!("IntersectionObserver" in window)) return;
+    observer = new IntersectionObserver((entries) => {
+      const vis = entries.filter(e => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (vis && vis.target.dataset.sec !== currentSec) { currentSec = vis.target.dataset.sec; renderTracker(); }
+    }, { rootMargin: "-20% 0px -55% 0px" });
+    $("lessonMain").querySelectorAll(".sec").forEach(s => observer.observe(s));
+  }
+
+  function setDone(sid, on) {
+    const l = current; progress[l.id] = doneMap(l);
+    if (on) progress[l.id][sid] = true; else delete progress[l.id][sid];
+    store.set(progress);
+    const sec = $("sec-" + sid); sec.classList.toggle("is-done", on);
+    sec.querySelector(".sec-num").innerHTML = on ? "✓" : String(sectionsOf(l).findIndex(s => s.id === sid) + 1);
+    sec.querySelector(".check").outerHTML = checkBtn(sid, on);
+    sec.querySelector(".check").addEventListener("click", (e) => setDone(sid, e.currentTarget.getAttribute("aria-pressed") !== "true"));
+    renderTracker(); renderEnd(); renderOverall();
+    if ($("stepBottom")) renderStepNav();
+  }
+
+  /* ---------- routing ---------- */
+  const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function route(id) {
+    try { if (location.hash.slice(1) !== id) location.hash = id; } catch {}
+    show(id);
+  }
+  function show(id) {
+    const l = LESSONS.find(x => x.id === id);
+    endRoamNow();
+    if (l !== current) chatCtx = null;
+    current = l || null;
+    $("home").hidden = !!l; $("lessonView").hidden = !l;
+    renderOverall();
+    if (l) { currentSec = (sectionsOf(l)[0] || {}).id; $("tracker").classList.remove("open"); renderLesson(); document.title = `${l.title} · ${CONFIG.appName} Training`; }
+    else { renderHome(); renderQuick(); document.title = `${CONFIG.appName} Training`; }
+    window.scrollTo(0, 0);
+    armIdle();
+  }
+
+  /* ---------- chat ---------- */
+  const log = $("log");
+  const now = () => new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  const LEADS = ["Here's what the manual says:", "Found it!", "Ah, a fine question.", "The manual speaks:", "Easy one."];
+  let leadN = 0, lastWho = null;
+  function bubble(who, html) {
+    const them = who === "them";
+    if (lastWho === who && log.lastElementChild?.classList.contains("time")) log.lastElementChild.remove();
+    if (them && lastWho === "them") log.querySelectorAll(".row.them .mini:not(.ghost)").forEach((m, i, a) => { if (i === a.length - 1) m.classList.add("ghost"); });
+    const row = document.createElement("div");
+    row.className = "row " + (them ? "them" : "me");
+    row.innerHTML = (them ? `<span class="mini">${goaSVG()}</span>` : "") + `<div class="bubble">${html}</div>`;
+    log.appendChild(row);
+    const t = document.createElement("div"); t.className = "time " + (them ? "them" : "me"); t.textContent = (them ? CONFIG.botName + " · " : "") + now();
+    log.appendChild(t);
+    lastWho = who; log.scrollTop = log.scrollHeight;
+    return row.querySelector(".bubble");
+  }
+  function attachMore(el, c) {
+    const b = el.querySelector(".more"); if (!b) return;
+    b.addEventListener("click", () => {
+      const f = el.querySelector(".full");
+      if (f) { f.remove(); b.textContent = "Read the full section"; }
+      else { b.insertAdjacentHTML("afterend", `<div class="full">${md(c.text)}</div>`); b.textContent = "Hide the full section"; }
+    });
+  }
+  const srcLine = (c) => `<span class="src">📖 ${esc(c.chapter)}${c.title !== c.chapter ? " › " + esc(c.title) : ""}</span>`;
+  function relatedRow(chunks) {
+    if (!chunks.length) return;
+    const row = document.createElement("div"); row.className = "related";
+    row.innerHTML = chunks.map(c => `<button type="button" class="pill" data-chunk="${INDEX.chunks.indexOf(c)}">More on: ${esc(c.title)}</button>`).join("");
+    log.appendChild(row);
+    row.querySelectorAll("button").forEach(b => b.addEventListener("click", () => showSection(INDEX.chunks[+b.dataset.chunk])));
+  }
+  function showSection(c) {
+    chatCtx = { chunk: c, age: 0 };
+    bubble("me", esc("Tell me about " + c.title.toLowerCase()));
+    typingThen((el) => {
+      const idxs = c.units.slice(0, 3).map((_, k) => k);
+      el.innerHTML = renderUnits(c.units, idxs) + srcLine(c) + (c.units.length > 3 ? `<button type="button" class="more">Read the full section</button>` : "");
+      attachMore(el, c);
+    });
+  }
+  function typingThen(fn) {
+    const el = bubble("them", '<span class="typing" aria-label="GOA is typing"><i></i><i></i><i></i></span>');
+    setTimeout(() => { fn(el); log.scrollTop = log.scrollHeight; }, 550 + Math.random() * 350);
+  }
+  // The section GOA last answered from, so "how do I do that?" can follow on. Forgotten after 3 unrelated questions.
+  let chatCtx = null;
+  function ask(q) {
+    q = q.trim(); if (!q) return;
+    bubble("me", esc(q));
+    typingThen((el) => {
+      if (chatCtx && ++chatCtx.age > 3) chatCtx = null;
+      const res = ENGINE.answer(q, { chapter: current?.manualSection, ctx: chatCtx?.chunk || null });
+      if (res.kind === "clarify") {
+        el.innerHTML = `<p>Do what, exactly? Tell me which part of the planner you're working on, like importing boxes or planning moves.</p>`;
+        return;
+      }
+      if (res.kind === "none") {
+        el.innerHTML = `<p>Hmm, that one isn't in my manual. Try asking with different words, like the name of a button or screen.</p><p>Still stuck? Contact ${esc(CONFIG.helpContact)}.</p>`;
+        return;
+      }
+      chatCtx = { chunk: res.chunk, age: 0 };
+      const lead = res.followUp ? `Still on ${esc(res.chunk.title.toLowerCase())}:` : LEADS[leadN++ % LEADS.length];
+      const full = res.idxs.length < res.chunk.units.length;
+      el.innerHTML = `<p>${lead}</p>` + renderUnits(res.chunk.units, res.idxs) + srcLine(res.chunk) +
+        (full ? `<button type="button" class="more">Read the full section</button>` : "");
+      attachMore(el, res.chunk);
+      relatedRow(res.related);
+    });
+  }
+  function renderQuick() {
+    const qs = current?.suggestions?.length ? current.suggestions : LESSONS.slice(0, 3).map(l => l.suggestions?.[0]).filter(Boolean);
+    $("quick").innerHTML = qs.map(q => `<button type="button" class="pill">${esc(q)}</button>`).join("");
+    $("quick").querySelectorAll(".pill").forEach(p => p.addEventListener("click", () => ask(p.textContent)));
+  }
+  function openChat(open) {
+    if (open) endRoamNow();
+    $("chat").hidden = !open; $("launcher").hidden = open;
+    $("launchBtn").setAttribute("aria-expanded", open);
+    if (open) { $("badge").hidden = true; $("nudge").hidden = true; try { sessionStorage.setItem("goa-seen", "1"); } catch {} setTimeout(() => $("msgInput").focus(), 50); }
+    else { $("launchBtn").focus(); armIdle(); }
+  }
+
+  /* ---------- GOA's idle adventures (home screen only) ---------- */
+  const IDLE_MS = 10000, INK = "#13222D";
+  const stage = document.createElement("div"); stage.id = "goaStage"; document.body.appendChild(stage);
+  const front = document.createElement("div"); front.id = "goaFront"; document.body.appendChild(front);
+  const roamer = document.createElement("button");
+  roamer.type = "button"; roamer.className = "roamer"; roamer.hidden = true;
+  roamer.setAttribute("aria-label", "Chat with " + CONFIG.botName);
+  roamer.innerHTML = goaSVG();
+  document.body.appendChild(roamer);
+
+  const makeActor = (el, w, h, foot) => {
+    el.style.width = w + "px"; el.style.height = h + "px"; el.style.transformOrigin = `${w / 2}px ${foot}px`;
+    return { el, w, h, foot, x: 0, y: 0, dir: 1, flip: 1, clip: null };
+  };
+  const G = makeActor(roamer, 76, 76, 76 * 112 / 120);
+  const R = { lastActivity: performance.now(), run: 0, active: false, returning: false, timer: null, extras: [], decals: [], didDrill: false, lastCard: null };
+  const sleep = (ms, run) => new Promise(r => setTimeout(() => r(R.run === run), ms));
+  const pick = (a) => a[Math.floor(Math.random() * a.length)];
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const PUNS = {
+    hammer: ["Schist, that's hard!", "Hammer time!", "Core blimey!", "Solid work, if I say so."],
+    lens: ["Hmm… that's gneiss.", "Sedimentary, my dear.", "Don't take me for granite.", "Fine-grained lesson, this."],
+    quake: ["Sorry, tectonic twitch.", "Just a little seismic.", "Did the earth move for you?"],
+    drill: ["Core-rect!", "Rock-solid hole.", "Now that's a bore."]
+  };
+
+  /* --- motion helpers: every actor is positioned by its feet --- */
+  function place(a, sx = 1, sy = 1) {
+    const top = a.y - a.foot;
+    a.el.style.transform = `translate(${a.x - a.w / 2}px, ${top}px) scale(${sx * a.dir}, ${sy * a.flip})`;
+    if (!a.clip) a.el.style.clipPath = "";
+    else if (a.clip.mode === "below") a.el.style.clipPath = `inset(0 0 ${Math.max(0, top + a.h - a.clip.line)}px 0)`;
+    else a.el.style.clipPath = `inset(${Math.max(0, a.clip.line - top)}px 0 0 0)`;
+  }
+  function tween(dur, run, fn) {
+    return new Promise(res => {
+      const t0 = performance.now();
+      const f = (now) => {
+        if (R.run !== run) return res(false);
+        const p = Math.min(1, (now - t0) / dur); fn(p);
+        if (p < 1) requestAnimationFrame(f); else res(true);
+      };
+      requestAnimationFrame(f);
+    });
+  }
+  function move(a, x1, y1, dur, run, ease = "in") {
+    const x0 = a.x, y0 = a.y;
+    return tween(dur, run, p => {
+      const e = ease === "in" ? p * p : 1 - (1 - p) * (1 - p);
+      a.x = x0 + (x1 - x0) * e; a.y = y0 + (y1 - y0) * e; place(a, .93, 1.08);
+    }).then(ok => { if (ok) place(a); return ok; });
+  }
+  function hop(a, x1, y1, run, { h = 70, dur = 520, crouch = 110, land = 150, flipTo = null } = {}) {
+    const x0 = a.x, y0 = a.y, f0 = a.flip;
+    if (Math.abs(x1 - x0) > 4) a.dir = x1 < x0 ? -1 : 1;
+    return new Promise(res => {
+      const t0 = performance.now();
+      const frame = (now) => {
+        if (R.run !== run) return res(false);
+        const t = now - t0;
+        if (t < crouch) { const k = Math.sin((Math.PI / 2) * t / crouch); place(a, 1 + .14 * k, 1 - .2 * k); }
+        else if (t < crouch + dur) {
+          const p = (t - crouch) / dur;
+          a.x = x0 + (x1 - x0) * p; a.y = y0 + (y1 - y0) * p - h * 4 * p * (1 - p);
+          if (flipTo != null) a.flip = f0 + (flipTo - f0) * p;
+          place(a, .94, 1.08);
+        }
+        else if (t < crouch + dur + land) { a.x = x1; a.y = y1; if (flipTo != null) a.flip = flipTo; const k = Math.sin(Math.PI * (t - crouch - dur) / land); place(a, 1 + .16 * k, 1 - .22 * k); }
+        else { a.x = x1; a.y = y1; if (flipTo != null) a.flip = flipTo; place(a); return res(true); }
+        requestAnimationFrame(frame);
+      };
+      requestAnimationFrame(frame);
+    });
+  }
+  // A point on GOA's drawing (120×120 viewBox) in page coordinates
+  const toPage = (a, vx, vy) => ({ x: a.x + a.dir * (vx - 60) * a.w / 120, y: a.y - a.foot + vy * a.h / 120 });
+
+  /* --- effects --- */
+  function burst(x, y, { n = 6, colors = ["#CDBFB7"], size = [3, 6], spread = 40, lift = 30, dur = 650, round = false, text = null } = {}) {
+    for (let i = 0; i < n; i++) {
+      const d = document.createElement("div"); d.className = "px";
+      const s = size[0] + Math.random() * (size[1] - size[0]), c = colors[i % colors.length];
+      if (text) { d.textContent = text; d.style.cssText = `font-size:${s}px;line-height:1;color:${c};`; }
+      else d.style.cssText = `width:${s}px;height:${s}px;background:${c};border-radius:${round ? "50%" : "2px"};`;
+      stage.appendChild(d);
+      const dx = (Math.random() - .5) * 2 * spread, up = lift * (.5 + Math.random() * .8), rot = (Math.random() - .5) * 360;
+      const an = d.animate([
+        { transform: `translate(${x - s / 2}px, ${y - s / 2}px) rotate(0deg)`, opacity: 1 },
+        { transform: `translate(${x + dx * .5 - s / 2}px, ${y - up - s / 2}px) rotate(${rot / 2}deg)`, opacity: 1, offset: .4 },
+        { transform: `translate(${x + dx - s / 2}px, ${y + lift * .6 - s / 2}px) rotate(${rot}deg)`, opacity: 0 }
+      ], { duration: dur * (.8 + Math.random() * .4), easing: "ease-out" });
+      an.onfinish = () => d.remove();
+    }
+  }
+  const puff = (x, y) => burst(x, y, { n: 9, colors: ["#FFFFFF", "#E7EEF1", "#CFDCE2"], size: [8, 16], spread: 34, lift: 18, dur: 520, round: true });
+  function prop(svg, cx, bottom, w, h, cls = "", layer = stage) {
+    const el = document.createElement("div"); el.className = "prop " + cls;
+    el.style.width = w + "px"; el.style.height = h + "px";
+    el.style.transform = `translate(${cx - w / 2}px, ${bottom - h}px)`;
+    el.innerHTML = svg; layer.appendChild(el); R.extras.push(el);
+    el.firstElementChild.animate([{ transform: "scale(0)" }, { transform: "scale(1.15)", offset: .7 }, { transform: "scale(1)" }], { duration: 380, easing: "ease-out" });
+    if (layer === stage) puff(cx, bottom - h / 2);
+    return el;
+  }
+  function vanish(el, x, y) { if (el && el.isConnected) { puff(x, y); el.remove(); } }
+  function spawn(svg, w, h, foot, cls) {
+    const el = document.createElement("div"); el.className = "actor " + cls; el.innerHTML = svg;
+    stage.appendChild(el); R.extras.push(el);
+    return makeActor(el, w, h, foot);
+  }
+  function decal(card, left, top, w, h, cls, html = "") {
+    const d = document.createElement("div"); d.className = "decal " + cls;
+    d.style.cssText = `left:${left}px;top:${top}px;width:${w}px;height:${h}px;`;
+    d.innerHTML = html; card.appendChild(d); R.decals.push(d);
+    return d;
+  }
+  function say(a, text, ms, run, below = false) {
+    const b = document.createElement("div"); b.className = "say" + (below ? " below" : "");
+    b.textContent = text;
+    b.style.left = a.x + "px";
+    b.style.top = (below ? a.y + a.foot + 4 : a.y - a.foot + (a === G ? 6 : 0)) + "px";
+    stage.appendChild(b); R.extras.push(b);
+    return sleep(ms, run).then(ok => { b.remove(); return ok; });
+  }
+  function shake(el, amt = 3, dur = 200) {
+    el.animate([{ transform: "translate(0,0)" }, { transform: `translate(${-amt}px,1px)` }, { transform: `translate(${amt}px,-1px)` }, { transform: `translate(${-amt / 2}px,0)` }, { transform: "translate(0,0)" }], { duration: dur });
+  }
+  function bump(card) { card.classList.add("bumped"); setTimeout(() => card.classList.remove("bumped"), 160); }
+  function visibleCards() {
+    return [...document.querySelectorAll("#cards .card")].filter(c => { const r = c.getBoundingClientRect(); return r.top > 100 && r.top < innerHeight - 150 && r.width > 240; });
+  }
+
+  /* --- the cast and props --- */
+  const CRACK_SVG = `<svg viewBox="0 0 32 40" aria-hidden="true"><path d="M16,0 L13,9 L19,15 L12,24 L17,31 L14,40 M13,9 L6,13 M19,15 L27,19 M12,24 L5,29" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" opacity=".75"/></svg>`;
+  const RIG_SVG = `<svg viewBox="0 0 60 100" aria-hidden="true">
+    <rect x="34" y="6" width="10" height="86" fill="#FFC83D" stroke="${INK}" stroke-width="2.4"/>
+    <path d="M34,14 L44,24 L34,34 L44,44 L34,54 L44,64 L34,74 L44,84" fill="none" stroke="${INK}" stroke-width="1.4"/>
+    <rect x="30" y="1.5" width="18" height="7" rx="2" fill="#E0A010" stroke="${INK}" stroke-width="2.2"/>
+    <g class="rig-head">
+      <line x1="39" y1="36" x2="39" y2="106" stroke="#8A99A3" stroke-width="4.5"/>
+      <line class="spin" x1="39" y1="36" x2="39" y2="106" stroke="#55646E" stroke-width="4.5" stroke-dasharray="3 4"/>
+      <rect x="29" y="24" width="20" height="13" rx="2.5" fill="#E2453B" stroke="${INK}" stroke-width="2.2"/>
+      <circle cx="39" cy="30.5" r="2.4" fill="#FBF8F3"/>
+    </g>
+    <rect x="5" y="64" width="24" height="26" rx="3" fill="#FFC83D" stroke="${INK}" stroke-width="2.4"/>
+    <path d="M10,71 h14 M10,76 h14 M10,81 h14" stroke="${INK}" stroke-width="1.6" stroke-linecap="round"/>
+    <rect x="9" y="52" width="5" height="13" fill="#5E6E78" stroke="${INK}" stroke-width="2"/>
+    <rect x="2" y="89" width="56" height="9" rx="2.5" fill="#3A4A55" stroke="${INK}" stroke-width="2.4"/>
+  </svg>`;
+  const CHAIR_BACK_SVG = `<svg viewBox="0 0 36 40" aria-hidden="true">
+    <path d="M6,19 V4 M30,19 V4" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/>
+    <rect x="5" y="4" width="26" height="9" rx="1.5" fill="#0A6E80" stroke="${INK}" stroke-width="2.2"/>
+  </svg>`;
+  const CHAIR_FRONT_SVG = `<svg viewBox="0 0 36 40" aria-hidden="true">
+    <path d="M7,22 L29,39 M29,22 L7,39" stroke="${INK}" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M7,22 L29,39 M29,22 L7,39" stroke="#B07A45" stroke-width="2" stroke-linecap="round"/>
+    <rect x="4" y="18" width="28" height="6" rx="2" fill="#0A6E80" stroke="${INK}" stroke-width="2.2"/>
+  </svg>`;
+  const BABY_SVG = `<svg viewBox="0 0 40 46" aria-hidden="true">
+    <ellipse cx="20" cy="44.5" rx="11" ry="1.8" fill="#000" opacity=".16"/>
+    <ellipse cx="15" cy="42" rx="4.2" ry="2.8" fill="#5E534E" stroke="${INK}" stroke-width="1.8"/><ellipse cx="25" cy="42" rx="4.2" ry="2.8" fill="#5E534E" stroke="${INK}" stroke-width="1.8"/>
+    <path d="M9,13 L9,37 A11,4 0 0 0 31,37 L31,13 Z" fill="#CDBFB7"/>
+    <path d="M26,14 Q28,26 26,40.5 L31,38 L31,14 Z" fill="#AE9E96"/>
+    <ellipse cx="13" cy="33" rx="2" ry="1.3" fill="#E79486"/><ellipse cx="27" cy="20" rx="1.6" ry="1.1" fill="#E79486"/><circle cx="23" cy="36.5" r=".9" fill="#2A2424"/>
+    <path d="M9,13 L9,37 A11,4 0 0 0 31,37 L31,13" fill="none" stroke="${INK}" stroke-width="2.2"/>
+    <ellipse cx="20" cy="13" rx="11" ry="4" fill="#E3D9D2" stroke="${INK}" stroke-width="2.2"/>
+    <path d="M20,10 q5,-7 0,-8" fill="none" stroke="${INK}" stroke-width="1.8" stroke-linecap="round"/>
+    <g class="baby-face">
+      <ellipse cx="15.5" cy="23" rx="3.8" ry="4.6" fill="#fff" stroke="${INK}" stroke-width="1.6"/><ellipse cx="24.5" cy="23" rx="3.8" ry="4.6" fill="#fff" stroke="${INK}" stroke-width="1.6"/>
+      <circle cx="16.3" cy="24" r="2.3" fill="${INK}"/><circle cx="25.3" cy="24" r="2.3" fill="${INK}"/>
+      <circle cx="17.1" cy="22.8" r=".9" fill="#fff"/><circle cx="26.1" cy="22.8" r=".9" fill="#fff"/>
+      <ellipse cx="20" cy="30.5" rx="1.7" ry="2" fill="#6B1E26"/>
+      <ellipse cx="11.5" cy="29" rx="2.2" ry="1.3" fill="#F08A80" opacity=".8"/><ellipse cx="28.5" cy="29" rx="2.2" ry="1.3" fill="#F08A80" opacity=".8"/>
+    </g>
+    <g class="baby-sleep"><path d="M12.5,23.5 q3,2 6,0 M21.5,23.5 q3,2 6,0" fill="none" stroke="${INK}" stroke-width="1.6" stroke-linecap="round"/></g>
+  </svg>`;
+  const BASIL_SVG = `<svg class="goa" viewBox="0 0 80 84" aria-hidden="true">
+    <defs><clipPath id="basilBody"><path d="M14,52 C10,30 26,18 41,18 C58,18 71,31 68,52 C66,69 54,76 40,76 C25,76 16,68 14,52 Z"/></clipPath></defs>
+    <ellipse cx="41" cy="81.5" rx="24" ry="2.5" fill="#000" opacity=".16"/>
+    <ellipse cx="32" cy="77" rx="7" ry="4.5" fill="#3A4045" stroke="${INK}" stroke-width="2.6"/><ellipse cx="50" cy="77" rx="7" ry="4.5" fill="#3A4045" stroke="${INK}" stroke-width="2.6"/>
+    <g clip-path="url(#basilBody)">
+      <rect x="0" y="0" width="80" height="84" fill="#5A636A"/>
+      <path d="M52,18 Q70,30 66,58 L80,58 L80,0 Z" fill="#474F55"/>
+      <circle cx="24" cy="44" r="1.6" fill="#353B3F"/><circle cx="60" cy="40" r="1.3" fill="#353B3F"/><circle cx="28" cy="60" r="1.2" fill="#353B3F"/><circle cx="55" cy="56" r="1.5" fill="#353B3F"/>
+      <rect x="0" y="58" width="80" height="12" fill="#FF7A1A"/><rect x="0" y="62" width="80" height="3.2" fill="#E6EEF2"/>
+    </g>
+    <path d="M14,52 C10,30 26,18 41,18 C58,18 71,31 68,52 C66,69 54,76 40,76 C25,76 16,68 14,52 Z" fill="none" stroke="${INK}" stroke-width="3"/>
+    <path d="M21,25 Q41,1 62,24 Z" fill="#FFD12E" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/>
+    <path d="M41,7 V23" stroke="#E0A010" stroke-width="3"/>
+    <ellipse cx="41.5" cy="25" rx="24" ry="4.2" fill="#FFD12E" stroke="${INK}" stroke-width="2.6"/>
+    <g class="eyes">
+      <ellipse cx="33" cy="40" rx="5" ry="6" fill="#fff" stroke="${INK}" stroke-width="2.2"/><ellipse cx="50" cy="40" rx="5" ry="6" fill="#fff" stroke="${INK}" stroke-width="2.2"/>
+      <circle cx="34.2" cy="41" r="2.8" fill="${INK}"/><circle cx="51.2" cy="41" r="2.8" fill="${INK}"/>
+      <circle cx="35" cy="39.8" r="1" fill="#fff"/><circle cx="52" cy="39.8" r="1" fill="#fff"/>
+    </g>
+    <path d="M28,32 L37,33 M46,33 L55,32" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M34,51 Q41,57 48,51" fill="none" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/>
+  </svg>`;
+
+  /* --- activities: each returns false if interrupted --- */
+  async function doBounce(card, run) {
+    for (let i = 0; i < 2; i++) { if (!await hop(G, G.x, G.y, run, { h: 26, dur: 300 })) return false; bump(card); }
+    return sleep(300, run);
+  }
+  async function doHammer(card, run) {
+    const cr = card.getBoundingClientRect();
+    G.el.classList.add("hammering");
+    const hx = toPage(G, 117, 0).x;
+    const crack = decal(card, clamp(hx - cr.left - 16, 0, cr.width - 32), 0, 32, 40, "crack", CRACK_SVG);
+    crack.style.transform = "scale(0)";
+    for (let i = 1; i <= 6; i++) {
+      if (!await sleep(i === 1 ? 340 : 680, run)) return false;
+      burst(hx, cr.top, { n: 5, colors: ["#CDBFB7", "#E79486", "#5E534E", "#FBF7F2"], size: [3, 6], spread: 26, lift: 32, dur: 600 });
+      shake(card, 2, 160);
+      crack.style.transform = `scale(${.35 + i * .11})`;
+    }
+    G.el.classList.remove("hammering");
+    return say(G, pick(PUNS.hammer), 1600, run);
+  }
+  async function doLens(card, run) {
+    G.el.classList.add("lensing");
+    if (!await sleep(900, run)) return false;
+    const ok = await say(G, pick(PUNS.lens), 1900, run);
+    G.el.classList.remove("lensing");
+    return ok;
+  }
+  async function doStomp(card, run) {
+    if (!await say(G, "Brace yourselves…", 900, run)) return false;
+    if (!await hop(G, G.x, G.y, run, { h: 80, dur: 560, crouch: 220 })) return false;
+    document.querySelectorAll("#cards .card").forEach(c => shake(c, 6, 450));
+    burst(G.x, G.y, { n: 12, colors: ["#E7EEF1", "#CFDCE2", "#BFA48F"], size: [6, 12], spread: 70, lift: 12, dur: 700, round: true });
+    return say(G, pick(PUNS.quake), 1500, run);
+  }
+
+  const RIG_W = 60, RIG_H = 100, ROD_X = 39;
+  async function runDrill(card, rx, run, worker) {
+    const cr = card.getBoundingClientRect();
+    const rig = prop(RIG_SVG, rx, cr.top + 1, RIG_W, RIG_H, "rig");
+    if (!await sleep(500, run)) return null;
+    const holeX = rx - RIG_W / 2 + ROD_X;
+    const shaft = decal(card, holeX - cr.left - 6, 0, 12, 0, "shaft", "<i></i>");
+    rig.classList.add("drilling"); worker && worker.el.classList.add("working");
+    shaft.animate([{ height: "0px" }, { height: cr.height + "px" }], { duration: 2800, easing: "linear", fill: "forwards" });
+    for (let t = 0; t < 2800; t += 280) {
+      burst(holeX, cr.top, { n: 3, colors: ["#BFA48F", "#8C735F", "#E7DCD2"], size: [3, 6], spread: 18, lift: 22, dur: 500, round: true });
+      if (t % 560 === 0) burst(rx - RIG_W / 2 + 11, cr.top - 48, { n: 1, colors: ["#AEBAC1"], size: [6, 10], spread: 6, lift: 26, dur: 800, round: true });
+      if (t % 840 === 0) shake(card, 1.5, 150);
+      if (!await sleep(280, run)) return null;
+    }
+    worker && worker.el.classList.remove("working");
+    return { rig, holeX, cr, rx };
+  }
+  async function retract(d, run) {
+    d.rig.classList.remove("drilling"); d.rig.classList.add("retracting");
+    if (!await sleep(750, run)) return false;
+    vanish(d.rig, d.rx, d.cr.top - RIG_H / 2);
+    return true;
+  }
+  async function doDrill(card, run) {
+    const cr = card.getBoundingClientRect();
+    const rx = clamp(G.x + (G.x < cr.left + cr.width / 2 ? 72 : -72), cr.left + 40, cr.right - 40);
+    G.dir = rx > G.x ? 1 : -1; place(G);
+    if (!await say(G, "Summon the rig!", 900, run)) return false;
+    const d = await runDrill(card, rx, run, G); if (!d) return false;
+    const T = CONFIG.goaTest, r = Math.random();
+    if (T === "downunder" || (!T && r < .42)) return downUnder(card, d, run);
+    if (T === "baby" || (!T && r < .84)) return coreBaby(card, d, run);
+    if (!await retract(d, run)) return false;
+    return say(G, pick(PUNS.drill), 1500, run);
+  }
+  // Jump down the drill hole: squeeze to fit, slide through, pop out upside down underneath
+  async function downUnder(card, d, run) {
+    if (!await retract(d, run)) return false;
+    if (!await say(G, "Geronimo!", 800, run)) return false;
+    if (!await hop(G, d.holeX, d.cr.top + 1, run, { h: 46, dur: 440, land: 0 })) return false;
+    G.clip = { mode: "below", line: d.cr.top };
+    const y0 = G.y;
+    if (!await tween(560, run, p => {
+      const sq = Math.min(1, p * 1.8), s = 1 - .84 * sq;               // squash thin to the width of the hole
+      const fall = Math.max(0, (p - .3) / .7);
+      G.y = y0 + (G.h + 10) * fall * fall;
+      place(G, s, 1 + .4 * sq);
+    })) return false;
+    const cr = card.getBoundingClientRect();
+    const squeezed = decal(card, d.holeX - cr.left - 4, 0, 8, 26, "squeezed");
+    squeezed.animate([{ transform: "translateY(-26px)" }, { transform: `translateY(${cr.height}px)` }], { duration: 720, easing: "ease-in", fill: "forwards" });
+    if (!await sleep(680, run)) return false;
+    squeezed.remove();
+    G.clip = null; G.y = cr.bottom; G.flip = -1; place(G, .16, .2);
+    if (!await tween(460, run, p => {
+      const grow = Math.min(1, p / .55), wob = p > .55 ? Math.sin(((p - .55) / .45) * Math.PI) * .14 : 0;
+      place(G, .16 + .84 * grow + wob, Math.min(1, .2 + p * 1.6));
+    })) return false;
+    place(G);
+    if (!await say(G, "G'day from down under!", 1800, run, true)) return false;
+    return climbBack(card, run);
+  }
+  // Swing upright, hang off the bottom edge, shimmy to the side and climb up hand over hand
+  async function climbBack(card, run) {
+    const cr = card.getBoundingClientRect();
+    const side = ((G.x - cr.left < cr.right - G.x) && cr.left > 40) || cr.right > innerWidth - 40 ? -1 : 1;
+    const edgeX = side < 0 ? cr.left - 10 : cr.right + 10;
+    const yHang = cr.bottom + 46, y0 = G.y;
+    G.dir = -side; G.el.classList.add("hanging");
+    if (!await tween(420, run, p => { G.flip = -1 + 2 * p; G.y = y0 + (yHang - y0) * p; place(G); })) return false;
+    G.flip = 1; place(G);
+    if (!await sleep(250, run)) return false;
+    while (Math.abs(G.x - edgeX) > 2) {
+      if (!await move(G, G.x + clamp(edgeX - G.x, -24, 24), yHang, 170, run, "out")) return false;
+      if (!await sleep(60, run)) return false;
+    }
+    G.el.classList.remove("hanging"); G.el.classList.add("climbing");
+    while (G.y > cr.top + 3) {
+      if (!await move(G, edgeX, Math.max(cr.top + 1, G.y - 22), 180, run, "out")) return false;
+      if (!await sleep(70, run)) return false;
+    }
+    G.el.classList.remove("climbing");
+    if (!await hop(G, side < 0 ? cr.left + 46 : cr.right - 46, cr.top + 1, run, { h: 26, dur: 340 })) return false;
+    bump(card);
+    return say(G, "Easy as.", 1000, run);
+  }
+  // The core comes up as a baby, wakes up and runs off; GOA gives chase
+  async function coreBaby(card, d, run) {
+    d.rig.classList.remove("drilling"); d.rig.classList.add("retracting");
+    const B = spawn(BABY_SVG, 30, 35, 35 * 44.5 / 46, "baby asleep");
+    B.x = d.holeX; B.y = d.cr.top + 38; B.clip = { mode: "below", line: d.cr.top }; place(B);
+    if (!await move(B, d.holeX, d.cr.top + 1, 800, run, "out")) return false;
+    B.clip = null; place(B);
+    vanish(d.rig, d.rx, d.cr.top - RIG_H / 2);
+    if (!await say(G, "Lovely core sample…", 1200, run)) return false;
+    B.el.classList.remove("asleep");
+    burst(B.x, B.y - 36, { n: 1, text: "!", colors: ["#E2453B"], size: [16, 18], spread: 2, lift: 14, dur: 700 });
+    if (!await sleep(500, run)) return false;
+    clearDecals();
+    for (let i = 0; i < 4; i++) {
+      const cards = visibleCards(), c = pick(cards.length ? cards : [card]), r = c.getBoundingClientRect();
+      const bx = r.left + 30 + Math.random() * (r.width - 60);
+      const gx = clamp(bx + (bx > G.x ? -52 : 52), r.left + 40, r.right - 40);
+      const pb = hop(B, bx, r.top + 1, run, { h: 46 + Math.random() * 30, dur: 460, crouch: 50, land: 80 });
+      if (i === 0) say(B, "Wheee!", 800, run);
+      if (!await sleep(220, run)) return false;
+      const pg = hop(G, gx, r.top + 1, run, { h: 60, dur: 540 });
+      if (!(await pb) || !(await pg)) return false;
+      if (i === 1) say(G, "Oi! Come back!", 900, run);
+    }
+    G.dir = B.x > G.x ? 1 : -1; B.dir = -G.dir; place(G); place(B);
+    burst(B.x, B.y - 30, { n: 7, text: "♥", colors: ["#E2453B", "#F08A80"], size: [10, 16], spread: 30, lift: 34, dur: 900 });
+    if (!await say(G, "Gotcha, little pebble.", 1400, run)) return false;
+    vanish(B.el, B.x, B.y - 16);
+    return say(G, "Off to the core tray with you.", 1400, run);
+  }
+  // GOA takes a seat and calls in Bas the Basalt to do the drilling
+  async function doFriend(card, run) {
+    const cr = card.getBoundingClientRect();
+    const gx = cr.left + 46, rx = cr.left + Math.min(cr.width - 90, 150), fx = rx + 58;
+    if (Math.abs(G.x - gx) > 6 && !await hop(G, gx, cr.top + 1, run, { h: 30, dur: 380 })) return false;
+    if (!await say(G, "Time for a break.", 1000, run)) return false;
+    const chair = prop(CHAIR_BACK_SVG, gx, cr.top + 1, 46, 51, "chair");
+    const chairFront = prop(CHAIR_FRONT_SVG, gx, cr.top + 1, 46, 51, "chair", front);
+    if (!await sleep(450, run)) return false;
+    if (!await hop(G, gx + 1, cr.top - 21, run, { h: 30, dur: 360, land: 0 })) return false;
+    G.dir = 1; G.el.classList.add("sitting"); place(G);
+    if (!await tween(160, run, p => place(G, 1 + .1 * Math.sin(p * Math.PI), 1 - .14 * Math.sin(p * Math.PI)))) return false;
+    if (!await say(G, "Oi, Bas! Got a job for ya!", 1500, run)) return false;
+    const F = spawn(BASIL_SVG, 60, 63, 63 * 82 / 84, "friend");
+    F.x = innerWidth + 50; F.y = cr.top + 1; F.dir = -1; place(F);
+    while (F.x - fx > 8) {
+      if (!await hop(F, Math.max(fx, F.x - 120), cr.top + 1, run, { h: 34, dur: 360, crouch: 60, land: 90 })) return false;
+    }
+    F.dir = -1; place(F);
+    if (!await say(F, "On it, boss!", 1000, run)) return false;
+    const drilling = runDrill(card, rx, run, F);
+    if (!await sleep(1000, run)) return false;
+    say(G, "Ahh… supervising.", 1700, run);
+    const d = await drilling; if (!d) return false;
+    if (!await retract(d, run)) return false;
+    if (!await say(F, "Hole's done. Smoko!", 1200, run)) return false;
+    while (F.x < innerWidth + 60) {
+      if (!await hop(F, F.x + 120, F.y, run, { h: 34, dur: 360, crouch: 50, land: 60 })) return false;
+    }
+    F.el.remove();
+    G.el.classList.remove("sitting");
+    if (!await hop(G, gx + 40, cr.top + 1, run, { h: 24, dur: 340 })) return false;
+    vanish(chair, gx, cr.top - 22); chairFront.remove();
+    return sleep(300, run);
+  }
+  function chooseActivity() {
+    const T = CONFIG.goaTest;
+    if (T) return { hammer: doHammer, lens: doLens, stomp: doStomp, friend: doFriend }[T] || doDrill;
+    const list = [[doBounce, 1], [doHammer, 2], [doLens, 1.4], [doStomp, 1]];
+    if (!R.didDrill) list.push([doDrill, 3.4], [doFriend, 1.6]);
+    let r = Math.random() * list.reduce((s, [, w]) => s + w, 0);
+    for (const [fn, w] of list) { if ((r -= w) <= 0) return fn; }
+    return doBounce;
+  }
+
+  /* --- the wander itself --- */
+  const canRoam = () => !current && $("chat").hidden && !reduced() && document.visibilityState === "visible";
+  function armIdle() { clearTimeout(R.timer); if (canRoam() && !R.active) R.timer = setTimeout(startRoam, CONFIG.goaTest ? 3000 : IDLE_MS); }
+  async function startRoam() {
+    if (R.active || !canRoam()) return;
+    if (!visibleCards().length) return armIdle();
+    const run = ++R.run; R.active = true; R.returning = false; R.didDrill = false; R.lastCard = null;
+    const lb = $("launchBtn").getBoundingClientRect(), hole = lb.top + lb.height / 2;
+    G.x = lb.left + lb.width / 2; G.y = hole + 46; G.dir = -1; G.flip = 1; G.clip = { mode: "below", line: hole };
+    $("launcher").classList.add("away"); roamer.hidden = false; place(G);
+    if (!await hop(G, G.x, lb.top + 3, run, { h: 20, dur: 380 })) return;    // climb out onto the rim
+    G.clip = null; place(G);
+    if (!await sleep(400, run)) return;
+    // Short idle: just hop about. Idle 20s+: mostly the bigger adventures, still with the odd plain wander.
+    const detailed = !!CONFIG.goaTest || (performance.now() - R.lastActivity >= 20000 && Math.random() < .75);
+    const stops = detailed ? 2 + (Math.random() < .4 ? 1 : 0) : 3 + (Math.random() < .5 ? 1 : 0);
+    for (let i = 0; i < stops; i++) {
+      let cards = visibleCards(); if (!cards.length) break;
+      if (cards.length > 1) cards = cards.filter(c => c !== R.lastCard);
+      const card = pick(cards); R.lastCard = card;
+      const r = card.getBoundingClientRect();
+      const x = r.left + 48 + Math.random() * (r.width - 96);
+      const dist = Math.hypot(x - G.x, r.top - G.y);
+      if (!await hop(G, x, r.top + 1, run, { h: 50 + dist * .18, dur: Math.min(900, 420 + dist * .55) })) return;
+      bump(card);
+      if (!await sleep(450, run)) return;
+      if (detailed) {
+        const act = chooseActivity();
+        if (act === doDrill || act === doFriend) R.didDrill = true;
+        if (!await act(card, run)) return;
+        clearDecals();                                   // holes and cracks go once he leaves the card
+        if (!await sleep(500, run)) return;
+      } else if (Math.random() < .5) {
+        if (!await doBounce(card, run)) return;
+      } else if (!await sleep(300 + Math.random() * 500, run)) return;
+    }
+    goHome(run, false);
+  }
+  async function goHome(run, fast) {
+    R.returning = true;
+    const lb = $("launchBtn").getBoundingClientRect(), hole = lb.top + lb.height / 2, cx = lb.left + lb.width / 2;
+    const dist = Math.hypot(cx - G.x, lb.top - G.y);
+    if (!await hop(G, cx, lb.top + 3, run, { h: 40 + dist * .15, dur: fast ? 380 : Math.min(900, 420 + dist * .55), crouch: fast ? 50 : 110, land: fast ? 90 : 150 })) return;
+    G.clip = { mode: "below", line: hole };
+    if (!await hop(G, cx, hole + 64, run, { h: 16, dur: 320, crouch: 70, land: 0 })) return;
+    finishRoam();
+  }
+  function clearDecals() {
+    R.decals.forEach(d => { const a = d.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, fill: "forwards" }); a.onfinish = () => d.remove(); });
+    R.decals = [];
+  }
+  function cleanup() {
+    R.extras.forEach(e => e.remove()); R.extras = [];
+    clearDecals();
+    G.el.classList.remove("hammering", "lensing", "working", "sitting", "hanging", "climbing");
+    G.clip = null; G.flip = 1;
+  }
+  function finishRoam() {
+    cleanup();
+    roamer.hidden = true; R.active = false; R.returning = false;
+    const l = $("launcher"); l.classList.add("returning"); l.classList.remove("away");
+    requestAnimationFrame(() => requestAnimationFrame(() => l.classList.remove("returning")));
+    armIdle();
+  }
+  function interrupt() { if (R.active && !R.returning) { const run = ++R.run; cleanup(); place(G); goHome(run, true); } }
+  function endRoamNow() {
+    R.run++; clearTimeout(R.timer); cleanup();
+    if (R.active) { roamer.hidden = true; R.active = false; R.returning = false; $("launcher").classList.remove("away"); }
+  }
+  const onActivity = (e) => {
+    R.lastActivity = performance.now();
+    if (R.active) {
+      const onGoa = e.target && e.target.closest && e.target.closest(".roamer");
+      if (e.type !== "mousemove" && !onGoa) interrupt();
+      return;
+    }
+    armIdle();
+  };
+  ["mousemove", "mousedown", "keydown", "touchstart", "wheel", "scroll"].forEach(ev => addEventListener(ev, onActivity, { passive: true }));
+  addEventListener("resize", () => { if (R.active) interrupt(); });
+  document.addEventListener("visibilitychange", () => { if (document.hidden) endRoamNow(); else armIdle(); });
+  roamer.addEventListener("click", () => { endRoamNow(); openChat(true); });
+
+  /* ---------- wire up ---------- */
+  $("appEyebrow").textContent = CONFIG.appName;
+  $("sampleNote").hidden = !CONFIG.showSampleNotice;
+  $("botName").textContent = CONFIG.botName; $("botTitle").textContent = CONFIG.botTitle;
+  $("launchAvatar").innerHTML = `<span class="peek">${goaSVG()}</span>`; $("headAvatar").innerHTML = goaSVG();
+  try { if (sessionStorage.getItem("goa-seen")) { $("badge").hidden = true; $("nudge").hidden = true; } } catch {}
+  log.innerHTML = `<div class="day">Today</div>`;
+  bubble("them", `<p>${esc(CONFIG.botGreeting)}</p>`);
+
+  $("cards").addEventListener("click", (e) => { const c = e.target.closest(".card"); if (c) route(c.dataset.id); });
+  $("backBtn").addEventListener("click", () => route(""));
+  $("launchBtn").addEventListener("click", () => openChat(true));
+  $("nudge").addEventListener("click", () => openChat(true));
+  $("closeChat").addEventListener("click", () => openChat(false));
+  $("compose").addEventListener("submit", (e) => { e.preventDefault(); const i = $("msgInput"); ask(i.value); i.value = ""; });
+  const closeBox = () => { $("lightbox").hidden = true; $("lightboxImg").removeAttribute("src"); };
+  $("lightbox").addEventListener("click", closeBox);
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if (!$("lightbox").hidden) closeBox(); else if (!$("chat").hidden) openChat(false);
+  });
+  window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+  document.addEventListener("keydown", (e) => {
+    if (!current || !sectionsOf(current).length || !$("chat").hidden || !$("lightbox").hidden) return;
+    if (/^(INPUT|TEXTAREA|SELECT|VIDEO)$/.test(e.target.tagName) || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); nextStep(); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); showStep(stepIdx - 1); }
+  });
+  show(location.hash.slice(1));
+})();
+</script>
