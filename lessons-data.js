@@ -188,7 +188,7 @@ window.LESSONS = [
           },
           {
             "type": "tip",
-            "md": "Copy and paste this link into file explorer to find CIS: S:\\BW Asset Delivery\\Z_Geology\\Software\\Core Shed Planner\\Core Inventory System.html"
+            "md": "Copy and paste this link into file explorer to find CIS: S:\\\\BW Asset Delivery\\\\Z_Geology\\\\Software\\\\Core Shed Planner\\\\Core Inventory System.html"
           }
         ]
       },
