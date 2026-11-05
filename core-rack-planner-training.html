@@ -435,6 +435,157 @@ header.top .eyebrow { color: var(--brand); }
 .stepnav.bottom { margin-top: 4px; }
 @media (max-width: 900px) { .lesson-grid { grid-template-columns: minmax(0, 1fr); } }
 
+/* ---- branched lessons ---- */
+.branch-tag { display: inline-block; vertical-align: middle; font-style: normal; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 2px 8px; }
+.tracker .branch-tag { font-size: 9.5px; padding: 1px 6px; margin-left: 2px; }
+.tracker-switch button { appearance: none; border: 0; background: none; cursor: pointer; color: var(--accent); font-weight: 700; font-size: 12.5px; padding: 4px 6px; }
+.tracker-switch button:hover { text-decoration: underline; }
+.bchoose { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.bchoice { appearance: none; cursor: pointer; text-align: left; display: grid; gap: 4px; padding: 16px 18px; border-radius: 14px; border: 2px dashed var(--line);
+  background: var(--surface); position: relative; transition: border-color .2s, background-color .2s; }
+.bchoice b { font-size: 19px; font-weight: 800; }
+.bchoice .bc-sub { font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.bchoice > span:last-child { color: var(--muted); font-size: 14px; }
+.bchoice:hover { border-color: var(--brand); }
+.bchoice.on { border-style: solid; border-color: var(--brand); background: color-mix(in srgb, var(--brand) 7%, var(--surface)); }
+.bc-tick { position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; font-size: 12px; font-weight: 800; }
+.bchoice.on .bc-tick { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+.bchoose-note { margin: 0; font-size: 13px; color: var(--muted); }
+.bmap { display: flex; align-items: center; gap: 0; flex-wrap: wrap; padding: 12px; border-radius: 12px; background: var(--bg); border: 1px solid var(--line); }
+.bm-root { padding-right: 18px; position: relative; }
+.bm-root::after { content: ""; position: absolute; right: 0; top: 50%; width: 18px; border-top: 2px solid var(--line); }
+.bm-lanes { display: grid; gap: 8px; padding-left: 14px; border-left: 2px solid var(--line); min-width: 0; }
+.bm-lane { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; opacity: .55; transition: opacity .2s; }
+.bm-lane.on, .bm-lane:hover { opacity: 1; }
+.bm-tag { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); width: 54px; }
+.bm-lane.on .bm-tag { color: var(--accent); }
+.bm-node { appearance: none; cursor: pointer; font-size: 12.5px; font-weight: 700; padding: 6px 11px; border-radius: 9px; border: 1.5px dashed var(--muted); background: var(--surface); color: var(--ink); }
+.bm-node.done { border-style: solid; border-color: color-mix(in srgb, var(--done) 60%, var(--line)); }
+.bm-node.cur { border: 2px solid var(--brand); background: color-mix(in srgb, var(--brand) 12%, var(--surface)); }
+.bm-node:hover { border-color: var(--brand); }
+.bm-arrow { color: var(--muted); font-size: 13px; }
+.pflow { margin: 0; display: grid; gap: 8px; padding: 18px; border: 2px dashed var(--line); border-radius: 16px; background: var(--surface); overflow-x: auto; }
+.pf-row { display: flex; align-items: center; gap: 8px; min-width: 760px; }
+.pf-node { appearance: none; cursor: pointer; display: grid; gap: 2px; text-align: center; padding: 10px 12px; min-width: 108px; border-radius: 14px; border: 2px dashed var(--muted);
+  background: var(--surface); color: var(--ink); transition: border-color .2s, background-color .2s; }
+.pf-node b { font-size: 13.5px; font-weight: 800; }
+.pf-node small { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+.pf-node:hover { border-style: solid; border-color: var(--brand); background: color-mix(in srgb, var(--brand) 8%, var(--surface)); }
+.pf-arrow { color: var(--muted); font-size: 16px; }
+.pf-split { width: 18px; align-self: stretch; border: 2px solid var(--line); border-right: 0; border-radius: 10px 0 0 10px; margin: 26px 0 26px 4px; }
+.pf-lanes { display: grid; gap: 12px; }
+.pf-lane { display: flex; align-items: center; gap: 8px; }
+.pf-tag { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); width: 56px; }
+.pflow figcaption { font-size: 12.5px; color: var(--muted); }
+
+/* ---- interactive examples ---- */
+.demo { position: relative; border: 2px solid var(--accent); border-radius: 14px; background: var(--surface); padding: 16px; display: grid; gap: 12px; }
+.demo-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.demo-bar b { font-size: 16px; }
+.demo-tag { font-size: 10.5px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; background: var(--brand); color: var(--brand-ink); padding: 3px 8px; border-radius: 999px; }
+.demo-count { font-family: var(--f-code); font-size: 12px; color: var(--muted); }
+.demo-sp { flex: 1; }
+.demo-reset { appearance: none; cursor: pointer; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 5px 10px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.demo-reset:hover { color: var(--ink); border-color: var(--muted); }
+.demo-help { margin: 0; font-size: 13.5px; color: var(--muted); }
+.demo-msg { margin: 0; min-height: 1.4em; font-size: 13.5px; font-weight: 600; color: var(--accent); }
+.kbd { font-family: var(--f-code); padding: 0 4px; border: 1px solid var(--line); border-radius: 4px; }
+.demo-scroll { overflow-x: auto; }
+.ht { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 620px; }
+.ht th { text-align: left; font-size: 11.5px; font-weight: 800; letter-spacing: .04em; color: var(--muted); padding: 6px 8px; border-bottom: 2px solid var(--line); white-space: nowrap; }
+.ht td { padding: 4px 8px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.ht .num { text-align: right; }
+.ht .mono, .gd .mono { font-family: var(--f-code); }
+.ht tr { transition: background-color .6s; background: var(--surface); }
+.ht tr.flash { animation: htflash 1.4s ease-out; }
+@keyframes htflash { from { background: color-mix(in srgb, var(--brand) 22%, var(--surface)); } to { background: var(--surface); } }
+.ht tr.dragging { position: relative; z-index: 2; box-shadow: var(--shadow-lift); }
+.ht tr.drop-above td { box-shadow: inset 0 2px 0 var(--brand); }
+.ht-grip { appearance: none; cursor: grab; border: 0; background: none; font-size: 16px; color: var(--muted); padding: 4px 6px; border-radius: 6px; touch-action: none; }
+.ht-grip:hover { color: var(--ink); background: var(--bg); }
+.ht-slot { width: 76px; font: inherit; font-family: var(--f-code); font-weight: 700; color: var(--accent); padding: 4px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.ht-slot:focus { outline: 2px solid var(--brand); outline-offset: -1px; }
+
+.gd { gap: 14px; }
+.gd-label { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.gd-sub { font-size: 12.5px; color: var(--muted); }
+.gd-progress { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+.gd-bar { flex: 1; height: 8px; border-radius: 99px; background: var(--sunken); overflow: hidden; }
+.gd-bar span { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+.gd-msg { padding: 8px 12px; border-radius: 8px; font-size: 13.5px; background: var(--accent-soft); }
+.gd-card { display: grid; gap: 16px; padding: 18px; border: 2px solid var(--accent); border-radius: 14px; }
+.gd-box, .gd-dest, .gd-bay, .gd-next, .gd-temp, .gd-wrap, .gd-alt > div, .gd-done, .gd-save { position: relative; }
+.gd-box, .gd-dest { display: grid; gap: 2px; justify-items: start; }
+.gd-box b { font-size: 26px; font-weight: 800; }
+.gd-box b span { color: var(--muted); font-weight: 600; font-size: .7em; }
+.gd-dest b { font-size: 36px; font-weight: 800; color: var(--accent); font-family: var(--f-code); line-height: 1.1; }
+.gd-slots { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 4px; }
+.gd-slots span { min-width: 26px; padding: 2px 4px; text-align: center; font-family: var(--f-code); font-size: 11.5px; border: 1px solid var(--line); border-radius: 4px; }
+.gd-slots .full { background: var(--sunken); color: var(--muted); }
+.gd-slots .here { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 800; }
+.gd-act, .gd-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.gd-btn { appearance: none; cursor: pointer; font: inherit; font-weight: 600; font-size: 14px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.gd-btn:hover { border-color: var(--muted); }
+.gd-btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-size: 16px; padding: 11px 18px; font-weight: 800; }
+.gd-btn.on { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.gd-btn.ghost { border-color: transparent; color: var(--muted); }
+.gd-btn.small { padding: 3px 8px; font-size: 12.5px; }
+.gd input { font: inherit; font-size: 14px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); width: 140px; }
+.gd-panel { display: grid; gap: 8px; padding: 14px; border-radius: 10px; background: var(--bg); }
+.gd-alt { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.gd-alt > div { display: grid; gap: 6px; align-content: start; }
+.gd-alt > div.gd-row { grid-column: 1 / -1; display: flex; }
+.gd-seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.gd-seg button { appearance: none; cursor: pointer; border: 0; background: var(--surface); padding: 7px 12px; font: inherit; font-size: 13px; font-weight: 600; color: var(--ink); }
+.gd-seg button + button { border-left: 1px solid var(--line); }
+.gd-seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.gd-picks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.gd-pick { appearance: none; cursor: pointer; display: grid; justify-items: start; gap: 1px; min-width: 140px; padding: 9px 13px; border: 1.5px dashed var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); text-align: left; font: inherit; }
+.gd-pick span { font-size: 12px; color: var(--muted); }
+.gd-pick .gd-d { color: var(--accent); font-weight: 800; font-family: var(--f-code); }
+.gd-pick:hover { border-color: var(--accent); background: var(--accent-soft); }
+.gd-next, .gd-temp, .gd-done, .gd-finish { padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; }
+.gd-temp ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 8px; }
+.gd-temp li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.gd-temp p { margin: 6px 0 0; }
+.gd-done summary, .gd-save summary { cursor: pointer; font-weight: 700; list-style: none; }
+.gd-done table { margin-top: 8px; border-collapse: collapse; font-size: 13.5px; }
+.gd-done td { padding: 3px 12px 3px 0; }
+.gd-finish { display: grid; gap: 10px; background: var(--bg); }
+.gd-save summary { display: inline-block; padding: 8px 14px; border-radius: 8px; background: var(--brand); color: var(--brand-ink); }
+.gd-menu { position: absolute; z-index: 3; top: calc(100% + 4px); left: 0; display: grid; min-width: 250px; padding: 6px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); box-shadow: var(--shadow-lift); }
+.gd-menu button { appearance: none; cursor: pointer; text-align: left; border: 0; background: none; padding: 8px 10px; border-radius: 6px; font: inherit; font-weight: 700; font-size: 13.5px; color: var(--ink); display: grid; }
+.gd-menu button span { font-weight: 500; font-size: 12px; color: var(--muted); }
+.gd-menu button:hover { background: var(--bg); }
+.gd-hot { position: absolute; z-index: 2; top: -11px; left: -11px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  font-size: 11.5px; font-weight: 800; font-style: normal; background: var(--marker); color: #fff; border: 2px solid var(--surface); box-shadow: 0 2px 6px rgb(0 0 0 / .25);
+  animation: hotpulse 2.4s ease-in-out infinite; }
+.gd-done summary .gd-hot, .gd-save summary .gd-hot { top: -8px; left: -16px; }
+.gd-box, .gd-dest, .gd-bay { padding-left: 32px; }
+.gd-box > .gd-hot, .gd-dest > .gd-hot, .gd-bay > .gd-hot { top: 0; left: 0; }
+.gd-hot:hover, .gd-hot.on { background: var(--accent); animation: none; transform: scale(1.12); }
+@keyframes hotpulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--marker) 55%, transparent), 0 2px 6px rgb(0 0 0 / .25); } 50% { box-shadow: 0 0 0 6px transparent, 0 2px 6px rgb(0 0 0 / .25); } }
+.gd-lit { outline: 3px solid var(--marker); outline-offset: 4px; border-radius: 10px; }
+.gd-pop { position: absolute; z-index: 5; display: grid; gap: 8px; padding: 14px 16px; border-radius: 12px; background: var(--navy); color: var(--navy-ink); box-shadow: var(--shadow-lift); font-size: 14px; }
+.gd-pop > b { display: flex; align-items: center; gap: 8px; font-size: 15px; padding-right: 24px; }
+.gd-pop > b i { font-style: normal; width: 22px; height: 22px; border-radius: 50%; background: var(--marker); display: grid; place-items: center; font-size: 11.5px; flex: none; }
+.gd-pop p { margin: 0; }
+.gd-pop .tip { color: var(--ink); }
+.gd-pop-x { position: absolute; top: 8px; right: 8px; appearance: none; border: 0; cursor: pointer; width: 26px; height: 26px; border-radius: 50%; background: rgb(255 255 255 / .14); color: inherit; font-size: 16px; }
+.gd-legend { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 4px 12px; }
+.gd-legend button { appearance: none; cursor: pointer; width: 100%; text-align: left; display: flex; gap: 8px; align-items: center; padding: 5px 8px; border: 0; border-radius: 8px; background: none; font: inherit; font-size: 13px; color: var(--ink); }
+.gd-legend button b { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--marker-soft); color: var(--marker); font-size: 11px; flex: none; }
+.gd-legend button:hover, .gd-legend button.on { background: var(--bg); }
+.gd-legend button.on b { background: var(--accent); color: var(--accent-ink); }
+@media (max-width: 560px) { .pf-row, .pf-lane { min-width: 0; flex-direction: column; align-items: stretch; gap: 4px; } .pf-split { display: none; } .pf-arrow { align-self: center; transform: rotate(90deg); } .pf-lanes { gap: 14px; } .pf-lane { padding: 10px; border-radius: 12px; background: var(--bg); } .pf-tag { width: auto; text-align: center; } .bm-root { padding: 0 0 10px; } .bm-root::after { display: none; } .bm-lanes { border-left: 0; padding-left: 0; } }
+
+/* ---- Claude's suggested additions ---- */
+mark.sugg { background: color-mix(in srgb, #7C5CFF 16%, transparent); color: inherit; border-bottom: 2px dashed #7C5CFF; border-radius: 2px; padding: 0 1px; }
+.sugg-tag { display: inline-block; vertical-align: middle; font-style: normal; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  color: #fff; background: #7C5CFF; border-radius: 999px; padding: 2px 8px; }
+.tracker .sugg-tag { font-size: 9px; padding: 1px 6px; }
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 
@@ -552,7 +703,7 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
       <p>Pick a lesson to watch the video and follow the written steps. Stuck? Ask GOA in the bottom corner.</p>
     </div>
     <div class="overall" id="overall"></div>
-    <p class="sample-note" id="sampleNote" hidden>Draft lessons from <code>Lessons.docx</code>. GOA is still answering from a sample manual until the CIS manual goes in.</p>
+    <p class="sample-note" id="sampleNote" hidden>Draft lessons from <code>Lessons.docx</code>. <mark class="sugg">Highlighted text</mark> and steps marked <span class="sugg-tag">Suggested</span> are Claude’s suggested additions: accept or reject them in Word under Review › Track Changes. GOA is still answering from a sample manual until the CIS manual goes in.</p>
   </div>
 </header>
 
@@ -607,8 +758,10 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const inline = (s) => esc(s)
-    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, t, u) => /^(https?:|file:|\.{0,2}\/)/i.test(u) ? `<a href="${u}" target="_blank" rel="noopener">${t}</a>` : m)
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`(.+?)`/g, "<code>$1</code>");
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, t, u) => /^goto:/i.test(u) ? `<a href="#" class="goto" data-goto="${u.slice(5)}">${t}</a>`
+      : /^(https?:|file:|\.{0,2}\/)/i.test(u) ? `<a href="${u}" target="_blank" rel="noopener">${t}</a>` : m)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`(.+?)`/g, "<code>$1</code>")
+    .replace(/\{\{\+([\s\S]*?)\+\}\}/g, '<mark class="sugg" title="Suggested by Claude: accept or reject it in Lessons.docx">$1</mark>');
   const pad = (n) => String(n).padStart(2, "0");
   function md(text) {
     let html = "", list = null, para = [];
@@ -905,7 +1058,14 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
   /* ---------- state ---------- */
   let progress = store.get();
   let current = null;
-  const sectionsOf = (l) => (l.video ? [{ id: "video", title: "Watch the video" }] : []).concat(l.steps.map((s, i) => ({ id: "step-" + i, title: s.title })));
+  // A branched lesson (e.g. Online / Offline move mode) follows one branch at a time
+  const branchOf = (l) => { const b = l.branches || [], s = progress[l.id] && progress[l.id]._branch; return b.includes(s) ? s : (b[0] || null); };
+  const shortBranch = (b) => (b || "").split(/\s+/)[0];
+  const sectionsOf = (l) => { const br = branchOf(l);
+    return (l.video ? [{ id: "video", title: "Watch the video" }] : [])
+      .concat(l.steps.map((s, i) => ({ id: "step-" + i, title: s.title, branch: s.branch || null, k: i, suggested: !!s.suggested })).filter(x => !x.branch || x.branch === br)); };
+  // the step where the branches split, and the steps on each branch
+  const branchPoint = (l) => { const f = l.steps.findIndex(s => s.branch); return f > 0 ? f - 1 : -1; };
   const doneMap = (l) => (progress[l.id] && typeof progress[l.id] === "object") ? progress[l.id] : {};
   const pct = (l) => { const s = sectionsOf(l), d = doneMap(l); return s.length ? Math.round(100 * s.filter(x => d[x.id]).length / s.length) : 0; };
   const maxNum = () => Math.max(0, ...LESSONS.map(l => l.num || 0));
@@ -948,6 +1108,7 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
 
   const shot = (src, cap) => `<figure class="shot"><button type="button" class="shot-btn" data-src="${esc(encodeURI(src))}" aria-label="Enlarge: ${esc(cap || "screenshot")}"><img src="${esc(encodeURI(src))}" alt="${esc(cap || "")}" loading="lazy"></button>${cap ? `<figcaption>${inline(cap)}</figcaption>` : ""}</figure>`;
   const tipBox = (b) => `<div class="tip ${b.type === "warn" ? "warn" : ""}"><b>${b.type === "warn" ? "Important" : "Tip"}</b>${inline(b.md)}</div>`;
+  const guidanceBlocks = [];
   function renderBlocks(blocks, title) {
     return blocks.map((b, i) => {
       if (b.skip) return "";
@@ -955,14 +1116,17 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
         case "text": return md(b.md);
         case "tip": case "warn": return tipBox(b);
         case "image": return shot(b.src, b.caption);
-        case "media": return b.src ? shot(b.src, b.desc)
+        case "media": if (!b.src && /flowchart/i.test(b.desc) && current && current.branches) return processFlow(current);
+          return b.src ? shot(b.src, b.desc)
           : `<div class="media-todo"><span>${b.kind === "gif" ? "GIF" : b.kind === "video" ? "Video" : "Screenshot"} coming</span><p>${inline(b.desc)}</p></div>`;
         case "goa": {
           // GOA's picture sits beside the paragraph that follows it
           const next = blocks[i + 1], text = next && next.type === "text" ? md(next.md) : "";
           return `<div class="meet-goa"><img src="goa-art/goa-waving.png" alt="GOA, a cartoon piece of granite drill core wearing a crown, waving"><div class="meet-goa-text">${text}<button type="button" class="btn primary" data-act="say-hi">Say hi to GOA</button></div></div>`;
         }
-        case "options": return `<div class="options">${b.items.map(it => `<details><summary><span>${inline(it.title)}</span><i aria-hidden="true"></i></summary><div class="opt-body">${md(it.md)}${(it.notes || []).map(tipBox).join("")}</div></details>`).join("")}</div>`;
+        case "options": return `<div class="options">${b.items.map(it => `<details><summary><span>${it.suggested ? `<mark class="sugg">${inline(it.title)}</mark>` : inline(it.title)}</span><i aria-hidden="true"></i></summary><div class="opt-body">${it.blocks ? renderBlocks(it.blocks) : md(it.md || "") + (it.notes || []).map(tipBox).join("")}</div></details>`).join("")}</div>`;
+        case "example": return /hole/i.test(b.name) ? `<div class="demo-mount" data-demo="holes"></div>` : "";
+        case "guidance": return `<div class="demo-mount" data-demo="guidance" data-block="${guidanceBlocks.push(b) - 1}"></div>`;
         default: return "";
       }
     }).join("");
@@ -974,12 +1138,16 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
   }
 
   function renderLesson() {
-    const l = current, d = doneMap(l), secs = sectionsOf(l);
-    let n = 0;
-    const section = (id, title, body) => {
-      n++; const done = !!d[id];
-      return `<section class="sec ${done ? "is-done" : ""}" id="sec-${id}" data-sec="${id}">
-        <div class="sec-head"><span class="sec-num">${done ? "✓" : n}</span><h3>${inline(title)}</h3>${checkBtn(id, done)}</div>${body}</section>`;
+    const l = current, d = doneMap(l), secs = sectionsOf(l), bp = branchPoint(l), br = branchOf(l);
+    guidanceBlocks.length = 0;
+    const section = (id, title, body, tag, sugg) => {
+      const done = !!d[id];
+      return `<section class="sec ${done ? "is-done" : ""}" id="sec-${id}" data-sec="${id}" hidden>
+        <div class="sec-head"><span class="sec-num">${done ? "✓" : ""}</span><h3>${inline(title)}${tag ? ` <span class="branch-tag">${esc(tag)}</span>` : ""}${sugg ? ` <span class="sugg-tag">Suggested</span>` : ""}</h3>${checkBtn(id, done)}</div>${body}</section>`;
+    };
+    const stepBody = (s, k) => {
+      const inBranch = l.branches && (k === bp || s.branch);
+      return `<div class="sec-body">${inBranch ? branchMap(l, "step-" + k) : ""}${s.blocks ? renderBlocks(prepBlocks(s.blocks), s.title) : legacyBody(s)}${k === bp ? branchChooser(l) : ""}</div>`;
     };
     $("lessonMain").innerHTML = `
       <div class="lesson-head">
@@ -989,12 +1157,13 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
         ${secs.length ? `<div class="chips">${l.video ? `<span class="chip">Video${l.duration ? " · " + esc(l.duration) : ""}</span>` : ""}<span class="chip">${secs.length} sections</span></div>` : ""}
       </div>
       ${l.video ? section("video", "Watch the video", `<div class="video-frame"><video controls preload="metadata" playsinline src="${esc(encodeURI(l.video))}"></video></div>`) : ""}
-      ${l.steps.map((s, k) => section("step-" + k, s.title, `<div class="sec-body">${s.blocks ? renderBlocks(prepBlocks(s.blocks), s.title) : legacyBody(s)}</div>`)).join("")}
+      ${l.steps.map((s, k) => (!s.branch || s.branch === br) ? section("step-" + k, s.title, stepBody(s, k), s.branch ? shortBranch(s.branch) : "", s.suggested) : "").join("")}
       ${secs.length ? `<nav class="stepnav bottom" id="stepBottom" aria-label="Lesson steps"></nav>` : ""}
       ${secs.length ? "" : `<div class="soon-box"><strong>This lesson is still being written.</strong><span>Check back soon, or ask GOA in the meantime.</span></div>`}
       <div class="lesson-end" id="lessonEnd"></div>`;
     $("tracker").hidden = !secs.length;
     $("lessonMain").querySelectorAll('[data-act="say-hi"]').forEach(b => b.addEventListener("click", () => openChat(true)));
+    $("lessonMain").querySelectorAll(".demo-mount").forEach(mountDemo);
 
     const v = $("lessonMain").querySelector("video");
     if (v) {
@@ -1010,10 +1179,305 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
     $("lessonMain").querySelectorAll(".check").forEach(b => b.addEventListener("click", () => setDone(b.dataset.sec, b.getAttribute("aria-pressed") !== "true")));
     if (secs.length) {
       const saved = progress[l.id] && progress[l.id]._step;
-      showStep(Number.isInteger(saved) ? saved : 0, false);
+      const at = typeof saved === "string" ? secs.findIndex(x => x.id === saved) : Number.isInteger(saved) ? saved : 0;
+      showStep(Math.max(0, at), false);
     }
     renderEnd();
     renderQuick();
+  }
+
+  /* ---------- branched lessons: chooser, path map, process flowchart ---------- */
+  const BRANCH_BLURB = {
+    online: ["On screen", "CIS guides you box by box on a laptop or tablet as you move."],
+    offline: ["On paper", "Print a slot sheet, do the move, then tell CIS what happened."]
+  };
+  function branchChooser(l) {
+    const br = branchOf(l);
+    return `<div class="bchoose" role="radiogroup" aria-label="Choose a connection type">
+      ${l.branches.map(b => { const s = shortBranch(b), bl = BRANCH_BLURB[s.toLowerCase()] || [s, `Follow the ${s.toLowerCase()} steps.`];
+        return `<button type="button" class="bchoice ${b === br ? "on" : ""}" role="radio" aria-checked="${b === br}" data-branch="${esc(b)}">
+          <span class="bc-tick" aria-hidden="true">${b === br ? "✓" : ""}</span><b>${esc(s)}</b><span class="bc-sub">${esc(bl[0])}</span><span>${esc(bl[1])}</span></button>`; }).join("")}
+    </div><p class="bchoose-note">Pick one to follow its steps. You can switch at any time from the flowchart or the progress box.</p>`;
+  }
+  // Compact flowchart of the split: the branch point, then one lane per branch
+  function branchMap(l, curId) {
+    const bp = branchPoint(l), br = branchOf(l);
+    const node = (k, extra = "") => { const id = "step-" + k, s = l.steps[k];
+      return `<button type="button" class="bm-node ${id === curId ? "cur" : ""} ${doneMap(l)[id] ? "done" : ""} ${extra}" data-goto-step="${id}" data-branch="${esc(s.branch || "")}">${esc(s.title)}</button>`; };
+    return `<div class="bmap" aria-label="Where this step sits">
+      <div class="bm-root">${node(bp)}</div>
+      <div class="bm-lanes">${l.branches.map(b => `<div class="bm-lane ${b === br ? "on" : ""}"><span class="bm-tag">${esc(shortBranch(b))}</span>
+        ${l.steps.map((s, k) => s.branch === b ? node(k) : "").filter(Boolean).join('<span class="bm-arrow" aria-hidden="true">→</span>')}</div>`).join("")}</div>
+    </div>`;
+  }
+  function setBranch(l, b, stepId, hot) {
+    progress[l.id] = doneMap(l); progress[l.id]._branch = b;
+    if (stepId) progress[l.id]._step = stepId;
+    else { const cur = progress[l.id]._step; const s = l.steps[+String(cur).replace("step-", "")];
+      if (s && s.branch && s.branch !== b) { // same position on the other branch
+        const mine = l.steps.map((x, k) => x.branch === s.branch ? k : -1).filter(k => k >= 0), other = l.steps.map((x, k) => x.branch === b ? k : -1).filter(k => k >= 0);
+        progress[l.id]._step = "step-" + other[Math.min(other.length - 1, mine.indexOf(+String(cur).replace("step-", "")))];
+      } }
+    store.set(progress);
+    renderLesson(); renderOverall();
+    if (hot) setTimeout(() => { const g = $("lessonMain").querySelector('.demo-mount[data-demo="guidance"]'); g && g._select && g._select(hot, true); }, 60);
+  }
+  // The whole move-mode process, as CIS lays it out
+  function processFlow(l) {
+    const find = (re, b) => { const k = l.steps.findIndex(s => re.test(s.title) && (!b || shortBranch(s.branch).toLowerCase() === b)); return k < 0 ? "" : `data-goto-step="step-${k}" data-branch="${esc(l.steps[k].branch || "")}"`; };
+    const n = (label, sub, at, hot) => `<button type="button" class="pf-node" ${at}${hot ? ` data-hot="${hot}"` : ""}><b>${label}</b>${sub ? `<small>${sub}</small>` : ""}</button>`;
+    const a = '<span class="pf-arrow" aria-hidden="true">→</span>';
+    return `<figure class="pflow"><div class="pf-row">
+        ${n("Upload move data", "Your list of boxes", find(/upload/i))}${a}${n("Connection mode", "Online or offline", find(/connection/i))}
+        <span class="pf-split" aria-hidden="true"></span>
+        <div class="pf-lanes">
+          <div class="pf-lane"><span class="pf-tag">Online</span>${n("Offload order", "", find(/offload/i, "online"))}${a}${n("Start move", "Guided box by box", find(/guidance/i, "online"))}${a}${n("Finish", "Save the move", find(/guidance/i, "online"), 13)}</div>
+          <div class="pf-lane"><span class="pf-tag">Offline</span>${n("Offload order", "", find(/offload/i, "offline"))}${a}${n("Slot sheet", "Print and move", find(/slot sheet/i, "offline"))}${a}${n("Back from the move", "Record changes, save", find(/return/i, "offline"))}</div>
+        </div></div>
+      <figcaption>Move mode, start to finish. Click a box to jump to that part of the lesson.</figcaption></figure>`;
+  }
+  $("lessonMain").addEventListener("click", (e) => {
+    const l = current; if (!l) return;
+    const g = e.target.closest(".goto");
+    if (g) { e.preventDefault(); const [b, hot] = g.dataset.goto.split("#");
+      const branch = (l.branches || []).find(x => shortBranch(x).toLowerCase() === b.toLowerCase());
+      const k = l.steps.findIndex(s => s.branch === branch && s.blocks && s.blocks.some(x => x.type === "guidance"));
+      if (branch) setBranch(l, branch, k >= 0 ? "step-" + k : null, hot ? +hot : null); return; }
+    const c = e.target.closest(".bchoice");
+    if (c) { setBranch(l, c.dataset.branch); return; }
+    const n = e.target.closest("[data-goto-step]");
+    if (n) { const b = n.dataset.branch, hot = n.dataset.hot ? +n.dataset.hot : null;
+      if (b && b !== branchOf(l)) setBranch(l, b, n.dataset.gotoStep, hot);
+      else { showStep(sectionsOf(l).findIndex(x => x.id === n.dataset.gotoStep));
+        if (hot) setTimeout(() => { const gd = $("lessonMain").querySelector('.demo-mount[data-demo="guidance"]'); gd && gd._select && gd._select(hot, true); }, 60); }
+    }
+  });
+
+  /* ---------- interactive examples ---------- */
+  function mountDemo(el) {
+    if (el.dataset.demo === "holes") holesDemo(el);
+    if (el.dataset.demo === "guidance") guidanceDemo(el, guidanceBlocks[+el.dataset.block] || { items: [] });
+  }
+
+  // 5-row sample of the Edit › Holes and boxes table: drag ⠿ to reorder, or type a slot
+  function holesDemo(root) {
+    const START = [["BFA1", "DD100", 1, 3, "0.00", "3.10"], ["BFA1", "DD100", 2, 3, "3.10", "6.20"], ["BFA1", "DD100", 3, 3, "6.20", "8.80"],
+                   ["BFA1", "DD101", 1, 2, "0.00", "3.00"], ["BFA1", "DD101", 2, 2, "3.00", "5.90"]];
+    let rows = START.map((r, i) => ({ id: i, f: r[0], h: r[1], b: r[2], o: r[3], from: r[4], to: r[5] }));
+    let msg = "", flash = new Set();
+    const slot = (i) => `A1-${i + 1}`;
+    const draw = () => {
+      root.innerHTML = `<div class="demo">
+        <div class="demo-bar"><span class="demo-tag">Try it</span><b>All boxes</b><span class="demo-count">${rows.length}</span><span class="demo-sp"></span><button type="button" class="demo-reset">Reset example</button></div>
+        <p class="demo-help">Listed in fill order. Drag <span class="kbd">⠿</span> to put a box in a different place in the order, or type a slot like <b>A1-5</b> to put it exactly there (boxes below it move down).</p>
+        <div class="demo-scroll"><table class="ht"><thead><tr><th></th><th>Planned slot</th><th>Feature</th><th>Hole ID</th><th class="num">Box</th><th class="num">Of</th><th class="num">From (m)</th><th class="num">To (m)</th></tr></thead>
+        <tbody>${rows.map((r, i) => `<tr data-i="${i}" class="${flash.has(r.id) ? "flash" : ""}">
+          <td><button type="button" class="ht-grip" aria-label="Move ${esc(r.h)} box ${r.b}. Drag, or use the arrow keys" data-i="${i}">⠿</button></td>
+          <td><input class="ht-slot" id="ht-slot-${r.id}" data-i="${i}" value="${slot(i)}" aria-label="Planned slot for ${esc(r.h)} box ${r.b}"></td>
+          <td>${esc(r.f)}</td><td class="mono">${esc(r.h)}</td><td class="num">${r.b}</td><td class="num">${r.o}</td><td class="num">${r.from}</td><td class="num">${r.to}</td></tr>`).join("")}</tbody></table></div>
+        <p class="demo-msg" aria-live="polite">${msg}</p></div>`;
+      flash = new Set();
+      root.querySelector(".demo-reset").onclick = () => { rows = START.map((r, i) => ({ id: i, f: r[0], h: r[1], b: r[2], o: r[3], from: r[4], to: r[5] })); msg = "Back to the original order."; draw(); };
+      root.querySelectorAll(".ht-slot").forEach(inp => {
+        const commit = () => {
+          if (!inp.isConnected || inp.dataset.done) return;
+          const i = +inp.dataset.i, v = inp.value.trim().toUpperCase(), m = v.match(/^A1-(\d+)$/);
+          if (v === slot(i)) return;
+          inp.dataset.done = "1";                 // Enter and the change event that follows count once
+          setTimeout(() => {
+            if (!m || +m[1] < 1 || +m[1] > rows.length) { msg = `In this example, type a slot from A1-1 to A1-${rows.length}.`; draw(); return; }
+            moveRow(i, +m[1] - 1, `${rows[i].h} box ${rows[i].b} now goes in ${v}. The boxes below it moved down.`);
+          }, 0);
+        };
+        inp.addEventListener("change", commit);
+        inp.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); commit(); } });
+      });
+      root.querySelectorAll(".ht-grip").forEach(g => {
+        g.addEventListener("keydown", (e) => {
+          const i = +g.dataset.i;
+          if (e.key === "ArrowUp" && i > 0) { e.preventDefault(); moveRow(i, i - 1, null, true); }
+          if (e.key === "ArrowDown" && i < rows.length - 1) { e.preventDefault(); moveRow(i, i + 1, null, true); }
+        });
+        g.addEventListener("pointerdown", (e) => startDrag(e, +g.dataset.i));
+      });
+    };
+    function moveRow(from, to, text, keepFocus) {
+      const before = rows.map(r => r.id);
+      const [r] = rows.splice(from, 1); rows.splice(to, 0, r);
+      rows.forEach((x, k) => { if (before[k] !== x.id) flash.add(x.id); });
+      msg = text || `${r.h} box ${r.b} moved to ${slot(to)}. Planned slots follow the new order.`;
+      draw();
+      if (keepFocus) root.querySelector(`.ht-grip[data-i="${to}"]`).focus();
+    }
+    function startDrag(e, i) {
+      e.preventDefault();
+      const tbody = root.querySelector("tbody"), trs = [...tbody.children], row = trs[i];
+      const mids = trs.map(tr => { const r = tr.getBoundingClientRect(); return r.top + r.height / 2; });
+      row.classList.add("dragging"); let to = i;
+      const move = (ev) => {
+        const y = ev.clientY; to = mids.filter(m => m < y).length; if (to > i) to--; to = Math.max(0, Math.min(rows.length - 1, to));
+        row.style.transform = `translateY(${y - mids[i]}px)`;
+        trs.forEach((tr, k) => tr.classList.toggle("drop-above", k === (to >= i ? to + 1 : to) && k !== i));
+      };
+      const up = () => { removeEventListener("pointermove", move); removeEventListener("pointerup", up); removeEventListener("pointercancel", up);
+        if (to !== i) moveRow(i, to); else draw(); };
+      addEventListener("pointermove", move); addEventListener("pointerup", up); addEventListener("pointercancel", up);
+    }
+    draw();
+  }
+
+  // Replica of CIS's online move screen with numbered parts you can click, and buttons that work
+  function guidanceDemo(root, block) {
+    const items = new Map(block.items.map(it => [it.n, it]));
+    const BOXES = {
+      a: { h: "DD100", b: 1, o: 4, f: "BFA1", d: "0.0–3.1" }, b: { h: "DD100", b: 2, o: 4, f: "BFA1", d: "3.1–6.2" },
+      c: { h: "DD100", b: 3, o: 4, f: "BFA1", d: "6.2–9.4" }, d: { h: "DD100", b: 4, o: 4, f: "BFA1", d: "9.4–12.6" },
+      e: { h: "DD101", b: 1, o: 3, f: "BFA1", d: "0.0–3.1" }, f: { h: "DD101", b: 2, o: 3, f: "BFA1", d: "3.1–6.0" },
+      g: { h: "DD101", b: 3, o: 3, f: "BFA1", d: "6.0–8.7" }, h: { h: "DD102", b: 1, o: 2, f: "BFA2", d: "0.0–2.9" } };
+    const BAYS = { B2: 8, B3: 4 };
+    const fresh = () => ({ queue: ["c", "d", "e", "f", "g", "h"], slots: ["B2-3", "B2-4", "B2-5", "B2-6", "B2-7", "B2-8", "B3-1", "B3-2"],
+      placed: [["a", "B2-1"], ["b", "B2-2"]], temp: [], pick: null, alt: false, not: false, gap: "next", loc: "", note: "", finish: "" });
+    let st = fresh(), sel = null;
+    const lab = (k) => `${BOXES[k].h} box ${BOXES[k].b}`;
+    const hot = (n) => items.has(n) ? `<span class="gd-hot ${sel === n ? "on" : ""}" data-n="${n}" role="button" tabindex="0" aria-label="What is ${n}?">${n}</span>` : "";
+    const cur = () => st.pick || st.queue[0];
+    const destOf = (k) => { const i = st.queue.indexOf(k); return i >= 0 ? st.slots[i] || null : null; };
+    const used = () => new Set(st.placed.map(p => p[1]));
+    const validLoc = (v) => /^[A-Z]\d+-\d+$/.test(v);
+    function placeAt(k, loc, how) {
+      const i = st.queue.indexOf(k), planned = st.slots[i];
+      st.queue.splice(i, 1);
+      if (loc === planned) st.slots.splice(i, 1);
+      else {
+        if (st.gap === "empty") st.slots.splice(i, 1);           // its slot stays empty
+        const j = st.slots.indexOf(loc); if (j >= 0) st.slots.splice(j, 1);
+      }
+      if (loc) st.placed.push([k, loc]); else st.temp.push(k);
+      st.note = how; st.pick = null; st.alt = false; st.not = false; st.loc = "";
+    }
+    const bayStrip = (dest) => { if (!dest) return ""; const [bay, sl] = dest.split("-"), n = BAYS[bay] || 8, u = used();
+      return `<div class="gd-bay" data-hot="3">${hot(3)}<span class="gd-label">Bay ${bay}</span><div class="gd-slots">${Array.from({ length: n }, (_, i) => {
+        const id = `${bay}-${i + 1}`; return `<span class="${id === dest ? "here" : u.has(id) ? "full" : ""}">${i + 1}</span>`; }).join("")}</div></div>`; };
+    function draw() {
+      const k = cur(), total = Object.keys(BOXES).length, done = st.placed.length, pct = Math.round(100 * done / total);
+      const dest = k ? destOf(k) : null, others = st.queue.filter(x => x !== k);
+      const up = others.slice(0, 3);
+      root.innerHTML = `<div class="demo gd">
+        <div class="demo-bar"><span class="demo-tag">Try it</span><b>Move the boxes</b><span class="demo-sp"></span><button type="button" class="demo-reset">Start the example again</button></div>
+        <p class="demo-help">Example data. Click a numbered circle to see what it does, and press the buttons to see what happens.</p>
+        <div class="gd-progress"><div class="gd-bar"><span style="width:${pct}%"></span></div><span>${done} of ${total} placed${st.temp.length ? ` · ${st.temp.length} on the temporary pallet` : ""}</span></div>
+        ${st.note ? `<div class="gd-msg">${st.note}</div>` : ""}
+        ${k ? `<div class="gd-card">
+          <div class="gd-box" data-hot="1">${hot(1)}<span class="gd-label">${st.pick ? "Picked out of order" : "Next off the pallet"}</span><b>${BOXES[k].h} <span>box</span> ${BOXES[k].b}<span> of ${BOXES[k].o}</span></b><span class="gd-sub">${BOXES[k].f} · ${BOXES[k].d} m</span></div>
+          <div class="gd-dest" data-hot="2">${hot(2)}<span class="gd-label">Goes to</span>${dest ? `<b>${dest}</b><span class="gd-sub">Row ${dest[0]} · Bay ${dest.split("-")[0].slice(1)} · Slot ${dest.split("-")[1]}</span>` : `<b>No slot</b><span class="gd-sub">Pick a slot below.</span>`}</div>
+          ${bayStrip(dest)}
+          <div class="gd-act">
+            ${dest ? `<span class="gd-wrap" data-hot="4">${hot(4)}<button type="button" class="gd-btn primary" data-a="put">✓ Put in ${dest}</button></span>` : ""}
+            <span class="gd-wrap" data-hot="5">${hot(5)}<button type="button" class="gd-btn ${st.alt ? "on" : ""}" data-a="alt">✗ It didn’t go there</button></span>
+            <span class="demo-sp"></span>
+            ${st.pick ? `<button type="button" class="gd-btn ghost" data-a="back">↩ Back to ${lab(st.queue[0])}</button>` : ""}
+            <span class="gd-wrap" data-hot="6">${hot(6)}<button type="button" class="gd-btn ${st.not ? "on" : ""}" data-a="not">Not this box?</button></span>
+          </div>
+          ${st.not ? `<div class="gd-panel"><b>Which box do you have?</b><span class="gd-sub">Closest in the pallet order first.</span>
+            <div class="gd-picks">${others.map(x => `<button type="button" class="gd-pick" data-a="pick" data-k="${x}"><b>${lab(x)}</b><span>${BOXES[x].f}</span><span class="gd-d">${destOf(x) || "no slot"}</span></button>`).join("") || "<span class='gd-sub'>No other boxes left.</span>"}</div></div>` : ""}
+          ${st.alt ? `<div class="gd-panel gd-alt">
+            <div><b>It didn’t fit</b><span class="gd-sub">Empty slots this box fits:</span><div class="gd-row">${["B4-1", "B4-2", "B4-3"].filter(x => !used().has(x)).map(x => `<button type="button" class="gd-btn mono" data-a="slot" data-loc="${x}">${x}</button>`).join("")}</div></div>
+            <div data-hot="8">${hot(8)}<b>It went in a different slot</b><div class="gd-row"><input id="gd-loc" class="mono" placeholder="e.g. B2-4" value="${esc(st.loc)}" aria-label="Slot it went in"><button type="button" class="gd-btn" data-a="record">Record it there</button></div></div>
+            ${dest ? `<div data-hot="9">${hot(9)}<b>The slot it was meant for (${dest})</b><div class="gd-seg"><button type="button" data-a="gap" data-v="next" aria-pressed="${st.gap === "next"}">Use it for the next box</button><button type="button" data-a="gap" data-v="empty" aria-pressed="${st.gap === "empty"}">Leave it empty</button></div></div>` : ""}
+            <div class="gd-row"><span class="gd-wrap" data-hot="7">${hot(7)}<button type="button" class="gd-btn" data-a="temp">Put it on the temporary pallet</button></span><button type="button" class="gd-btn ghost" data-a="alt">Cancel</button></div>
+          </div>` : ""}
+          <p class="gd-sub">Press Enter to confirm. Each box you confirm is locked into its slot and saved straight away.</p>
+        </div>` : `<div class="gd-msg"><b>All done.</b> Every box has been placed${st.temp.length ? `, except ${st.temp.length} on the temporary pallet` : ""}.</div>`}
+        <div class="gd-next" data-hot="10">${hot(10)}<b>Up next</b> <span class="gd-sub">tap one if that’s the box you’re holding</span>
+          <div class="gd-picks">${up.map(x => `<button type="button" class="gd-pick" data-a="pick" data-k="${x}"><b>${lab(x)}</b><span>${BOXES[x].f}</span><span class="gd-d">${destOf(x) || "no slot"}</span></button>`).join("") || "<span class='gd-sub'>Nothing left in the queue.</span>"}</div></div>
+        <div class="gd-temp" data-hot="11">${hot(11)}<b>Temporary pallet</b> <span class="gd-sub">${st.temp.length} box${st.temp.length === 1 ? "" : "es"}</span>
+          ${st.temp.length ? `<ul>${st.temp.map(x => `<li><span class="mono">${lab(x)}</span><span class="gd-row"><input class="mono gd-tloc" data-k="${x}" placeholder="Slot e.g. B4-2" aria-label="Slot for ${lab(x)}"><button type="button" class="gd-btn" data-a="tput" data-k="${x}">Put it there</button><button type="button" class="gd-btn ghost" data-a="tback" data-k="${x}">Back in the queue</button></span></li>`).join("")}</ul>` : `<p class="gd-sub">Boxes you send here wait for a slot. Try “It didn’t go there” › “Put it on the temporary pallet”.</p>`}</div>
+        <details class="gd-done" data-hot="12" ${st.placed.length > 2 || sel === 12 ? "open" : ""}><summary>${hot(12)}Placed so far <span class="gd-sub">${st.placed.length}</span></summary>
+          <table>${st.placed.map(([x, loc]) => `<tr><td class="mono">${lab(x)}</td><td class="mono"><b>${loc}</b></td><td><button type="button" class="gd-btn ghost small" data-a="undo" data-k="${x}">Undo</button></td></tr>`).join("")}</table></details>
+        <div class="gd-finish"><span class="gd-label">Finish</span>
+          <div class="gd-row">
+            <details class="gd-save" data-hot="13" ${sel === 13 ? "open" : ""}><summary>${hot(13)}Save ▾</summary><div class="gd-menu">
+              <button type="button" data-a="fin" data-v="move">Save to move <span>keep it in this core move</span></button>
+              <button type="button" data-a="fin" data-v="project">Save to project… <span>make it the shed’s saved layout</span></button></div></details>
+            <span class="gd-wrap" data-hot="14">${hot(14)}<button type="button" class="gd-btn" data-a="fin" data-v="more">Make more changes</button></span>
+            <span class="demo-sp"></span>
+            <span class="gd-wrap" data-hot="15">${hot(15)}<button type="button" class="gd-btn ghost" data-a="fin" data-v="over">Start over</button></span>
+          </div>${st.finish ? `<div class="gd-msg">${st.finish}</div>` : ""}</div>
+        <div class="gd-pop" role="status" hidden></div>
+      </div>
+      <ol class="gd-legend">${[...items.values()].map(it => `<li><button type="button" class="${sel === it.n ? "on" : ""}" data-legend="${it.n}"><b>${it.n}</b><span>${esc(cap(it.label))}</span></button></li>`).join("")}</ol>`;
+      wire();
+      if (sel) mark(sel, false);
+    }
+    const cap = (s) => s.replace(/\s*>\s*/g, " › ").replace(/^./, c => c.toUpperCase());
+    function mark(n, scroll) {
+      const tgt = root.querySelector(`[data-hot="${n}"]`), badge = root.querySelector(`.gd-hot[data-n="${n}"]`), it = items.get(n), pop = root.querySelector(".gd-pop");
+      root.querySelectorAll(".gd-lit").forEach(x => x.classList.remove("gd-lit"));
+      if (!tgt || !it) return;
+      tgt.classList.add("gd-lit");
+      const box = root.querySelector(".demo").getBoundingClientRect(), r = tgt.getBoundingClientRect(), rb = (badge || tgt).getBoundingClientRect();
+      pop.innerHTML = `<button type="button" class="gd-pop-x" aria-label="Close">×</button><b><i>${n}</i>${esc(cap(it.label))}</b>${md(it.md)}${it.tip ? tipBox({ type: "tip", md: it.tip }) : ""}`;
+      pop.hidden = false;
+      const w = Math.min(330, box.width - 24);
+      pop.style.width = w + "px";
+      pop.style.left = Math.max(12, Math.min(box.width - w - 12, rb.left - box.left - 4)) + "px";
+      pop.style.top = (r.bottom - box.top + 12) + "px";
+      pop.querySelector(".gd-pop-x").onclick = () => { sel = null; draw(); };
+      if (scroll) tgt.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" });
+    }
+    function select(n, scroll) {
+      sel = sel === n && !scroll ? null : n;
+      if ([7, 8, 9].includes(n) && sel) { st.alt = true; st.not = false; }
+      draw();
+      if (sel && scroll) mark(sel, true);
+    }
+    root._select = (n, scroll) => { sel = null; select(n, scroll); };
+    function wire() {
+      root.querySelector(".demo-reset").onclick = () => { st = fresh(); sel = null; draw(); };
+      root.querySelectorAll(".gd-hot").forEach(b => {
+        const go = (e) => { e.preventDefault(); e.stopPropagation(); select(+b.dataset.n, false); };
+        b.addEventListener("click", go);
+        b.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") go(e); });
+      });
+      root.querySelectorAll("[data-legend]").forEach(b => b.addEventListener("click", () => { sel = null; select(+b.dataset.legend, true); }));
+      const loc = root.querySelector("#gd-loc");
+      if (loc) { loc.addEventListener("input", () => st.loc = loc.value);
+        loc.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); act("record"); } }); }
+      root.querySelectorAll("[data-a]").forEach(b => b.addEventListener("click", (e) => { if (e.target.closest(".gd-hot")) return; act(b.dataset.a, b); }));
+    }
+    function act(a, b) {
+      sel = null;                                   // pressing a button closes the explanation
+      const k = cur(), dest = k ? destOf(k) : null;
+      const say = (t) => { st.finish = t; };
+      switch (a) {
+        case "put": placeAt(k, dest, `✓ ${lab(k)} is in <b>${dest}</b>. Here’s the next box.`); break;
+        case "alt": st.alt = !st.alt; st.not = false; break;
+        case "not": st.not = !st.not; st.alt = false; break;
+        case "pick": st.pick = b.dataset.k === st.queue[0] ? null : b.dataset.k; st.not = false; st.alt = false; st.note = st.pick ? `You picked ${lab(st.pick)} out of order. It goes to <b>${destOf(st.pick) || "no slot"}</b>.` : ""; break;
+        case "back": st.pick = null; st.note = ""; break;
+        case "gap": st.gap = b.dataset.v; break;
+        case "slot": placeAt(k, b.dataset.loc, `${lab(k)} went in <b>${b.dataset.loc}</b> instead. ${dest ? (st.gap === "empty" ? `${dest} is left empty.` : `${dest} goes to the next box.`) : ""}`); break;
+        case "record": { const v = (st.loc || "").trim().toUpperCase();
+          if (!validLoc(v)) { st.note = "Type a slot like <b>B2-4</b>, then press Record it there."; break; }
+          placeAt(k, v, `${lab(k)} recorded in <b>${v}</b>. ${dest && v !== dest ? (st.gap === "empty" ? `${dest} is left empty.` : `${dest} goes to the next box.`) : ""}`); break; }
+        case "temp": placeAt(k, null, `${lab(k)} is on the temporary pallet. Give it a slot later, or send it back into the queue.`); break;
+        case "tput": { const inp = root.querySelector(`.gd-tloc[data-k="${b.dataset.k}"]`), v = (inp.value || "").trim().toUpperCase();
+          if (!validLoc(v)) { st.note = "Type a slot like <b>B4-2</b> for the box on the pallet."; break; }
+          st.temp = st.temp.filter(x => x !== b.dataset.k); st.placed.push([b.dataset.k, v]); const j = st.slots.indexOf(v); if (j >= 0) st.slots.splice(j, 1);
+          st.note = `${lab(b.dataset.k)} moved off the pallet into <b>${v}</b>.`; break; }
+        case "tback": st.temp = st.temp.filter(x => x !== b.dataset.k); st.queue.unshift(b.dataset.k); st.slots.unshift(st.slots[0] || "B3-3"); st.note = `${lab(b.dataset.k)} is back in the queue, up next.`; break;
+        case "undo": { const i = st.placed.findIndex(p => p[0] === b.dataset.k), [x, l2] = st.placed.splice(i, 1)[0]; st.queue.unshift(x); st.slots.unshift(l2); st.pick = null; st.note = `Undone. ${lab(x)} is up next again, going to <b>${l2}</b>.`; break; }
+        case "fin": {
+          const v = b.dataset.v;
+          if (v === "move") say("<b>Saved to the core move.</b> The shed’s saved layout hasn’t changed. Save the move to the shed from the CIS home page when you’re ready.");
+          if (v === "project") say("<b>Save to the shed?</b> CIS lists what will change (new boxes, moved boxes, boxes on pallets) and asks you to confirm before it replaces the shed’s saved layout.");
+          if (v === "more") { say("Back to the move screen, so you can fix a slot or move boxes between pallets."); st.alt = false; }
+          if (v === "over") { st = fresh(); say("Started over. Every box is back in the queue."); }
+          break; }
+      }
+      draw();
+    }
+    draw();
   }
 
   /* ---------- one step at a time ---------- */
@@ -1021,26 +1485,33 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
   function showStep(i, scroll = true) {
     const l = current, secs = sectionsOf(l); if (!secs.length) return;
     stepIdx = Math.max(0, Math.min(secs.length - 1, i));
-    $("lessonMain").querySelectorAll(".sec").forEach((el, k) => {
-      el.hidden = k !== stepIdx;
-      if (k !== stepIdx) { const v = el.querySelector("video"); if (v) v.pause(); }
+    const d = doneMap(l);
+    secs.forEach((x, k) => { const el = $("sec-" + x.id); if (el) el.querySelector(".sec-num").textContent = d[x.id] ? "✓" : String(k + 1); });
+    $("lessonMain").querySelectorAll(".sec").forEach(el => {
+      const on = el.id === "sec-" + secs[stepIdx].id;
+      el.hidden = !on;
+      if (!on) { const v = el.querySelector("video"); if (v) v.pause(); }
     });
     currentSec = secs[stepIdx].id;
-    progress[l.id] = doneMap(l); progress[l.id]._step = stepIdx; store.set(progress);
+    progress[l.id] = doneMap(l); progress[l.id]._step = currentSec; store.set(progress);
     renderStepNav(); renderTracker(); renderEnd();
     if (scroll) $("lessonMain").scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" });
   }
   function nextStep() {
     const secs = sectionsOf(current), last = stepIdx === secs.length - 1;
     if (!doneMap(current)[secs[stepIdx].id]) setDone(secs[stepIdx].id, true);   // moving on counts as done
-    if (last) { renderEnd(); $("lessonEnd").scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); }
-    else showStep(stepIdx + 1);
+    if (!last) { showStep(stepIdx + 1); return; }
+    const nxt = LESSONS[LESSONS.indexOf(current) + 1];
+    if (nxt) { const first = sectionsOf(nxt)[0];        // open the next lesson at its first step
+      if (first) { progress[nxt.id] = doneMap(nxt); progress[nxt.id]._step = first.id; store.set(progress); }
+      route(nxt.id); }
+    else route("");
   }
   function renderStepNav() {
-    const secs = sectionsOf(current), n = secs.length, last = stepIdx === n - 1;
+    const secs = sectionsOf(current), n = secs.length, last = stepIdx === n - 1, nxtL = LESSONS[LESSONS.indexOf(current) + 1];
     const html = `<button type="button" class="stepbtn prev" data-dir="-1" ${stepIdx === 0 ? "disabled" : ""}><i aria-hidden="true">←</i><span>Previous</span></button>
       <div class="stepinfo"><b>Step ${stepIdx + 1} of ${n}</b><span class="stepdots" aria-hidden="true">${secs.map((s, k) => `<i class="${k === stepIdx ? "on" : ""} ${doneMap(current)[s.id] ? "done" : ""}"></i>`).join("")}</span></div>
-      <button type="button" class="stepbtn next" data-dir="1"><span>${last ? "Finish" : "Next"}</span><i aria-hidden="true">${last ? "✓" : "→"}</i></button>`;
+      <button type="button" class="stepbtn next" data-dir="1" ${last ? `title="${nxtL ? "Start " + esc(nxtL.title) : "Back to all lessons"}"` : ""}><span>${!last ? "Next" : nxtL ? "Next lesson: " + esc(nxtL.title) : "All lessons"}</span><i aria-hidden="true">${last && !nxtL ? "⌂" : "→"}</i></button>`;
     ["stepTop", "stepBottom"].forEach(id => {
       const nav = $(id); if (!nav) return;
       nav.innerHTML = html;
@@ -1052,7 +1523,7 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
   function renderEnd() {
     const l = current, p = pct(l), next = LESSONS[LESSONS.indexOf(l) + 1];
     const n = sectionsOf(l).length;
-    $("lessonEnd").hidden = n > 0 && stepIdx !== n - 1;
+    $("lessonEnd").hidden = n > 0;
     $("lessonEnd").innerHTML = `<p>${!n ? "More lessons are on the way." : p === 100 ? "Lesson complete. Nice work!" : "Mark each section done as you go to track your progress."}</p>
       <button class="btn" type="button" data-nav="home">All lessons</button>
       ${next ? `<button class="btn primary" type="button" data-nav="${next.id}">Next: ${esc(next.title)} →</button>` : ""}`;
@@ -1069,7 +1540,9 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
         <div><strong>Your progress</strong><span>${done} of ${secs.length} sections done</span></div>
         <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
       </button>
-      <ol>${secs.map((s, n) => `<li><button type="button" data-target="sec-${s.id}" class="${d[s.id] ? "done" : ""} ${s.id === cur.id ? "current" : ""}"><span class="dot">${d[s.id] ? "✓" : n + 1}</span>${inline(s.title)}</button></li>`).join("")}</ol>`;
+      <ol>${secs.map((s, n) => `<li><button type="button" data-target="sec-${s.id}" class="${d[s.id] ? "done" : ""} ${s.id === cur.id ? "current" : ""}"><span class="dot">${d[s.id] ? "✓" : n + 1}</span><span>${inline(s.title)}${s.branch ? ` <em class="branch-tag">${esc(shortBranch(s.branch))}</em>` : ""}${s.suggested ? ` <em class="sugg-tag">New</em>` : ""}</span></button></li>`).join("")}</ol>
+      ${l.branches ? `<div class="tracker-switch">${l.branches.filter(b => b !== branchOf(l)).map(b => `<button type="button" data-branch="${esc(b)}">Switch to ${esc(shortBranch(b))} steps</button>`).join("")}</div>` : ""}`;
+    $("tracker").querySelectorAll("[data-branch]").forEach(b => b.addEventListener("click", () => setBranch(l, b.dataset.branch)));
     $("trackerToggle").addEventListener("click", () => {
       if (!matchMedia("(max-width: 900px)").matches) return;
       $("tracker").classList.toggle("open"); $("trackerToggle").setAttribute("aria-expanded", $("tracker").classList.contains("open"));
@@ -1095,10 +1568,10 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
     const l = current; progress[l.id] = doneMap(l);
     if (on) progress[l.id][sid] = true; else delete progress[l.id][sid];
     store.set(progress);
-    const sec = $("sec-" + sid); sec.classList.toggle("is-done", on);
-    sec.querySelector(".sec-num").innerHTML = on ? "✓" : String(sectionsOf(l).findIndex(s => s.id === sid) + 1);
-    sec.querySelector(".check").outerHTML = checkBtn(sid, on);
-    sec.querySelector(".check").addEventListener("click", (e) => setDone(sid, e.currentTarget.getAttribute("aria-pressed") !== "true"));
+    const sec = $("sec-" + sid); if (sec) sec.classList.toggle("is-done", on);
+    if (sec) sec.querySelector(".sec-num").innerHTML = on ? "✓" : String(sectionsOf(l).findIndex(s => s.id === sid) + 1);
+    if (sec) { sec.querySelector(".check").outerHTML = checkBtn(sid, on);
+    sec.querySelector(".check").addEventListener("click", (e) => setDone(sid, e.currentTarget.getAttribute("aria-pressed") !== "true")); }
     renderTracker(); renderEnd(); renderOverall();
     if ($("stepBottom")) renderStepNav();
   }
