@@ -1,34 +1,67 @@
-# Held-out questions: never used for tuning. This score is the honest one.
-how do I start a new project => Choosing a project
-can I see what's in a slot => The shed map
-do the column names have to match exactly => CSV format
-what units are the depths in => CSV format
-my rows are coming up red when importing => Import errors
-how do I sort the boxes by hole => Grouping boxes
-can I select a range of boxes => Grouping boxes
-do boxes from the same hole stay in order => Placing boxes on racks
-what's the dashed outline on a box => Placing boxes on racks
-the slot is full => Clashes and red slots
-can I redo something I undid => Undoing a move
-does undo still work after I close the project => Undoing a move
-what's the dot next to the project name => Saving a project
-what's in the move list file => Exporting a move list
-someone else's name is showing in a banner => Working with other people
-can two of us work at once => Working with other people
-which browser should I use => The app won't open or shows a blank page
-what does from and to mean => Terms
-what's a slot => Terms
+# Held-out questions: written before GOA's engine and never used for tuning. This score is the honest one.
+# question => Section title | NONE | CLARIFY | CHAT:<kind> | LESSONS | LESSON:<n> › <step>     "> " = follow-up
 
-# follow-ups
-how do I import a csv => Running an import
-> can I do it with more than one hole => Running an import
-> what about duplicates => Import errors
-how do I save => Saving a project
-> where does it go => Saving a project
-> and how do I export a move list => Exporting a move list
+# --- how-to, in people's own words
+where's the cis file kept => Opening CIS
+it opens weird in my browser => Opening CIS
+whats the data folder called => Connecting to the shared folder
+can i get rid of the data folder => Never delete the [Data] folder
+my mate and i are both in the same project => Two people editing the same project
+how do i start a new dam => Projects
+i want to add a second core shed => Adding sheds to a project
+why is the shed locked for editing => Sheds and core moves
+how do i make my move the real layout => Saving a move to the shed
+whats the best way to keep a copy of my project => Project backups
+i messed up, can i get an older version back => Restoring a backup
+how do i get rid of an old project => Renaming, copying or deleting a project
+i want the shed in excel => Exporting a shed or core move
+does it take csv files => Spreadsheet columns and file types
+my headings didn't line up => Matching columns
+how do i find where DD100 is => Searching and filtering
+how many empty slots are there => Statistics
+how do i lock everything in row b => Lock list
+what's the blue label on a box => Held boxes
+will a 1.1 m tray fit anywhere => Size panel and Will it fit?
+how do i join two rows together => Rearranging rows on the map
+how do i put a north arrow on the map => Adding elements to the map
+how do i make a picture of the layout => Saving the map as a PNG
+what does a temporary pallet do => Pallets
+do i need to sort my box list first => Uploading a pallet sheet
+i just want to shuffle boxes that are already in there => Moving boxes already in the shed
+should i do the move on paper or on the laptop => Online or offline
+what's the difference between pallet order and slot order => Offload order
+the box wouldn't go in the slot it said => When a box doesn't go in its slot
+i grabbed the wrong tray => Holding the wrong box
+i put a box in by mistake during the move => Undoing a placement
+how do i print the checklist => Slot sheet (offline)
+i'm back from moving boxes on paper, now what => After an offline move
+how do i fix duplicate boxes => Issues
+how do i move a box further up the order => Changing a box's planned slot
+how do i remove a bay => Bay settings
+can i add my own column => Advanced settings
+the page is blank => CIS won't open
+what does hole id mean => Terms
 
-# off-topic / vague
-what's for lunch => NONE
-tell me a joke => NONE
-how do I fix it => CLARIFY
-help => CLARIFY
+# --- follow-ups
+how do i make a backup => Project backups
+> and how do i load it again => Restoring a backup
+what does held mean => Held boxes
+> how do i get rid of it => Held boxes
+
+# --- lessons
+which lesson shows how to use the shed map => LESSON:5 › The basics
+is there a video on move mode => LESSON:6 › Overview
+what lessons are there => LESSONS
+i'm new, where should i begin => LESSONS
+
+# --- small talk
+hello => CHAT:greeting
+how's your day going => CHAT:how-are-you
+what can you help with => CHAT:what-do-you-do
+cheers mate => CHAT:thanks
+hey goa, how do i add a shed => Adding sheds to a project
+
+# --- off topic and vague
+what's the capital of france => NONE
+how do i bake bread => NONE
+how do i fix it => CLARIFY

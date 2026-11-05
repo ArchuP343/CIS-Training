@@ -336,6 +336,9 @@ def main():
         extra = f", branches: {' / '.join(l['branches'])}" if l.get("branches") else ""
         print(f"{name}: {l['title']} — {len(l['steps'])} steps{', video ' + l['video'] if l['video'] else ''}{extra}")
     print(f"Wrote {OUT.name}")
+    goa = HERE / "build-goa.py"                  # rebuild GOA too, so he knows the latest lessons' manual
+    if goa.exists():
+        import runpy; runpy.run_path(str(goa), run_name="__main__")
 
 
 if __name__ == "__main__":

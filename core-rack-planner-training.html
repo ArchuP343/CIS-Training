@@ -232,8 +232,11 @@ figcaption { font-size: 13px; color: var(--muted); }
 .quick { display: flex; gap: 6px; overflow-x: auto; padding: 8px 14px; background: var(--bg); scrollbar-width: none; }
 .pill { appearance: none; cursor: pointer; flex: none; font-size: 13px; border: 1px solid var(--accent); color: var(--accent); background: var(--surface); padding: 5px 11px; border-radius: 99px; white-space: nowrap; }
 .pill:hover { background: var(--accent); color: var(--accent-ink); }
-.related { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 8px 36px; }
-.related .pill { white-space: normal; text-align: left; font-size: 12.5px; }
+.related, .alts, .feedback { flex: none; }
+.related, .alts { display: flex; flex-wrap: nowrap; align-items: center; gap: 5px; margin: -2px 0 8px 40px; overflow-x: auto; scrollbar-width: none; font-size: 11.5px; color: var(--muted); }
+.related::-webkit-scrollbar, .alts::-webkit-scrollbar { display: none; }
+.related > span, .alts > span { flex: none; white-space: nowrap; }
+.related .pill, .alts .pill { flex: none; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11.5px; padding: 2px 9px; line-height: 1.5; }
 form.compose { display: flex; gap: 8px; align-items: center; padding: 10px 12px 12px; border-top: 1px solid var(--line); background: var(--surface); }
 form.compose input { flex: 1; min-width: 0; font: inherit; font-size: 15px; padding: 10px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
 form.compose input:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
@@ -586,6 +589,35 @@ mark.sugg { background: color-mix(in srgb, #7C5CFF 16%, transparent); color: inh
   color: #fff; background: #7C5CFF; border-radius: 999px; padding: 2px 8px; }
 .tracker .sugg-tag { font-size: 9px; padding: 1px 6px; }
 
+/* ---- GOA chat extras ---- */
+.chat-head { position: relative; }
+.chat-head .x + .x { margin-left: -6px; }
+.chat-menu { position: absolute; top: calc(100% - 4px); right: 12px; z-index: 3; display: grid; min-width: 240px; padding: 6px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-lift); }
+.chat-menu button { appearance: none; border: 0; background: none; text-align: left; cursor: pointer; padding: 9px 10px; border-radius: 8px; font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); }
+.chat-menu button:hover { background: var(--bg); }
+.bubble ol.steps-list { margin: 4px 0 8px; padding-left: 22px; display: grid; gap: 4px; }
+.bubble ol { padding-left: 20px; }
+.bubble .also { font-size: 13.5px; }
+.src-inline { color: var(--muted); font-size: 12px; }
+.lesson-links { display: grid; gap: 6px; margin-top: 10px; justify-items: start; }
+.lesson-link { appearance: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-align: left; padding: 7px 12px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; font-weight: 700; }
+.lesson-link span { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--brand); color: var(--brand-ink); font-size: 9px; flex: none; }
+.lesson-link:hover { border-color: var(--brand); background: color-mix(in srgb, var(--brand) 8%, var(--surface)); }
+.feedback { display: flex; align-items: center; gap: 6px; margin: -4px 0 8px 40px; font-size: 12.5px; color: var(--muted); flex-wrap: wrap; }
+.feedback button { appearance: none; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 3px 10px; font: inherit; font-size: 12.5px; }
+.feedback button:hover:not(:disabled) { border-color: var(--accent); }
+.feedback button:disabled { cursor: default; opacity: .5; }
+.feedback button.on, .alts .pill.on { opacity: 1; border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+.feedback button.off, .alts .pill.off { opacity: .4; }
+
+
+.alts .pill.ghost { border-color: var(--line); color: var(--muted); }
+.alts .pill:disabled { cursor: default; }
+.alts .pill:disabled:hover { background: var(--surface); color: var(--accent); }
+.alts .pill.on:disabled:hover { background: var(--accent-soft); color: var(--ink); }
+.try { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; color: var(--accent); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 
@@ -598,14 +630,15 @@ mark.sugg { background: color-mix(in srgb, #7C5CFF 16%, transparent); color: inh
 const CONFIG = {
   appName: "Core Inventory System",
   showSampleNotice: true,        // set to false once you've swapped in your own content
-  helpContact: "the Core Rack Planner owner",
+  helpContact: "the person who looks after CIS",
+  showSuggestions: false,        // true highlights Claude's tracked-change suggestions from Lessons.docx
   storageKey: "crp-training-v2",
   // Set to "hammer", "lens", "stomp", "drill", "downunder", "baby" or "friend" to make GOA do that adventure
   // after 3 seconds of idle, every time. Set back to "" before sharing.
   goaTest: "",
   botName: "GOA",
   botTitle: "Lord of Core",
-  botGreeting: "Greetings, traveller! I am GOA, Lord of Core. I know this program inside out. Ask me anything and I'll find you the answer."
+  botGreeting: "Greetings, traveller! I am GOA, Lord of Core. Ask me how to do anything in CIS, what a word means, or which lesson covers something."
 };
 
 </script>
@@ -613,87 +646,8 @@ const CONFIG = {
 <!-- Lessons are built from Lessons/Lessons.docx by build-lessons.py -->
 <script src="lessons-data.js"></script>
 
-<!-- ============================================================
-     MANUAL — paste your manual here as Markdown.
-     # = chapter, ## / ### = section. Keep sections short and
-     titled the way people ask questions. Name a chapter the same
-     as a lesson's "manualSection" to favour it on that lesson.
-     Under any heading, add example phrasings people might use:
-       Questions: how do I undo | I stuffed up | go back a step
-     GOA matches these as well as the text. They are never shown.
-     ============================================================ -->
-<script type="text/markdown" id="manual">
-# Getting started
-
-## Opening the app
-Core Rack Planner runs from the program folder on the shared drive. Open `Core Rack Planner.html` from that folder in your web browser. Always open it from the shared folder rather than a copy on your desktop, because the app saves and loads project data from the `data` folder that sits beside it.
-
-To get the latest version, download the app file from the GitHub releases page and replace the old file in the program folder. Your project data in the `data` folder is not affected.
-
-## Choosing a project
-The start screen lists every project in the data folder, newest first. Click a project to open it. Choose **New project** to create one; you'll be asked for a project name and which shed it covers. The open project's name is always shown in the top bar.
-
-## The shed map
-The shed map shows the core shed as a set of racks. Each rack is a column of bays and each bay has numbered shelf slots. Empty slots are outlined. Occupied slots are filled and labelled with the hole ID of the boxes in them. Hover over a slot to see every box it holds, with box numbers and depths. Use the zoom buttons or Ctrl + scroll to zoom the map.
-
-# Importing core boxes
-
-## CSV format
-The import needs a CSV file with these columns: Hole ID, Box number, From (m), To (m) and Feature. Column names don't have to match exactly; the import preview lets you match each column by hand. Depths are in metres and can have up to two decimal places. Feature is optional but needed if you want to group by feature later.
-
-## Running an import
-Open the **Boxes** panel and choose **Import CSV**, then pick your file. The preview shows the first 20 rows with each column matched. Check the matches and choose **Import**. You can import several holes in one file.
-
-## Import errors
-Rows that fail are listed in red with a reason. Common reasons are a missing hole ID, a missing box number, a depth that isn't a number, or a To depth that is smaller than the From depth. Fix the rows in your spreadsheet and import the file again. Re-importing a box with the same hole ID and box number updates it instead of creating a duplicate.
-
-# Planning moves
-
-## Grouping boxes
-In the **Boxes** panel, choose **Group by** and pick feature, hole, box or depth. Each group has a checkbox on its heading that selects every box in the group. You can also select single boxes, or hold Shift to select a range.
-
-## Placing boxes on racks
-Drag selected boxes onto a slot on the shed map. The planner fills that slot and the following slots in order. Boxes from the same hole stay in depth order. A placed box shows a dashed outline until you save the plan.
-
-## Clashes and red slots
-A slot turns red when there's a clash: the slot is already full, or the boxes don't fit in the space. Click a red slot to see what clashes. Move the boxes to another slot or remove them from the plan with **Remove from plan**. You can't export a move list while any clashes remain.
-
-## Undoing a move
-Questions: how do I undo | I made a mistake, go back | I stuffed up a placement | take a box out of the plan | reverse my last change | ctrl z
-Press Ctrl+Z to undo the last placement, or Ctrl+Y to redo it. To remove a box from the plan entirely, select it and choose **Remove from plan**. Undo history is cleared when you close the project.
-
-# Saving and sharing
-
-## Saving a project
-Questions: where is my plan saved | how do I save | did it save | where does my work go | have I saved
-Choose **Save** in the top bar. The project is saved to the `data` folder in the program folder on the shared drive. The top bar shows the time it was last saved. Unsaved changes are marked with a dot next to the project name.
-
-## Exporting a move list
-Questions: send the shed crew the list | give the crew the moves | print the moves | get a list of moves
-Choose **Export → Move list** to create a CSV of every planned move. Each row lists the hole ID, box number, depths, the current slot and the new slot. The file is saved in the `exports` folder. Clear all clashes before exporting.
-
-## Working with other people
-Only one person should edit a project at a time. If someone else has a project open, a banner shows their name when you open it. Wait for them to close it, or choose **Open a copy** to work on a separate version. Two people saving the same project will overwrite each other's changes.
-
-# Troubleshooting
-
-## The app won't open or shows a blank page
-Questions: the planner is just white | nothing loads | the screen is empty | the app is broken
-Make sure you're opening the file from the shared program folder and that you're connected to the work network. Try a different browser such as Edge or Chrome.
-
-## My project is missing
-Questions: I can't find my project | my project disappeared | where did my project go | project not in the list
-Projects only appear if they're in the `data` folder next to the app file. If you opened a copy of the app from somewhere else, it won't see the shared data. Open the app from the shared program folder.
-
-# Glossary
-
-## Terms
-- **Hole ID**: the identifier of the drill hole the core came from.
-- **Box**: one core tray, numbered in depth order down the hole.
-- **From / To**: the top and bottom depth of the core in a box, in metres.
-- **Feature**: the dam feature or site area the hole relates to.
-- **Slot**: one shelf position in a rack bay.
-</script>
+<!-- What GOA knows: built from the goa folder by build-goa.py (build-lessons.py runs it) -->
+<script src="goa-data.js"></script>
 
 <header class="top">
   <div class="wrap">
@@ -703,7 +657,7 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
       <p>Pick a lesson to watch the video and follow the written steps. Stuck? Ask GOA in the bottom corner.</p>
     </div>
     <div class="overall" id="overall"></div>
-    <p class="sample-note" id="sampleNote" hidden>Draft lessons from <code>Lessons.docx</code>. <mark class="sugg">Highlighted text</mark> and steps marked <span class="sugg-tag">Suggested</span> are Claude’s suggested additions: accept or reject them in Word under Review › Track Changes. GOA is still answering from a sample manual until the CIS manual goes in.</p>
+    <p class="sample-note" id="sampleNote" hidden>Draft lessons from <code>Lessons.docx</code>. GOA is answering from a first-pass manual (<code>goa/manual.md</code>) until the full CIS manual goes in.</p>
   </div>
 </header>
 
@@ -761,7 +715,7 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, t, u) => /^goto:/i.test(u) ? `<a href="#" class="goto" data-goto="${u.slice(5)}">${t}</a>`
       : /^(https?:|file:|\.{0,2}\/)/i.test(u) ? `<a href="${u}" target="_blank" rel="noopener">${t}</a>` : m)
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`(.+?)`/g, "<code>$1</code>")
-    .replace(/\{\{\+([\s\S]*?)\+\}\}/g, '<mark class="sugg" title="Suggested by Claude: accept or reject it in Lessons.docx">$1</mark>');
+    .replace(/\{\{\+([\s\S]*?)\+\}\}/g, CONFIG.showSuggestions ? '<mark class="sugg" title="Suggested by Claude: accept or reject it in Lessons.docx">$1</mark>' : "$1");
   const pad = (n) => String(n).padStart(2, "0");
   function md(text) {
     let html = "", list = null, para = [];
@@ -852,19 +806,59 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
     </svg>`;
   }
 
-  /* GOA-ENGINE-START — GOA's question answering. No page code in here, so the test script can run it too. */
-  function createEngine(manualSrc, extraSynonyms = {}) {
+  /* GOA-ENGINE-START — GOA's brain. No page code in here, so the test script runs exactly this. */
+  function createEngine(manualSrc, opts = {}) {
+    const lessons = opts.lessons || [], talk = opts.smallTalk || [], rand = opts.random || Math.random;
+    const norm = (m) => { m = m && typeof m === "object" ? m : {};
+      return { v: 1, votes: m.votes && typeof m.votes === "object" ? m.votes : {}, good: Array.isArray(m.good) ? m.good : [], fixes: Array.isArray(m.fixes) ? m.fixes : [] }; };
+    const memory = norm(opts.memory), learned = norm(opts.learned);
+
+    /* ---------- words ---------- */
     const STOP = new Set(("a an the and or but if of to in on at for with by from is are was were be been being it its this that these those i me you we they my your our " +
-      "can do does did how what why when where which who will would should could may might there here as so not no into out up about then than too very just also " +
-      "get got have has had want need use using help please tell know any some all goa lord core im i'm ok okay hey hi thanks thank " +
-      "whats thats theres heres wheres hows whos lets something anything thing things stuff bit way really still mean means").split(" "));
-    const SYNONYMS = Object.assign({
-      delete: "remove", erase: "remove", unplace: "remove", tray: "box", trays: "box", shelf: "slot", shelves: "slot", position: "slot",
-      location: "slot", spreadsheet: "csv", excel: "csv", upload: "import", load: "import", print: "export", download: "export", conflict: "clash",
-      red: "clash", reverse: "undo", revert: "undo", store: "save", stored: "save", colleague: "other", team: "share", fail: "error", failed: "error", wrong: "error",
-      pick: "choose", newest: "latest", update: "latest", crew: "share", sort: "group",
-      undid: "undo", redid: "redo", chose: "choose", saw: "see", went: "go", broke: "broken", gone: "missing", lost: "missing"
-    }, extraSynonyms);
+      "can do does did how what why when where which who will would should could may might there here as so not into out up about then than too very just also " +
+      "get got have has had want use using help please tell know any some all goa lord core im i'm ok okay hey hi thanks thank " +
+      "whats thats theres heres wheres hows whos lets something anything thing things stuff bit way really still mean means like kind " +
+      "go going am one ones mine yours mate now again bit its it's i'd i've ive dont don't").split(" "));
+    // Synonym clusters: every member is read as the first word
+    const CLUSTERS = [
+      ["box", "tray", "trays", "core tray", "core trays", "core box", "core boxes", "boxes"],
+      ["hole", "borehole", "boreholes", "drillhole", "drillholes", "drill hole", "drill holes", "bh", "holes"],
+      ["slot", "shelf", "shelves", "position", "positions", "spot", "spots", "location", "locations"],
+      ["remove", "delete", "erase", "get rid of", "deleting", "removing"],
+      ["undo", "revert", "reverse", "take back", "undid"],
+      ["issue", "issues", "problem", "problems", "error", "errors", "bookkeeping", "double up", "doubled up", "duplicate", "duplicates", "dupes"],
+      ["spreadsheet", "csv", "xlsx", "xls", "tsv", "excel", "spreadsheets"],
+      ["import", "upload", "uploading", "importing"],
+      ["png", "picture", "image", "jpg", "screenshot"],
+      ["feature", "structure", "feature id", "feature ids"],
+      ["folder", "shared folder", "data folder", "shared drive", "network drive", "drive"],
+      ["lock", "padlock", "locked", "unlock", "unlocked", "locking"],
+      ["held", "held box", "held boxes", "holding boxes", "holding box"],
+      ["search", "find", "locate", "look up", "lookup", "look for", "searching", "finding"],
+      ["project", "projects", "dam", "weir", "asset"],
+      ["browser", "edge", "chrome", "firefox", "safari", "internet explorer"],
+      ["backup", "back up", "backups", "backed up", "copy of my project"],
+      ["restore", "recover", "older version", "old version", "previous version", "get back"],
+      ["size", "sizes", "dimension", "dimensions"],
+      ["colour", "color", "colours", "colors", "coloured"],
+      ["print", "printout", "print out", "printing"],
+      ["offline", "paper", "on paper"],
+      ["online", "laptop", "tablet", "on screen", "computer"],
+      ["wrong box", "different box", "grabbed the wrong", "holding the wrong", "picked up the wrong"],
+      ["blank", "white page", "nothing loads", "won't load", "wont load", "empty page"],
+      ["join", "merge", "combine", "joining", "merging"],
+      ["checklist", "slot sheet", "check list"],
+      ["sort", "order", "ordering", "sorted"],
+      ["map", "shed map", "top down", "top-down"],
+      ["export", "download", "save as excel"],
+      ["new", "brand new"],
+      ["choose", "pick", "picks", "decide", "decides", "assign", "assigns", "chosen", "chooses"],
+      ["save", "store", "stored", "storing", "saved"],
+      ["without", "no", "don't have", "dont have", "haven't got"],
+      ["cis", "program", "software", "app", "application", "core inventory system", "planner", "tool"],
+      ["missing", "gone", "lost", "disappeared", "vanished", "cant find", "can't find"],
+      ["required", "require", "requires", "need", "needs", "necessary", "mandatory", "compulsory"]
+    ];
     function stem(w) {
       if (w.length > 4 && w.endsWith("ies")) w = w.slice(0, -3) + "y";
       else if (w.length > 3 && w.endsWith("s") && !w.endsWith("ss")) w = w.slice(0, -1);
@@ -874,19 +868,49 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
       if (w.length > 3 && w[w.length - 1] === w[w.length - 2] && !/[aeiou]/.test(w[w.length - 1])) w = w.slice(0, -1);
       return w;
     }
-    // Synonyms apply to the word as typed and to its trimmed form, so "fails", "failed" and "failing" all become "error"
-    const SYN_STEM = {}; for (const k in SYNONYMS) SYN_STEM[stem(k)] = stem(SYNONYMS[k]);
-    const tokenize = (s) => s.toLowerCase().replace(/[’']/g, "").split(/[^a-z0-9]+/).filter(t => t && !STOP.has(t))
-      .map(t => { const st = stem(SYNONYMS[t] || t); return SYN_STEM[st] || st; });
-    const sentences = (s) => s.split(/(?<=[.!?])\s+(?=[A-Z`*"(])/).map(x => x.trim()).filter(Boolean);
+    const PHRASES = [], WORD = {};
+    CLUSTERS.forEach(([canon, ...rest]) => [canon, ...rest].forEach(w => { if (/\s/.test(w)) PHRASES.push([w, canon]); else WORD[w] = canon; }));
+    PHRASES.sort((a, b) => b[0].length - a[0].length);
+    const PHRASE_RE = PHRASES.map(([w, c]) => [new RegExp("\\b" + w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "\\s+") + "\\b", "g"), " " + c.replace(/\s+/g, "_") + " "]);
+    const STEM_CANON = {}; for (const w in WORD) STEM_CANON[stem(w)] = stem(WORD[w]);
+    const lower = (s) => String(s || "").toLowerCase().replace(/[’‘`]/g, "'");
+    function prep(s) { let t = lower(s).replace(/'/g, ""); for (const [re, c] of PHRASE_RE) t = t.replace(re, c); return t; }
+    const seq = (s) => prep(s).split(/[^a-z0-9_]+/).filter(t => t && !STOP.has(t))
+      .map(t => { if (t.includes("_")) return t; const st = stem(WORD[t] || t); return STEM_CANON[st] || st; });
+    const tokenize = (s) => seq(s);
+
+    /* ---------- intents: what someone is trying to do ---------- */
+    const INTENTS = {
+      output: ["export", "print", "download", "png", "pdf", "template", "excel", "picture", "printout"],
+      save: ["save", "saving", "keep it", "make it permanent", "make the move", "real layout"],
+      backup: ["backup", "back up", "restore", "recover", "older version", "old version", "copy of my project", "get back"],
+      import: ["import", "upload", "spreadsheet", "csv", "columns", "headings", "pallet sheet"],
+      find: ["search", "find", "locate", "where is", "filter", "look for", "how many"],
+      move: ["move", "moving", "relocate", "shift", "shuffle", "rearrange", "reorder", "offload"],
+      create: ["create", "new", "add", "make a", "set up", "setup", "start a"],
+      edit: ["edit", "change", "rename", "update", "adjust", "modify", "fix"],
+      remove: ["delete", "remove", "get rid", "clear"],
+      lock: ["lock", "unlock", "held", "hold", "padlock", "locked"],
+      fit: ["fit", "size", "dimension", "threshold", "width", "length", "big enough"],
+      connect: ["connect", "shared folder", "permission", "access", "browser", "edge", "chrome"],
+      trouble: ["won't", "wont", "can't", "cant", "not working", "broken", "missing", "blank", "doesn't", "isn't", "weird", "gone", "disappeared"]
+    };
+    const INTENT_RE = Object.fromEntries(Object.entries(INTENTS).map(([k, ws]) => [k, new RegExp("\\b(" + ws.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/'/g, "'?")).join("|") + ")", "i")]));
+    const intentsOf = (s) => { const t = lower(s); return new Set(Object.keys(INTENT_RE).filter(k => INTENT_RE[k].test(t))); };
+
+    /* ---------- the manual and the lessons, cut into sections ---------- */
+    // split into sentences, but not after "e.g." or "i.e."
+    const sentences = (s) => s.replace(/\b(e\.g|i\.e)\.\s+/g, "$1.\u2060").split(/(?<=[.!?])\s+(?=[A-Z`*"‘(\[])/).map(x => x.trim().replace(/\u2060/g, " ")).filter(Boolean);
     function toUnits(text) {
       const out = []; let listId = 0;
       for (const block of text.split(/\n\s*\n/)) {
         let para = [];
         const flush = () => { if (para.length) { sentences(para.join(" ")).forEach(t => out.push({ t, type: "p" })); para = []; } };
         for (const raw of block.split("\n")) {
-          const line = raw.trim(), m = line.match(/^(?:[-*]|\d+\.)\s+(.*)/);
-          if (m) { flush(); const prev = out[out.length - 1]; if (!prev || prev.type !== "li") listId++; out.push({ t: m[1], type: "li", list: listId }); }
+          const line = raw.trim(), m = line.match(/^([-*]|\d+\.)\s+(.*)/);
+          if (m) { flush(); const prev = out[out.length - 1], ord = /\d/.test(m[1]);
+            if (!prev || prev.type !== "li" || prev.ordered !== ord) listId++;
+            out.push({ t: m[2], type: "li", list: listId, ordered: ord }); }
           else if (line) para.push(line);
         }
         flush();
@@ -894,78 +918,151 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
       out.forEach(u => u.terms = new Set(tokenize(u.t)));
       return out;
     }
-
-    /* --- index the manual. "Questions: a | b | c" lines under a heading are example phrasings for that section --- */
-    const chunks = []; let chapter = "", section = null, buf = [], qs = [];
-    const push = () => {
-      const text = buf.join("\n").trim();
-      if (text || qs.length) chunks.push({ chapter, title: section || chapter || "Manual", text, questions: qs });
-      buf = []; qs = [];
-    };
-    for (const line of manualSrc.split("\n")) {
-      const h = line.match(/^(#{1,3})\s+(.*)/), q = line.match(/^\s*(?:questions?|q)\s*:\s*(.*)$/i);
-      if (h) { push(); if (h[1].length === 1) { chapter = h[2].trim(); section = null; } else section = h[2].trim(); }
-      else if (q) qs.push(...q[1].split("|").map(x => x.trim()).filter(Boolean));
-      else buf.push(line);
+    const chunks = [];
+    {
+      let chapter = "", section = null, buf = [], qs = [], ref = null;
+      const push = () => {
+        const text = buf.join("\n").trim();
+        if (section && (text || qs.length)) chunks.push({ kind: "manual", chapter, title: section, text, questions: qs, lessonRef: ref });
+        buf = []; qs = []; ref = null;
+      };
+      for (const line of String(manualSrc || "").split("\n")) {
+        const h = line.match(/^(#{1,3})\s+(.*)/), q = line.match(/^\s*questions?\s*:\s*(.*)$/i), l = line.match(/^\s*lesson\s*:\s*(.*)$/i);
+        if (h) { push(); if (h[1].length === 1) { chapter = h[2].trim(); section = null; } else section = h[2].trim(); }
+        else if (q) qs.push(...q[1].split("|").map(x => x.trim()).filter(Boolean));
+        else if (l) ref = l[1].trim();
+        else buf.push(line);
+      }
+      push();
     }
-    push();
+    // every lesson step is a section too, so GOA knows the lessons and can point to them
+    const clean = (s) => String(s || "").replace(/\{\{\+|\+\}\}/g, "").replace(/\[([^\]]+)\]\((?:goto:)?[^)]*\)/g, "$1");
+    const capFirst = (s) => s.replace(/^./, c => c.toUpperCase());
+    function flat(blocks) {
+      const out = [];
+      (blocks || []).forEach(b => {
+        if (["text", "tip", "warn"].includes(b.type)) out.push(clean(b.md));
+        else if (b.type === "options") b.items.forEach(it => out.push(clean(it.title) + ": " + flat(it.blocks || []).replace(/\n+/g, " ")));
+        else if (b.type === "guidance") b.items.forEach(it => out.push(capFirst(clean(it.label)) + ": " + clean(it.md) + (it.tip ? " " + clean(it.tip) : "")));
+      });
+      return out.join("\n\n");
+    }
+    lessons.forEach(l => (l.steps || []).forEach((s, k) => {
+      const text = flat(s.blocks);
+      if (!text.trim()) return;
+      chunks.push({ kind: "lesson", chapter: l.num == null ? "Overview" : `Lesson ${l.num}: ${l.title}`, title: s.title, text, questions: [],
+        lesson: { id: l.id, num: l.num, k, step: s.title, title: l.title, branch: s.branch || null } });
+    }));
     chunks.forEach(c => {
-      const toks = tokenize(c.text).concat(tokenize(c.title), tokenize(c.title), tokenize(c.chapter));
-      c.len = toks.length; c.tf = {}; toks.forEach(t => c.tf[t] = (c.tf[t] || 0) + 1);
+      c.key = c.kind === "manual" ? "m:" + c.title : "l:" + c.lesson.id + ":" + c.lesson.k;
+      c.titleTerms = new Set(tokenize(c.title));
+      const titleSeq = tokenize(c.title), bodySeq = tokenize(c.text);
+      const all = titleSeq.concat(titleSeq, tokenize(c.chapter), bodySeq);
+      c.len = all.length; c.tf = {}; all.forEach(t => c.tf[t] = (c.tf[t] || 0) + 1);
+      c.bigrams = new Set(); [titleSeq, bodySeq].forEach(sq => sq.forEach((t, i) => i && c.bigrams.add(sq[i - 1] + " " + t)));
       c.units = toUnits(c.text);
       c.qTerms = c.questions.map(q => [...new Set(tokenize(q))]).filter(a => a.length);
+      c.qBigrams = new Set(); c.questions.forEach(q => { const sq = tokenize(q); sq.forEach((t, i) => i && c.qBigrams.add(sq[i - 1] + " " + t)); });
       c.vocab = new Set([...Object.keys(c.tf), ...c.qTerms.flat()]);
+      c.intentsStrong = intentsOf(c.title + " " + c.questions.join(" "));
+      c.intentsWeak = intentsOf(c.text);
     });
+    // manual sections link to a lesson step ("Lesson: 6 › Move guidance")
+    const lessonChunks = chunks.filter(c => c.kind === "lesson");
+    chunks.forEach(c => {
+      if (c.kind !== "manual" || !c.lessonRef) return;
+      const m = c.lessonRef.match(/^(\d+|overview)\s*[›>:\-–]\s*(.+)$/i); if (!m) return;
+      const num = /^(0|overview)$/i.test(m[1]) ? null : +m[1], step = m[2].trim().toLowerCase();
+      const hit = lessonChunks.find(x => x.lesson.num === num && x.title.toLowerCase().startsWith(step));
+      if (hit) c.lessonLink = hit.lesson;
+    });
+    const byKey = new Map(chunks.map(c => [c.key, c]));
     const df = {}; chunks.forEach(c => c.vocab.forEach(t => df[t] = (df[t] || 0) + 1));
     const N = chunks.length, avg = chunks.reduce((a, c) => a + c.len, 0) / Math.max(1, N);
     const idf = (t) => { const d = df[t] || 0; return Math.log(1 + (N - d + .5) / (d + .5)); };
+    function sim(a, b) {         // idf-weighted overlap of two term lists, 0–1
+      const A = new Set(a), B = new Set(b); let both = 0, sa = 0, sb = 0;
+      A.forEach(t => { const w = idf(t); sa += w; if (B.has(t)) both += w; }); B.forEach(t => sb += idf(t));
+      return sa && sb ? both / Math.sqrt(sa * sb) : 0;
+    }
 
-    /* --- follow-up detection: refers back, continues, or has almost nothing of its own --- */
-    const REFERS_BACK = /\b(it|that|this|them|those|these|there|one)\b/i;
-    const CONTINUES = /^\s*(and|also|then|so|but|ok(ay)?|what about|how about|what if)\b/i;
-    const isFollowUp = (q, terms) => terms.length <= 1 || REFERS_BACK.test(q) || CONTINUES.test(q) && terms.length <= 2;
+    /* ---------- what GOA has learned from feedback ---------- */
+    function learning(terms) {
+      const bonus = new Map(), add = (k, v) => bonus.set(k, (bonus.get(k) || 0) + v);
+      for (const src of [learned, memory]) {
+        for (const [t, key] of src.good) { const s = sim(terms, t); if (s >= .55) add(key, 2.5 * s); }
+        for (const [t, wrong, right] of src.fixes) { const s = sim(terms, t); if (s >= .55) { add(right, 4 * s); add(wrong, -3 * s); } }
+      }
+      return bonus;
+    }
+    function reputation(key) {
+      const a = learned.votes[key] || [0, 0], b = memory.votes[key] || [0, 0], up = a[0] + b[0], down = a[1] + b[1];
+      return .85 + .3 * ((up + 1) / (up + down + 2));          // 0.85 (always unhelpful) … 1.15 (always helpful)
+    }
 
-    /* --- ranking --- */
-    const Q_WEIGHT = 6;   // how much a close match to an example question counts, versus the manual text itself
-    function rank(weights, chapterBoost, ctxChunk) {
+    /* ---------- ranking ---------- */
+    const Q_WEIGHT = 6;
+    function rank(weights, order, opt = {}) {
       const k1 = 1.2, b = .75, qNorm = Math.sqrt([...weights].reduce((s, [t, w]) => s + w * idf(t), 0)) || 1;
-      return chunks.map(c => {
+      const qIntents = opt.intents || new Set(), learnt = opt.learnt || new Map();
+      const pairs = []; order.forEach((t, i) => i && pairs.push(order[i - 1] + " " + t));
+      return chunks.filter(c => !opt.kinds || opt.kinds.includes(c.kind)).map(c => {
         let score = 0;
-        for (const [t, w] of weights) {
-          const f = c.tf[t]; if (!f) continue;
-          score += w * idf(t) * (f * (k1 + 1)) / (f + k1 * (1 - b + b * c.len / avg));
-        }
+        for (const [t, w] of weights) { const f = c.tf[t]; if (!f) continue;
+          score += w * idf(t) * (f * (k1 + 1)) / (f + k1 * (1 - b + b * c.len / avg)); }
         let qBest = 0;
-        for (const qt of c.qTerms) {
-          let common = 0; for (const t of qt) if (weights.has(t)) common += weights.get(t) * idf(t);
-          if (common) qBest = Math.max(qBest, common / (qNorm * Math.sqrt(qt.reduce((s, t) => s + idf(t), 0))));
-        }
-        // Only a close paraphrase counts: half-matching an example question adds nothing
-        score += Q_WEIGHT * Math.max(0, (qBest - .5) / .5);
-        if (chapterBoost && c.chapter === chapterBoost) score *= 1.25;
-        if (ctxChunk) { if (c === ctxChunk) score *= 1.5; else if (c.chapter === ctxChunk.chapter) score *= 1.15; }
+        for (const qt of c.qTerms) { let common = 0; for (const t of qt) if (weights.has(t)) common += weights.get(t) * idf(t);
+          if (common) qBest = Math.max(qBest, common / (qNorm * Math.sqrt(qt.reduce((s, t) => s + idf(t), 0)))); }
+        score += Q_WEIGHT * Math.max(0, (qBest - .5) / .5);                 // a close paraphrase of an example question
+        const phrase = pairs.filter(p => c.bigrams.has(p) || c.qBigrams.has(p)).length;
+        score += .7 * phrase;                                               // words in the same order
+        if (score > 0) { const tt = c.titleTerms; if (tt.size) score += 1.5 * [...tt].filter(t => weights.has(t)).length / tt.size; }   // heading match
+        if (score > 0 && opt.where) score += Math.min(1.5, ["folder", "tab", "menu", "button", "bar", "panel", "page"].filter(t => c.tf[stem(t)]).length * .5);
+        if (score > 0) qIntents.forEach(it => { if (c.intentsStrong.has(it)) score += .9; else if (c.intentsWeak.has(it)) score += .25; });
+        if (score > 0) score += learnt.get(c.key) || 0;                     // answers people said helped
+        score *= reputation(c.key);
+        if (c.kind === "lesson") score *= .85;                              // the manual answers; lessons are for pointing to
+        if (opt.chapter && c.kind === "lesson" && c.lesson.id === opt.chapter) score *= 1.2;
+        if (opt.chapter && c.kind === "manual" && c.lessonLink && c.lessonLink.id === opt.chapter) score *= 1.1;
+        if (opt.ctx) { if (c === opt.ctx) score *= 1.5; else if (c.chapter === opt.ctx.chapter) score *= 1.15; }
         return { c, score, qBest };
       }).filter(r => r.score > 0).sort((a, b) => b.score - a.score);
     }
 
-    /* --- choose the 1–3 sentences that answer it --- */
-    const HINTS = { where: ["folder", "slot", "panel", "menu", "bar"], when: ["until", "after", "befor", "onc"] };
-    const DOING = /^(\*\*)?(choose|click|press|open|select|drag|go|use|hold|type|enter|pick|fix|move|make|check|save|wait|put|add|set|wait|close|import|export)\b/i;
+    // "**Feature ID**: the structure…" defines what was asked about. In a glossary the term only has to
+    // contain the words asked about ("slot" → "Row, bay and slot"); elsewhere it must be exactly them.
+    const isGlossary = (c) => /glossary|terms|definitions/i.test(c.chapter + " " + c.title);
+    function definesExactly(u, terms, c) {
+      const m = u.t.match(/^\*\*([^*]+)\*\*\s*[:—–-]/); if (!m || !terms.length) return false;
+      const head = new Set(tokenize(m[1]));
+      if (c && isGlossary(c)) return terms.every(t => head.has(t));
+      return head.size === new Set(terms).size && terms.every(t => head.has(t));
+    }
+
+    /* ---------- picking the sentences that answer it ---------- */
+    const HINTS = { where: ["folder", "slot", "panel", "menu", "bar", "tab", "button"], when: ["until", "after", "befor", "onc"] };
+    const DOING = /^(\*\*)?(choose|click|press|open|select|drag|go|use|hold|type|enter|pick|fix|move|make|check|save|wait|put|add|set|close|import|export|upload|print|tick|give|copy|scroll|search|load|allow|agree|navigate|hit|unlock|lock|change|edit|follow|rename|turn|try)\b/i;
     function snippet(results, weights, question, preferChunk) {
-      const qw = (question.toLowerCase().match(/^\W*(\w+)/) || [])[1];
+      const owner = new Map(); results.slice(0, 3).forEach(r => r.c.units.forEach(u => owner.set(u, r.c)));
+      const snipChunk = (u) => owner.get(u);
+      const qw = (lower(question).match(/^\W*(\w+)/) || [])[1];
       const wantSteps = qw === "how" || /\b(steps?|procedure|process|way to)\b/i.test(question);
       const hints = (HINTS[qw] || []).filter(h => !weights.has(h));
-      const hasTerm = (u) => [...weights.keys()].some(t => u.terms.has(t));
-      const defining = /^\s*(what'?s|what is|what are|define|meaning of)\b/i.test(question);
+      const defining = /^\s*(what'?s|what is|what are|what does .+ mean|define|meaning of)\b/i.test(question);
       const unitScore = (u) => {
         let s = 0; for (const [t, w] of weights) if (u.terms.has(t)) s += w * idf(t);
-        if (s && defining && /^\*\*[^*]+\*\*\s*[:—–-]/.test(u.t)) s += 1.5;
         if (s) s += hints.reduce((a, h) => a + (u.terms.has(h) ? idf(h) * .6 : 0), 0);
+        if (s && defining && definesExactly(u, [...weights.keys()], snipChunk(u))) s += 1.5;
         if (wantSteps && DOING.test(u.t) && (s || preferChunk)) s += 1.2;
         return s;
       };
       let best = null;
-      results.slice(0, 3).filter(r => r.score >= results[0].score * .85).forEach((r, ri) => {
+      if (defining) {                    // "what is X?" with a glossary entry for X: lead with that definition
+        const c0 = results[0].c, terms = [...weights.keys()].filter(t => weights.get(t) >= 1);
+        const i = c0.units.findIndex(u => definesExactly(u, terms, c0));
+        if (i >= 0) best = { c: c0, i, s: unitScore(c0.units[i]), total: 0 };
+      }
+      if (!best) results.slice(0, 3).filter(r => r.score >= results[0].score * .85 && r.c.kind === results[0].c.kind).forEach((r, ri) => {
         const head = new Set(tokenize(r.c.title)); let headBonus = 0;
         for (const [t, w] of weights) if (head.has(t)) headBonus += w * idf(t) * .8;
         r.c.units.forEach((u, i) => {
@@ -974,81 +1071,224 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
           if (!best || total > best.total) best = { c: r.c, i, s, total };
         });
       });
-      // Matched through an example question but no sentence shares the words: open the section from the top
+      // A strong match on the section itself (its example questions, or a short section): start from the top
       if (!best || (results[0].qBest > .75 && best.c !== results[0].c)) {
         const c = results[0].c; if (!c.units.length) return null;
-        const lead = c.units.findIndex(u => wantSteps && DOING.test(u.t));
+        const lead = c.units.findIndex(u => wantSteps && (DOING.test(u.t) || u.type === "li"));
         best = { c, i: lead >= 0 ? lead : 0, s: 1, total: 0 };
+      }
+      if (wantSteps && !best.c.units[best.i].ordered) {          // "how do I…": a numbered procedure is the answer
+        const ol = best.c.units.findIndex(u => u.ordered); if (ol >= 0) best.i = ol;
       }
       const U = best.c.units, pick = new Set([best.i]), b = U[best.i];
       const listItems = (id) => U.map((u, k) => ({ u, k })).filter(x => x.u.type === "li" && x.u.list === id);
-      const addList = (id) => { const items = listItems(id); (items.length <= 6 ? items : items.filter(x => unitScore(x.u) > 0)).forEach(x => pick.add(x.k)); };
+      const addList = (id) => { const items = listItems(id); (items.length <= 8 ? items : items.filter(x => unitScore(x.u) > 0)).forEach(x => pick.add(x.k)); };
       if (b.type === "li") {
         const first = listItems(b.list)[0].k;
         if (first > 0 && U[first - 1].type === "p") pick.add(first - 1);
         addList(b.list);
       } else {
         if (/:$/.test(b.t) && U[best.i + 1] && U[best.i + 1].type === "li") addList(U[best.i + 1].list);
-        if (/^(It|This|That|They|These|Those|Then)\b/.test(b.t) && best.i > 0 && U[best.i - 1].type === "p") pick.add(best.i - 1);
+        if (/^(It|This|That|They|These|Those|Then|Its)\b/.test(b.t) && best.i > 0 && U[best.i - 1].type === "p") pick.add(best.i - 1);
         const sentCount = () => [...pick].filter(k => U[k].type === "p").length;
         const next = U[best.i + 1];
         if (next && next.type === "p" && b.t.split(/\s+/).length < 16 && unitScore(next) > 0) pick.add(best.i + 1);
+        if (next && next.type === "li" && /:$/.test(b.t)) addList(next.list);
         U.map((u, k) => ({ k, s: u.type === "p" ? unitScore(u) : 0 })).filter(x => !pick.has(x.k) && x.s >= best.s * .6)
           .sort((a, c) => c.s - a.s).forEach(x => { if (sentCount() < 3) pick.add(x.k); });
         const words = () => [...pick].reduce((n, k) => n + U[k].t.split(/\s+/).length, 0);
         const lastK = Math.max(...pick), after = U[lastK + 1];
-        if (words() < 18 && after) { if (after.type === "li") addList(after.list); else pick.add(lastK + 1); }
+        if (words() < 18 && after && !/^\*\*[^*]+\*\*\s*[:—–-]/.test(after.t)) { if (after.type === "li") addList(after.list); else pick.add(lastK + 1); }
       }
-      return { c: best.c, idxs: [...pick].sort((a, c) => a - c) };
+      const idxs = [...pick].sort((a, c) => a - c);
+      return { c: best.c, idxs, wantSteps, defining, unitScore, bestScore: best.s };
     }
 
-    /* --- the one entry point ---
-       ctx: the section GOA last answered from (or null). Returns one of:
-       { kind: "answer", chunk, idxs, related, followUp }  |  { kind: "clarify" }  |  { kind: "none" } */
-    function answer(question, { chapter = null, ctx = null } = {}) {
-      const terms = [...new Set(tokenize(question))];
-      let follow = !!ctx && isFollowUp(question, terms);
-      if (!terms.length && !follow) return { kind: "clarify" };
-      // "How do I fix it?" with nothing to refer back to: ask rather than guess
-      if (!ctx && terms.length === 1 && REFERS_BACK.test(question) && ["fix", "chang", "work", "mak", "stop", "handl", "sort"].includes(terms[0])) return { kind: "clarify" };
+    /* ---------- turning sentences into an answer ---------- */
+    function actionOf(q) {
+      const m = lower(q).replace(/[?!.]+$/, "").match(/^(?:hi|hey|hello|g'?day)?[, ]*(?:goa[, ]*)?(?:how (?:do|can|should|would|could) (?:i|you|we|someone)|how to|can i|is there a way to|i want to|i need to|i'd like to|how do you)\s+(.+)$/);
+      if (!m) return null;
+      let a = m[1].replace(/\b(in|on|with|using) cis$/, "").trim();
+      a = a.replace(/\bmy\b/g, "your").replace(/\bi\b/g, "you").replace(/\bme\b/g, "you").replace(/\bi'm\b/g, "you're");
+      return a.split(/\s+/).length <= 9 ? a : null;
+    }
+    function compose(snip, question) {
+      const U = snip.c.units, steps = [], notes = [];
+      if (snip.wantSteps) {
+        snip.idxs.forEach(k => {
+          const u = U[k];
+          if ((u.type === "li" && u.ordered) || (u.type === "p" && DOING.test(u.t))) {
+            // "Do this, then do that." reads better as two steps
+            u.t.split(/,? then (?=[a-z])|; then /).forEach(part => steps.push({ t: capFirst(part.replace(/\.$/, "")) + ".", k }));
+          } else notes.push(k);
+        });
+      }
+      const action = actionOf(question);
+      if (steps.length >= 2) return { format: "steps", steps, notes, intro: action ? `To ${action}:` : "Here's how:" };
+      return { format: "text", intro: null };
+    }
+    // Method 2: add one more useful sentence from another section, if it says something new
+    function stitch(results, snip, weights) {
+      const picked = new Set(snip.idxs.flatMap(k => [...snip.c.units[k].terms]));
+      for (const r of results.slice(1, 3)) {
+        if (r.c === snip.c || r.c.kind !== "manual" || r.score < results[0].score * .65) continue;
+        let best = null;
+        r.c.units.forEach((u, i) => { if (u.type !== "p") return; const s = snip.unitScore(u);
+          const novel = [...u.terms].filter(t => !picked.has(t)).length / Math.max(1, u.terms.size);
+          if (s >= Math.max(1.5, snip.bestScore * .6) && novel > .5 && (!best || s > best.s)) best = { u, s, i }; });
+        if (best) return { chunk: r.c, t: best.u.t };
+      }
+      return null;
+    }
+
+    /* ---------- small talk ---------- */
+    const chatNorm = (s) => lower(s).replace(/'/g, "").replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim()
+      .replace(/\s+(goa|mate|buddy|pal|lord of core|my friend|bot)$/, "").replace(/^(goa|oi goa)\s+/, "").trim();
+    const TALK = talk.map(e => ({ id: e.id, replies: e.replies,
+      full: e.match.filter(m => !m.startsWith("~")).map(chatNorm), contains: e.match.filter(m => m.startsWith("~")).map(m => chatNorm(m.slice(1))) }));
+    const PREFIXABLE = new Set(["greeting", "thanks", "ok", "how-are-you"]);
+    const pickReply = (e) => e.replies[Math.floor(rand() * e.replies.length) % e.replies.length];
+    function smallTalk(q) {
+      const n = chatNorm(q), words = n.split(" ").filter(Boolean);
+      if (!n) return null;
+      for (const e of TALK) if (e.full.includes(n)) return { full: true, id: e.id, reply: pickReply(e) };
+      if (words.length <= 7) for (const e of TALK) if (e.contains.some(c => (" " + n + " ").includes(" " + c + " "))) return { full: true, id: e.id, reply: pickReply(e) };
+      // a hello or thanks in front of a real question
+      for (const e of TALK) {
+        if (!PREFIXABLE.has(e.id)) continue;
+        const p = e.full.filter(f => n.startsWith(f + " ")).sort((a, b) => b.length - a.length)[0];
+        if (!p) continue;
+        const restWords = q.trim().split(/\s+/).slice(p.split(" ").length);
+        let rest = restWords.join(" ").replace(/^[\s,.!;:—–-]+/, "").replace(/^(goa|mate)\b[\s,.!]*/i, "");
+        // just the first sentence ("G'day!", "No worries!") before getting on with the question
+        if (rest.split(/\s+/).length >= 2) return { full: false, id: e.id, reply: (pickReply(e).match(/^.*?[.!?](?=\s|$)/) || [""])[0], rest };
+      }
+      return null;
+    }
+
+    /* ---------- lessons ---------- */
+    const LIST_LESSONS = /^(?:what|which)\s+lessons\b|\b(?:list|show)(?: me)?(?: (?:all|the))? (?:the )?lessons\b|\bwhere (?:do|should|can) i (?:start|begin)\b|\b(?:i'?m|im|i am) new\b|\bnew (?:here|to (?:cis|this))\b|\bwhat lessons\b|\bhow (?:do|can) i learn (?:cis|this|the (?:software|program))\b|\bwhat should i (?:do|learn) first\b/i;
+    const LESSON_FOR = /\b(?:which|what) lessons?\b(?:\s+(?:covers?|is|talks?|explains?|teach(?:es)?|shows?|has|for|about|on|me|how|to|use|using))*|\blessons? (?:on|about|for|covering)\b|\b(?:is there an?|are there any|any) (?:lessons?|tutorials?|videos?)\b(?:\s+(?:on|about|for))?|\bwhere can i learn(?: about| how to)?\b|\btutorials? (?:on|about|for)\b|\bvideos? (?:on|about|for)\b|\bteach me(?: about| how to)?\b/i;
+
+    /* ---------- answering ---------- */
+    const REFERS_BACK = /\b(it|that|this|them|those|these|there|one)\b/i;
+    const CONTINUES = /^\s*(and|also|then|so|but|ok(ay)?|what about|how about|what if)\b/i;
+    // "here": the lesson and step the person has open, e.g. { lessonId: "lesson-6", stepId: "step-4" }
+    const THIS_LESSON = /\b(?:this|current|the current|my) (?:lesson|module|tutorial|course)\b|\bwhat (?:am i|will i be|are we) learning\b|\bwhat will i learn\b|\bwhat(?:'s| is) this (?:all )?about\b|\bwhat(?:'s| is) (?:covered|in) here\b|\bwhat lesson am i (?:in|on)\b|\bwhere am i\b/i;
+    const THIS_STEP = /\b(?:this|current|the current) (?:step|section|part|screen|bit|page)\b|\bwhat am i looking at\b|\bwhat step am i on\b/i;
+    const NEXT_LESSON = /\b(?:next|following) lesson\b|\bwhat(?:'s| is| comes) next\b|\bwhere (?:do i go|to) next\b|\bafter this lesson\b/i;
+    function hereAnswer(q, here, prefix) {
+      const l = here && lessons.find(x => x.id === here.lessonId);
+      const step = THIS_STEP.test(q), lessonQ = THIS_LESSON.test(q), next = NEXT_LESSON.test(q);
+      if (!step && !lessonQ && !next) return null;
+      if (!l) return { kind: "noLesson", prefix };
+      if (next) { const n = lessons[lessons.indexOf(l) + 1]; return n ? { kind: "nextLesson", prefix, lesson: l, next: n } : { kind: "lastLesson", prefix, lesson: l }; }
+      if (step) {
+        if (here.stepId === "video") return { kind: "thisStep", prefix, lesson: l, video: true };
+        const k = +String(here.stepId || "").replace("step-", "");
+        const c = lessonChunks.find(x => x.lesson.id === l.id && x.lesson.k === k);
+        if (c) {
+          const more = chunks.filter(m => m.kind === "manual" && m.lessonLink && m.lessonLink.id === l.id && m.lessonLink.k === k);
+          return { kind: "thisStep", prefix, lesson: l, chunk: c, idxs: c.units.slice(0, 3).map((_, i) => i), more };
+        }
+      }
+      return { kind: "thisLesson", prefix, lesson: l };
+    }
+    function answer(question, { chapter = null, ctx = null, here = null } = {}) {
+      let q = String(question || "").trim(), prefix = null;
+      if (!q) return { kind: "clarify" };
+      const st = smallTalk(q);
+      if (st && st.full) return { kind: "chat", id: st.id, reply: st.reply };
+      if (st) { prefix = st.reply; q = st.rest; }
+      const h = hereAnswer(q, here, prefix); if (h) return h;
+      chapter = chapter || (here && here.lessonId) || null;
+
+      if (LIST_LESSONS.test(q)) return { kind: "lessons", prefix };
+      const lf = q.match(LESSON_FOR);
+      if (lf) {
+        const topic = q.replace(LESSON_FOR, " "), t = [...new Set(tokenize(topic))];
+        if (!t.length) return { kind: "lessons", prefix };
+        const r = rank(new Map(t.map(x => [x, 1])), tokenize(topic), { kinds: ["lesson"], intents: intentsOf(topic) });
+        // the manual's own link is the best guide to which lesson covers a topic
+        const m = rank(new Map(t.map(x => [x, 1])), tokenize(topic), { kinds: ["manual"], intents: intentsOf(topic) })[0];
+        const viaManual = m && m.c.lessonLink && m.score >= 1.5 ? m.c.lessonLink : null;
+        const top = r[0];
+        if (viaManual || (top && top.score >= 1)) {
+          const lesson = viaManual || top.c.lesson;
+          const also = r.map(x => x.c.lesson).filter(x => x.id !== lesson.id || x.k !== lesson.k).filter((x, i, a) => a.findIndex(y => y.id === x.id) === i).slice(0, 2);
+          return { kind: "lesson", prefix, lesson, also };
+        }
+        return { kind: "none", prefix };
+      }
+
+      const terms = [...new Set(tokenize(q))], order = tokenize(q);
+      const intents = intentsOf(q), learnt = learning(terms);
       const own = new Map(terms.map(t => [t, 1]));
       const coverageOf = (r) => terms.length ? terms.filter(t => r.c.vocab.has(t)).length / terms.length : 1;
-      const passes = (r) => r && (r.qBest >= .75 || (r.score >= 1 && coverageOf(r) >= .34));
-      // A follow-up that clearly names a different topic on its own ("what about undoing a move?") starts a new topic
-      const alone = rank(own, chapter, null);
+      const passes = (r) => r && (r.qBest >= .75 || (r.score >= 1.2 && coverageOf(r) >= .34) || (learnt.get(r.c.key) || 0) >= 2);
+      const opt = { intents, learnt, chapter, where: /^\s*where\b/i.test(q) };
+      const alone = rank(own, order, opt);
+      // a follow-up refers back ("how do I fix it?"), carries on ("and what about…"), or says almost nothing new
+      const pointsBack = REFERS_BACK.test(q) || (CONTINUES.test(q) && terms.length <= 2);
+      let follow = !!ctx && (pointsBack || terms.length === 0 || (terms.length === 1 && !passes(alone[0])));
+      if (!terms.length && !follow) return { kind: "clarify", prefix };
+      if (!ctx && terms.length === 1 && REFERS_BACK.test(q) && ["fix", "chang", "work", "mak", "stop", "handl"].includes(terms[0])) return { kind: "clarify", prefix };
       if (follow && terms.length >= 2 && passes(alone[0]) && coverageOf(alone[0]) >= .99 && alone[0].c !== ctx) follow = false;
       const weights = new Map(own);
       if (follow) tokenize(ctx.title + " " + ctx.chapter).forEach(t => { if (!weights.has(t)) weights.set(t, .5); });
-      let results = follow ? rank(weights, chapter, ctx) : alone;
-      if (/^\s*(what'?s|what is|what are|what does .+ mean|define|meaning of)\b/i.test(question) && terms.length) {
-        const isDef = (u) => /^\*\*[^*]+\*\*\s*[:—–-]/.test(u.t) && terms.every(t => u.terms.has(t));
+      let results = follow ? rank(weights, order, { ...opt, ctx }) : alone;
+      if (/^\s*(what'?s|what is|what are|what does .+ mean|define|meaning of)\b/i.test(q) && terms.length) {
         const topScore = results.length ? results[0].score : 0;
-        results = results.map(r => r.c.units.some(isDef) ? { ...r, score: Math.max(r.score + 3, topScore + 1) } : r).sort((a, b) => b.score - a.score);
+        results = results.map(r => (learnt.get(r.c.key) || 0) >= 0 && r.c.units.some(u => definesExactly(u, terms, r.c)) ? { ...r, score: Math.max(r.score + 3, topScore + 1) } : r).sort((a, b) => b.score - a.score);
+      }
+      if (results[0] && results[0].c.kind === "lesson") {        // the manual answers; the lesson gets linked
+        const m = results.findIndex(r => r.c.kind === "manual");
+        if (m > 0 && results[m].score >= results[0].score * .75) results = [results[m], ...results.filter((_, i) => i !== m)];
       }
       const top = results[0];
-      if (!top) return { kind: "none" };
-      // Staying on the previous topic doesn't need the follow-up's own words to appear there ("how do I fix it?")
-      if (!(follow && top.c === ctx && top.score >= 1) && !passes(top)) return { kind: "none" };
-      const snip = snippet(results, weights, question, follow && top.c === ctx);
-      if (!snip) return { kind: "none" };
-      const seen = new Set([snip.c.title]);
-      const related = results.slice(1).filter(r => r.score > top.score * .4 && !seen.has(r.c.title) && seen.add(r.c.title)).slice(0, 2).map(r => r.c);
-      return { kind: "answer", chunk: snip.c, idxs: snip.idxs, related, followUp: follow && snip.c === ctx };
+      if (!top) return { kind: "none", prefix };
+      if (!(follow && top.c === ctx && top.score >= 1) && !passes(top)) return { kind: "none", prefix };
+      const snip = snippet(results, weights, q, follow && top.c === ctx);
+      if (!snip) return { kind: "none", prefix };
+      const c = snip.c, comp = compose(snip, q);
+      const lesson = c.kind === "lesson" ? c.lesson : (c.lessonLink ||
+        (results.slice(0, 6).find(r => r.c.kind === "lesson" && r.score >= top.score * .45) || {}).c?.lesson || null);
+      const seen = new Set([c.title]);
+      const others = results.slice(1).filter(r => r.c.kind === "manual" && !seen.has(r.c.title) && seen.add(r.c.title));
+      return { kind: "answer", prefix, chunk: c, idxs: snip.idxs, ...comp, extra: comp.format === "text" ? stitch(results, snip, weights) : null,
+        lesson, followUp: follow && c === ctx, related: others.filter(r => r.score > top.score * .4).slice(0, 2).map(r => r.c),
+        alternatives: others.slice(0, 3).map(r => r.c) };
     }
-    return { answer, chunks, tokenize };
+
+    /* ---------- learning ---------- */
+    const termsOf = (q) => { const st = smallTalk(q); return [...new Set(tokenize(st && st.rest ? st.rest : q))]; };
+    function feedback(question, key, helpful) {
+      const v = memory.votes[key] || [0, 0]; v[helpful ? 0 : 1]++; memory.votes[key] = v;
+      if (helpful) { memory.good.push([termsOf(question), key]); memory.good = memory.good.slice(-300); }
+      return memory;
+    }
+    function correct(question, wrong, right) {
+      memory.fixes.push([termsOf(question), wrong, right]); memory.fixes = memory.fixes.slice(-200);
+      return feedback(question, right, true);
+    }
+    function setMemory(m) { const n = norm(m); memory.votes = n.votes; memory.good = n.good; memory.fixes = n.fixes; }
+    return { answer, chunks, byKey, tokenize, feedback, correct, memory, setMemory, termsOf, lessonChunks };
   }
   /* GOA-ENGINE-END */
-  const ENGINE = createEngine($("manual").textContent);
+  const GOA_DATA = window.GOA_DATA || { manual: "", smallTalk: [], learned: {} };
+  const ENGINE = createEngine(GOA_DATA.manual, { lessons: LESSONS, smallTalk: GOA_DATA.smallTalk, learned: GOA_DATA.learned,
+    memory: null });
   const INDEX = { chunks: ENGINE.chunks };
 
   function renderUnits(U, idxs) {
     let html = "", para = [], list = null, last = -2;
     const fp = () => { if (para.length) { html += "<p>" + para.map(inline).join(" ") + "</p>"; para = []; } };
-    const fl = () => { if (list) { html += "</ul>"; list = null; } };
+    let tag = "ul";
+    const fl = () => { if (list) { html += `</${tag}>`; list = null; } };
     for (const k of idxs) {
       const u = U[k];
       if (k !== last + 1) { fp(); fl(); }
-      if (u.type === "li") { fp(); if (list !== u.list) { fl(); html += "<ul>"; list = u.list; } html += "<li>" + inline(u.t) + "</li>"; }
+      if (u.type === "li") { fp(); if (list !== u.list) { fl(); tag = u.ordered ? "ol" : "ul"; html += `<${tag}>`; list = u.list; } html += "<li>" + inline(u.t) + "</li>"; }
       else { fl(); para.push(u.t); }
       last = k;
     }
@@ -1124,7 +1364,7 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
           const next = blocks[i + 1], text = next && next.type === "text" ? md(next.md) : "";
           return `<div class="meet-goa"><img src="goa-art/goa-waving.png" alt="GOA, a cartoon piece of granite drill core wearing a crown, waving"><div class="meet-goa-text">${text}<button type="button" class="btn primary" data-act="say-hi">Say hi to GOA</button></div></div>`;
         }
-        case "options": return `<div class="options">${b.items.map(it => `<details><summary><span>${it.suggested ? `<mark class="sugg">${inline(it.title)}</mark>` : inline(it.title)}</span><i aria-hidden="true"></i></summary><div class="opt-body">${it.blocks ? renderBlocks(it.blocks) : md(it.md || "") + (it.notes || []).map(tipBox).join("")}</div></details>`).join("")}</div>`;
+        case "options": return `<div class="options">${b.items.map(it => `<details><summary><span>${it.suggested && CONFIG.showSuggestions ? `<mark class="sugg">${inline(it.title)}</mark>` : inline(it.title)}</span><i aria-hidden="true"></i></summary><div class="opt-body">${it.blocks ? renderBlocks(it.blocks) : md(it.md || "") + (it.notes || []).map(tipBox).join("")}</div></details>`).join("")}</div>`;
         case "example": return /hole/i.test(b.name) ? `<div class="demo-mount" data-demo="holes"></div>` : "";
         case "guidance": return `<div class="demo-mount" data-demo="guidance" data-block="${guidanceBlocks.push(b) - 1}"></div>`;
         default: return "";
@@ -1143,7 +1383,7 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
     const section = (id, title, body, tag, sugg) => {
       const done = !!d[id];
       return `<section class="sec ${done ? "is-done" : ""}" id="sec-${id}" data-sec="${id}" hidden>
-        <div class="sec-head"><span class="sec-num">${done ? "✓" : ""}</span><h3>${inline(title)}${tag ? ` <span class="branch-tag">${esc(tag)}</span>` : ""}${sugg ? ` <span class="sugg-tag">Suggested</span>` : ""}</h3>${checkBtn(id, done)}</div>${body}</section>`;
+        <div class="sec-head"><span class="sec-num">${done ? "✓" : ""}</span><h3>${inline(title)}${tag ? ` <span class="branch-tag">${esc(tag)}</span>` : ""}${sugg && CONFIG.showSuggestions ? ` <span class="sugg-tag">Suggested</span>` : ""}</h3>${checkBtn(id, done)}</div>${body}</section>`;
     };
     const stepBody = (s, k) => {
       const inBranch = l.branches && (k === bp || s.branch);
@@ -1540,7 +1780,7 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
         <div><strong>Your progress</strong><span>${done} of ${secs.length} sections done</span></div>
         <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
       </button>
-      <ol>${secs.map((s, n) => `<li><button type="button" data-target="sec-${s.id}" class="${d[s.id] ? "done" : ""} ${s.id === cur.id ? "current" : ""}"><span class="dot">${d[s.id] ? "✓" : n + 1}</span><span>${inline(s.title)}${s.branch ? ` <em class="branch-tag">${esc(shortBranch(s.branch))}</em>` : ""}${s.suggested ? ` <em class="sugg-tag">New</em>` : ""}</span></button></li>`).join("")}</ol>
+      <ol>${secs.map((s, n) => `<li><button type="button" data-target="sec-${s.id}" class="${d[s.id] ? "done" : ""} ${s.id === cur.id ? "current" : ""}"><span class="dot">${d[s.id] ? "✓" : n + 1}</span><span>${inline(s.title)}${s.branch ? ` <em class="branch-tag">${esc(shortBranch(s.branch))}</em>` : ""}${s.suggested && CONFIG.showSuggestions ? ` <em class="sugg-tag">New</em>` : ""}</span></button></li>`).join("")}</ol>
       ${l.branches ? `<div class="tracker-switch">${l.branches.filter(b => b !== branchOf(l)).map(b => `<button type="button" data-branch="${esc(b)}">Switch to ${esc(shortBranch(b))} steps</button>`).join("")}</div>` : ""}`;
     $("tracker").querySelectorAll("[data-branch]").forEach(b => b.addEventListener("click", () => setBranch(l, b.dataset.branch)));
     $("trackerToggle").addEventListener("click", () => {
@@ -1619,29 +1859,94 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
       const f = el.querySelector(".full");
       if (f) { f.remove(); b.textContent = "Read the full section"; }
       else { b.insertAdjacentHTML("afterend", `<div class="full">${md(c.text)}</div>`); b.textContent = "Hide the full section"; }
+      log.scrollTop = log.scrollHeight;
     });
   }
   const srcLine = (c) => `<span class="src">📖 ${esc(c.chapter)}${c.title !== c.chapter ? " › " + esc(c.title) : ""}</span>`;
+  const lessonName = (l) => l.num == null ? "Overview" : `Lesson ${l.num}`;
+  // a lesson has a number; the sections inside it are "parts": "Lesson 2, part “Project backups”"
+  const partName = (l) => `${lessonName(l)}, part “${esc(l.step)}”`;
+  const lessonBtn = (l, label) => `<button type="button" class="lesson-link" data-lesson="${esc(l.id)}" data-k="${l.k}"><span aria-hidden="true">▶</span> ${label || partName(l)}</button>`;
+  function wireLessonLinks(el) {
+    el.querySelectorAll(".lesson-link").forEach(b => b.addEventListener("click", () => openLessonStep(b.dataset.lesson, +b.dataset.k)));
+  }
+  // open a lesson at a step (switching to its branch, e.g. Online/Offline, if needed)
+  const clean = (s) => String(s || "").replace(/\{\{\+|\+\}\}/g, "").replace(/\*\*/g, "");
+  function openLessonStep(id, k) {
+    const l = LESSONS.find(x => x.id === id); if (!l) return;
+    progress[l.id] = doneMap(l);
+    const s = l.steps[k];
+    if (s && s.branch) progress[l.id]._branch = s.branch;
+    if (Number.isInteger(k) && k >= 0) progress[l.id]._step = "step-" + k;
+    store.set(progress);
+    if (matchMedia("(max-width: 560px)").matches) openChat(false);
+    if (current === l) { renderLesson(); renderOverall(); window.scrollTo(0, 0); } else route(l.id);
+  }
   function relatedRow(chunks) {
     if (!chunks.length) return;
     const row = document.createElement("div"); row.className = "related";
-    row.innerHTML = chunks.map(c => `<button type="button" class="pill" data-chunk="${INDEX.chunks.indexOf(c)}">More on: ${esc(c.title)}</button>`).join("");
+    row.innerHTML = `<span>More on</span>` + chunks.map(c => `<button type="button" class="pill" data-key="${esc(c.key)}" title="${esc(c.title)}">${esc(c.title)}</button>`).join("");
     log.appendChild(row);
-    row.querySelectorAll("button").forEach(b => b.addEventListener("click", () => showSection(INDEX.chunks[+b.dataset.chunk])));
+    row.querySelectorAll("button").forEach(b => b.addEventListener("click", () => showSection(ENGINE.byKey.get(b.dataset.key))));
   }
-  function showSection(c) {
+  function showSection(c, asked) {
+    if (!c) return;
     chatCtx = { chunk: c, age: 0 };
-    bubble("me", esc("Tell me about " + c.title.toLowerCase()));
+    bubble("me", esc(asked || "Tell me about " + c.title.toLowerCase()));
     typingThen((el) => {
-      const idxs = c.units.slice(0, 3).map((_, k) => k);
-      el.innerHTML = renderUnits(c.units, idxs) + srcLine(c) + (c.units.length > 3 ? `<button type="button" class="more">Read the full section</button>` : "");
-      attachMore(el, c);
+      const idxs = c.units.slice(0, 4).map((_, k) => k);
+      el.innerHTML = renderUnits(c.units, idxs) + srcLine(c) + (c.units.length > 4 ? `<button type="button" class="more">Read the full section</button>` : "");
+      attachMore(el, c); wireLessonLinks(el);
     });
   }
   function typingThen(fn) {
     const el = bubble("them", '<span class="typing" aria-label="GOA is typing"><i></i><i></i><i></i></span>');
     setTimeout(() => { fn(el); log.scrollTop = log.scrollHeight; }, 550 + Math.random() * 350);
   }
+
+  /* ---------- what GOA learns ----------
+     Each person's GOA learns from their own 👍 / 👎 and corrections, kept in their browser. No folder access needed. */
+  const MEM_KEY = "goa-learning-v2";
+  let events = (() => { try { const v = JSON.parse(localStorage.getItem(MEM_KEY) || "[]"); return Array.isArray(v) ? v : []; } catch { return []; } })();
+  function memoryFrom(list) {
+    const m = { votes: {}, good: [], fixes: [] }, vote = (k, up) => { const v = m.votes[k] || (m.votes[k] = [0, 0]); v[up ? 0 : 1]++; };
+    for (const e of list) {
+      if (e.kind === "vote") { vote(e.key, e.up); if (e.up) m.good.push([e.terms, e.key]); }
+      else if (e.kind === "fix") { m.fixes.push([e.terms, e.wrong, e.right]); vote(e.right, true); m.good.push([e.terms, e.right]); }
+    }
+    return m;
+  }
+  function record(ev) {
+    ev.t = Date.now(); events.push(ev); events = events.slice(-2000);
+    try { localStorage.setItem(MEM_KEY, JSON.stringify(events)); } catch {}
+    ENGINE.setMemory(memoryFrom(events));
+  }
+  ENGINE.setMemory(memoryFrom(events));
+
+  // Feedback is quiet: the chosen button stays lit and the other greys out. After 👎, the likely
+  // right answers appear under the buttons; picking one teaches GOA and shows that answer.
+  function feedbackRow(q, res) {
+    const row = document.createElement("div"); row.className = "feedback";
+    row.innerHTML = `<span>Did that help?</span><button type="button" data-v="yes">👍 Yes</button><button type="button" data-v="no">👎 No</button>`;
+    log.appendChild(row); log.scrollTop = log.scrollHeight;
+    row.querySelectorAll("button[data-v]").forEach(b => b.addEventListener("click", () => {
+      row.querySelectorAll("button[data-v]").forEach(x => { x.disabled = true; x.classList.toggle("on", x === b); x.classList.toggle("off", x !== b); });
+      record({ kind: "vote", key: res.chunk.key, up: b.dataset.v === "yes", terms: ENGINE.termsOf(q) });
+      const alts = (res.alternatives || []).slice(0, 3);
+      if (b.dataset.v === "no" && alts.length) {
+        const box = document.createElement("div"); box.className = "alts";
+        box.innerHTML = `<span>Was it one of these?</span>${alts.map(c => `<button type="button" class="pill" data-key="${esc(c.key)}">${esc(c.title)}</button>`).join("")}`;
+        row.after(box); log.scrollTop = log.scrollHeight;
+        box.querySelectorAll("[data-key]").forEach(p => p.addEventListener("click", () => {
+          box.querySelectorAll("button").forEach(x => { x.disabled = true; x.classList.toggle("on", x === p); x.classList.toggle("off", x !== p); });
+          record({ kind: "fix", wrong: res.chunk.key, right: p.dataset.key, terms: ENGINE.termsOf(q) });
+          showSection(ENGINE.byKey.get(p.dataset.key), p.textContent);
+        }));
+      }
+    }));
+  }
+  // only point to a lesson when someone asks where something is, or asks about lessons/videos
+  const WANTS_LESSON = /\bwhere\b|\blessons?\b|\bvideos?\b|\btutorials?\b|\bshow me\b|\blearn\b|\bsee (?:it|this|how)\b/i;
   // The section GOA last answered from, so "how do I do that?" can follow on. Forgotten after 3 unrelated questions.
   let chatCtx = null;
   function ask(q) {
@@ -1649,26 +1954,78 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
     bubble("me", esc(q));
     typingThen((el) => {
       if (chatCtx && ++chatCtx.age > 3) chatCtx = null;
-      const res = ENGINE.answer(q, { chapter: current?.manualSection, ctx: chatCtx?.chunk || null });
-      if (res.kind === "clarify") {
-        el.innerHTML = `<p>Do what, exactly? Tell me which part of the planner you're working on, like importing boxes or planning moves.</p>`;
-        return;
-      }
+      const secs = current ? sectionsOf(current) : [];
+      const here = current ? { lessonId: current.id, stepId: secs[stepIdx] ? secs[stepIdx].id : null } : null;
+      const res = ENGINE.answer(q, { ctx: chatCtx?.chunk || null, here });
+      const pre = res.prefix ? `<p>${esc(res.prefix)}</p>` : "";
+      if (res.kind === "chat") { el.innerHTML = `<p>${esc(res.reply).replace(/“(.+?)”/g, (m, x) => `<button type="button" class="try" data-q="${x}">“${x}”</button>`)}</p>`;
+        el.querySelectorAll(".try").forEach(b => b.addEventListener("click", () => ask(b.dataset.q.replace(/[?.]$/, "") + "?"))); return; }
+      if (res.kind === "clarify") { el.innerHTML = pre + `<p>Do what, exactly? Tell me which part of CIS you're working on, like importing boxes or planning a move.</p>`; return; }
       if (res.kind === "none") {
-        el.innerHTML = `<p>Hmm, that one isn't in my manual. Try asking with different words, like the name of a button or screen.</p><p>Still stuck? Contact ${esc(CONFIG.helpContact)}.</p>`;
-        return;
+        el.innerHTML = pre + `<p>Hmm, that one isn't in my manual. Try asking with different words, like the name of a button or screen.</p><p>Still stuck? Contact ${esc(CONFIG.helpContact)}, or <button type="button" class="try" data-q="What lessons are there?">browse the lessons</button>.</p>`;
+        el.querySelector(".try").addEventListener("click", () => ask("What lessons are there?")); return;
+      }
+      if (res.kind === "noLesson") {
+        el.innerHTML = pre + `<p>You're on the home page, not in a lesson yet. Pick one to start, or ask me which lesson covers something.</p><div class="lesson-links">${LESSONS.slice(0, 3).map(l => lessonBtn({ id: l.id, num: l.num, k: -1, step: l.title }, `${lessonName(l)}: ${esc(l.title)}`)).join("")}</div>`;
+        wireLessonLinks(el); return;
+      }
+      if (res.kind === "thisLesson") {
+        const l = res.lesson, br = branchOf(l);
+        const steps = l.steps.map((s, k) => ({ s, k })).filter(x => !x.s.branch || x.s.branch === br);
+        el.innerHTML = pre + `<p>You're in <b>${lessonName(l)}: ${esc(l.title)}</b>. ${l.summary ? `It covers ${esc(clean(l.summary).replace(/^./, c => c.toLowerCase()).replace(/\.?$/, "."))}` : ""}</p>
+          <p>${l.video ? "There's a video, then these parts:" : "It has these parts:"}</p>
+          <div class="lesson-links">${steps.map(x => lessonBtn({ id: l.id, num: l.num, k: x.k, step: x.s.title }, `${esc(x.s.title)}${x.s.branch ? ` <em class="branch-tag">${esc(shortBranch(x.s.branch))}</em>` : ""}`)).join("")}</div>
+          ${l.branches ? `<p class="also">This lesson splits into ${l.branches.map(b => esc(shortBranch(b))).join(" and ")} paths. You're following ${esc(shortBranch(br))}.</p>` : ""}`;
+        wireLessonLinks(el); return;
+      }
+      if (res.kind === "thisStep") {
+        const l = res.lesson;
+        if (res.video) { el.innerHTML = pre + `<p>This part is the video for <b>${lessonName(l)}: ${esc(l.title)}</b>. Watch it, then press Next for the written parts. Ask me if anything in it isn't clear.</p>`; return; }
+        const c = res.chunk; chatCtx = { chunk: c, age: 0 };
+        el.innerHTML = pre + `<p>You're on the part <b>${esc(c.title)}</b> in ${lessonName(l)}. In short:</p>` + renderUnits(c.units, res.idxs)
+          + (c.units.length > res.idxs.length ? `<button type="button" class="more">Read the whole part</button>` : "");
+        attachMore(el, c); relatedRow(res.more.slice(0, 3)); return;
+      }
+      if (res.kind === "nextLesson") {
+        el.innerHTML = pre + `<p>After ${lessonName(res.lesson)} comes <b>${lessonName(res.next)}: ${esc(res.next.title)}</b>${res.next.summary ? `: ${esc(clean(res.next.summary).replace(/^./, c => c.toLowerCase()))}` : ""}.</p><div class="lesson-links">${lessonBtn({ id: res.next.id, num: res.next.num, k: -1, step: res.next.title }, `Start ${lessonName(res.next)}`)}</div>`;
+        wireLessonLinks(el); return;
+      }
+      if (res.kind === "lastLesson") { el.innerHTML = pre + `<p>This is the last lesson. Once you've finished it, you've covered everything! Ask me anything you'd like to go over again.</p>`; return; }
+      if (res.kind === "lessons") {
+        el.innerHTML = pre + `<p>Start with the Overview, then work through the lessons in order:</p><div class="lesson-links">${LESSONS.map(l => lessonBtn({ id: l.id, num: l.num, k: -1, step: l.title },
+          `${lessonName(l)}: ${esc(l.title)}`)).join("")}</div>`;
+        wireLessonLinks(el); return;
+      }
+      if (res.kind === "lesson") {
+        el.innerHTML = pre + `<p>That's covered in <b>${lessonName(res.lesson)}: ${esc(res.lesson.title)}</b>, in the part “${esc(res.lesson.step)}”.</p><div class="lesson-links">${lessonBtn(res.lesson, `Open ${partName(res.lesson)}`)}${(res.also || []).map(x => lessonBtn(x)).join("")}</div>`;
+        wireLessonLinks(el); return;
       }
       chatCtx = { chunk: res.chunk, age: 0 };
-      const lead = res.followUp ? `Still on ${esc(res.chunk.title.toLowerCase())}:` : LEADS[leadN++ % LEADS.length];
-      const full = res.idxs.length < res.chunk.units.length;
-      el.innerHTML = `<p>${lead}</p>` + renderUnits(res.chunk.units, res.idxs) + srcLine(res.chunk) +
-        (full ? `<button type="button" class="more">Read the full section</button>` : "");
-      attachMore(el, res.chunk);
+      const c = res.chunk;
+      const lead = res.followUp ? `Still on ${esc(c.title.toLowerCase())}:` : res.intro ? esc(res.intro) : LEADS[leadN++ % LEADS.length];
+      const body = res.format === "steps"
+        ? `<ol class="steps-list">${res.steps.map(s => `<li>${inline(s.t)}</li>`).join("")}</ol>${res.notes.length ? renderUnits(c.units, res.notes) : ""}`
+        : renderUnits(c.units, res.idxs);
+      const full = res.idxs.length < c.units.length;
+      el.innerHTML = pre + `<p>${lead}</p>` + body
+        + (res.extra ? `<p class="also"><b>Also:</b> ${inline(res.extra.t)} <span class="src-inline">(${esc(res.extra.chunk.title)})</span></p>` : "")
+        + srcLine(c) + (full ? `<button type="button" class="more">Read the full section</button>` : "")
+        + (res.lesson && WANTS_LESSON.test(q) ? `<div class="lesson-links">${lessonBtn(res.lesson, `Learn this in ${partName(res.lesson)}`)}</div>` : "");
+      attachMore(el, c); wireLessonLinks(el);
       relatedRow(res.related);
+      feedbackRow(q, res);
     });
   }
+  // suggested questions: from the manual sections that go with the lesson you're on
   function renderQuick() {
-    const qs = current?.suggestions?.length ? current.suggestions : LESSONS.slice(0, 3).map(l => l.suggestions?.[0]).filter(Boolean);
+    let qs = [];
+    if (current) {
+      const own = ENGINE.chunks.filter(c => c.kind === "manual" && c.lessonLink && c.lessonLink.id === current.id && c.questions.length);
+      qs = own.slice(0, 3).map(c => c.questions[0]);
+    }
+    if (current) qs = ["What is this lesson about?", ...qs].slice(0, 3);
+    if (!qs.length) qs = ["What does CIS do?", "Where do I start?", "How do I make a backup?"];
+    qs = qs.map(q => q.replace(/^./, x => x.toUpperCase()).replace(/\b(cis|goa|png|csv|id)\b/gi, w => w.toUpperCase()).replace(/[?.]?$/, "?"));
     $("quick").innerHTML = qs.map(q => `<button type="button" class="pill">${esc(q)}</button>`).join("");
     $("quick").querySelectorAll(".pill").forEach(p => p.addEventListener("click", () => ask(p.textContent)));
   }
@@ -1679,6 +2036,8 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
     if (open) { $("badge").hidden = true; $("nudge").hidden = true; try { sessionStorage.setItem("goa-seen", "1"); } catch {} setTimeout(() => $("msgInput").focus(), 50); }
     else { $("launchBtn").focus(); armIdle(); }
   }
+  // start a fresh conversation (what GOA has learned is kept)
+  function clearChat() { log.innerHTML = `<div class="day">Today</div>`; lastWho = null; chatCtx = null; bubble("them", `<p>${esc(CONFIG.botGreeting)}</p>`); }
 
   /* ---------- GOA's idle adventures (home screen only) ---------- */
   const IDLE_MS = 10000, INK = "#13222D";
@@ -2172,7 +2531,7 @@ Projects only appear if they're in the `data` folder next to the app file. If yo
   $("backBtn").addEventListener("click", () => route(""));
   $("launchBtn").addEventListener("click", () => openChat(true));
   $("nudge").addEventListener("click", () => openChat(true));
-  $("closeChat").addEventListener("click", () => openChat(false));
+  $("closeChat").addEventListener("click", () => { openChat(false); clearChat(); });   // × ends the conversation
   $("compose").addEventListener("submit", (e) => { e.preventDefault(); const i = $("msgInput"); ask(i.value); i.value = ""; });
   const closeBox = () => { $("lightbox").hidden = true; $("lightboxImg").removeAttribute("src"); };
   $("lightbox").addEventListener("click", closeBox);

@@ -1,56 +1,139 @@
-# GOA test questions for the SAMPLE manual. Replace with questions for the real manual.
-# question => Section title | NONE | CLARIFY        "> " = follow-up to the line above
+# GOA tuning questions for the first-pass CIS manual (goa/manual.md).
+# question => Section title | NONE | CLARIFY | CHAT:<kind> | LESSONS | LESSON:<n> › <step>     "> " = follow-up
 
-# --- direct questions
-where do I open the app from => Opening the app
-how do i get the newest version => Opening the app
-how do I pick a project => Choosing a project
-which project am i in => Choosing a project
-what does the shed map show => The shed map
-how do I zoom in on the map => The shed map
-what columns does the import need => CSV format
-what format should my spreadsheet be in => CSV format
-how do I import boxes => Running an import
-can I import more than one hole => Running an import
-why did some rows fail => Import errors
-the import says my depth is wrong => Import errors
-will importing again make duplicates => Import errors
-how do I group boxes by feature => Grouping boxes
-how do I select a whole hole at once => Grouping boxes
-how do I put boxes into a rack => Placing boxes on racks
-what does a red slot mean => Clashes and red slots
-why can't I export => Clashes and red slots
-how do I undo a move => Undoing a move
-I made a mistake, how do I go back => Undoing a move
-how do I take a box out of the plan => Undoing a move
-where is my plan saved => Saving a project
-how do I know if I've saved => Saving a project
-how do I export a move list => Exporting a move list
-where does the export go => Exporting a move list
-what if two people edit the same project => Working with other people
-someone else has my project open => Working with other people
-the app shows a blank page => The app won't open or shows a blank page
-I can't find my project => My project is missing
-what is a hole id => Terms
+# --- getting started
+what does cis do => What CIS is
+where do i find cis => Opening CIS
+which browser do i use => Which browser to use
+does cis work in firefox => Which browser to use
+how do i connect to the shared folder => Connecting to the shared folder
+where are my projects saved => Connecting to the shared folder
+what happens if i delete the data folder => Never delete the [Data] folder
+can two people edit at once => Two people editing the same project
+it says someone else changed the project => Two people editing the same project
 
-# --- casual wording that relies on example questions (Questions: lines)
-I stuffed up a placement => Undoing a move
-the planner is just white => The app won't open or shows a blank page
-send the shed crew the list => Exporting a move list
+# --- projects and sheds
+how do i create a project => Projects
+what are the setup options for a new shed => Setting up a new shed
+i don't have a spreadsheet, how do i add holes => Setting up a new shed
+how do i add another shed => Adding sheds to a project
+what's the difference between a shed and a core move => Sheds and core moves
+why can't i edit the shed => Sheds and core moves
+how do i save my move to the shed => Saving a move to the shed
+how do i back up a project => Project backups
+where do backups go => Project backups
+how do i restore a backup => Restoring a backup
+how do i rename a project => Renaming, copying or deleting a project
+how do i export to excel => Exporting a shed or core move
+can i export custom columns => Exporting a shed or core move
+
+# --- importing
+what columns does my spreadsheet need => Spreadsheet columns and file types
+is hole id required => Spreadsheet columns and file types
+my column names are different => Matching columns
+how do i split feature and hole id => Matching columns
+how do i check the import before it goes in => Checking the import preview
+can i change row orientation before importing => Arranging a new shed
+
+# --- dashboards
+what is the rack plan => Rack plan tab
+what do the colours mean in the shed overview => Shed overview
+how do i see all the columns in a bay => Bay views
+how do i search for a hole => Searching and filtering
+how many boxes are in the shed => Statistics
+how do i unlock a row => Lock list
+how do i lock just one slot => Locking single slots
+what does held mean => Terms
+should i press ignore or update positions => Held boxes
+how do i check if a box will fit => Size panel and Will it fit?
+how do i change the 1 cm fit rule => Changing the Will it fit? threshold
+
+# --- shed map
+what is the shed map => Shed map basics
+how do i merge rows => Rearranging rows on the map
+how do i turn a row sideways => Editing rows and bays on the map
+how do i change the numbering to alternating => Editing rows and bays on the map
+how do i add a door to the map => Adding elements to the map
+how do i make a pallet permanent => Pallets
+how do i make the map look tidier => Tidying the map
+how do i save the map as a png => Saving the map as a PNG
+
+# --- move mode
+how does move mode work => What move mode does
+how does cis decide where boxes go => How CIS picks slots
+what is a pallet sheet => Terms
+can i move boxes without a pallet sheet => Moving boxes already in the shed
+online or offline mode => Online or offline
+which offload order should i use => Offload order
+what does put in slot do => Guided move (online)
+what do i do if a box doesn't fit its slot => When a box doesn't go in its slot
+i'm holding a different box => Holding the wrong box
+how do i undo a box i placed => Undoing a placement
+what does start over do => Finishing a move
+how do i print the slot sheet => Slot sheet (offline)
+what do i do when i'm back from the move => After an offline move
+
+# --- edit tab
+what is in the edit tab => Edit tab overview
+how do i find doubled up boxes => Issues
+how do i add a new box => Editing holes and boxes
+how do i change a box's planned slot => Changing a box's planned slot
+how do i delete a bay => Bay settings
+how do i change the feature order => Advanced settings
+
+# --- troubleshooting
+cis won't open => CIS won't open
+the folder won't connect => Can't connect to the shared folder
+my project is gone => My project is missing
+
+# --- definitions
+what is a core move => Terms
+what is a slot => Terms
+what is a feature id => Terms
 
 # --- follow-ups
-what does a red slot mean => Clashes and red slots
-> how do I fix it => Clashes and red slots
-how do I export a move list => Exporting a move list
-> where does it go => Exporting a move list
-> what about undoing a move => Undoing a move
-what's the CSV format => CSV format
-> and what if a row fails => Import errors
+how do i export to excel => Exporting a shed or core move
+> can i edit it and bring it back in => Exporting a shed or core move
+what is a temporary pallet => Terms
+> how do i make it permanent => Pallets
+> what about the shed map => Shed map basics
 
-# --- vague or off-topic
-how do I do it => CLARIFY
+# --- lessons
+which lesson covers backups => LESSON:2 › Project backups
+is there a lesson on the lock list => LESSON:3 › Lock list
+where can i learn about move mode => LESSON:6 › Overview
+show me the lessons => LESSONS
+where do i start => LESSONS
+
+# --- small talk
+hi => CHAT:greeting
+g'day goa => CHAT:greeting
+how are you => CHAT:how-are-you
+who are you => CHAT:who-are-you
+what can you do => CHAT:what-do-you-do
+thanks => CHAT:thanks
+thank you so much => CHAT:thanks
+tell me a joke => CHAT:joke
+are you a robot => CHAT:ai
+bye => CHAT:bye
+hi, how do i make a backup => Project backups
+thanks! and how do i restore it => Restoring a backup
+
+# --- off topic / vague
 pizza recipe => NONE
-what's the weather like => NONE
 who won the footy => NONE
-how do I undo it => Undoing a move
-how do I fix it => CLARIFY
+what's the weather like => NONE
+how do i do it => CLARIFY
+
+# --- where you are (@lesson#step = the lesson and step open on the page)
+@lesson-6 what is this lesson about => THISLESSON:lesson-6
+@lesson-3#step-2 what's this lesson about => THISLESSON:lesson-3
+@lesson-2 what will i learn here => THISLESSON:lesson-2
+@lesson-6#step-4 what is this step about => THISSTEP:Move guidance
+@lesson-6#video explain this step => THISSTEP:video
+@lesson-1#step-1 what am i looking at => THISSTEP:Connect to a shared folder
+@lesson-4 what's the next lesson => NEXTLESSON:lesson-5
+@lesson-8 what's next => LASTLESSON
+what is this lesson about => NOLESSON
+@lesson-5 how do i add a door => Adding elements to the map
+@lesson-6 what does put in slot do => Guided move (online)
