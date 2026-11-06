@@ -1369,7 +1369,7 @@ const CONFIG = {
   if (b.kind === "video" && b.src) {
     return `
       <figure class="shot">
-        <video controls width="100%" preload="metadata">
+        <video autoplay muted loop playsinline preload = "metadata" width ="100%">
           <source src="${esc(encodeURI(b.src))}" type="video/mp4">
           Your browser does not support video playback.
         </video>
