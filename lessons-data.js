@@ -199,7 +199,7 @@ window.LESSONS = [
             "type": "media",
             "kind": "gif",
             "desc": "Clicking the connect to shared folder and navigating to the folder location",
-            "src": null
+            "src": "S:\BW Asset Delivery\Z_Geology\Software\Core Shed Planner\Tutorials\Clips for training site\Final cuts\1.3.mp4"
           },
           {
             "type": "text",
