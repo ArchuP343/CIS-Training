@@ -1356,9 +1356,48 @@ const CONFIG = {
         case "text": return md(b.md);
         case "tip": case "warn": return tipBox(b);
         case "image": return shot(b.src, b.caption);
-        case "media": if (!b.src && /flowchart/i.test(b.desc) && current && current.branches) return processFlow(current);
-          return b.src ? shot(b.src, b.desc)
-          : `<div class="media-todo"><span>${b.kind === "gif" ? "GIF" : b.kind === "video" ? "Video" : "Screenshot"} coming</span><p>${inline(b.desc)}</p></div>`;
+        case "media":
+  if (
+    !b.src &&
+    /flowchart/i.test(b.desc) &&
+    current &&
+    current.branches
+  ) {
+    return processFlow(current);
+  }
+
+  if (b.kind === "video" && b.src) {
+    return `
+      <figure class="shot">
+        <video controls width="100%" preload="metadata">
+          <source src="${esc(encodeURI(b.src))}" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+        ${
+          b.desc
+            ? `<figcaption>${inline(b.desc)}</figcaption>`
+            : ""
+        }
+      </figure>
+    `;
+  }
+
+  return b.src
+    ? shot(b.src, b.desc)
+    : `
+      <div class="media-todo">
+        <span>
+          ${
+            b.kind === "gif"
+              ? "GIF"
+              : b.kind === "video"
+              ? "Video"
+              : "Screenshot"
+          } coming
+        </span>
+        <p>${inline(b.desc)}</p>
+      </div>
+    `;
         case "goa": {
           // GOA's picture sits beside the paragraph that follows it
           const next = blocks[i + 1], text = next && next.type === "text" ? md(next.md) : "";
