@@ -1366,7 +1366,7 @@ const CONFIG = {
         case "tip": case "warn": return tipBox(b);
         case "image": return shot(b.src, b.caption);
         case "media": if (!b.src && /flowchart/i.test(b.desc) && current && current.branches) return processFlow(current);
-          if (b.src && b.kind === "video") return `<div class="video-frame clip"><video controls preload="metadata" playsinline src="${esc(b.src)}" aria-label="${esc(b.desc)}"></video><p class="clip-missing" hidden>This clip plays from the S: drive. Open the training page from the S: drive on a work computer to watch it.</p></div>`;
+          if (b.src && b.kind === "video") return `<div class="video-frame clip"><video muted loop playsinline disablepictureinpicture preload="metadata" src="${esc(b.src)}" aria-label="${esc(b.desc)}"></video><p class="clip-missing" hidden>This clip plays from the S: drive. Open the training page from the S: drive on a work computer to watch it.</p></div>`;
           return b.src ? shot(b.src, b.desc)
           : `<div class="media-todo"><span>${b.kind === "gif" ? "GIF" : b.kind === "video" ? "Video" : "Screenshot"} coming</span><p>${inline(b.desc)}</p></div>`;
         case "goa": {
@@ -1387,6 +1387,10 @@ const CONFIG = {
     return md(s.body || "") + (s.image ? shot(s.image, s.caption || s.title) : "") + (s.tip ? tipBox({ type: "tip", md: s.tip }) : "");
   }
 
+  const clipWatch = new IntersectionObserver(es => es.forEach(e => {
+    const v = e.target;
+    if (e.isIntersecting) { const p = v.play(); if (p) p.catch(() => {}); } else v.pause();
+  }));
   function renderLesson() {
     const l = current, d = doneMap(l), secs = sectionsOf(l), bp = branchPoint(l), br = branchOf(l);
     guidanceBlocks.length = 0;
@@ -1418,6 +1422,9 @@ const CONFIG = {
     $("lessonMain").querySelectorAll(".clip video").forEach(c => c.addEventListener("error", () => {
       c.hidden = true; c.parentElement.classList.add("missing"); c.nextElementSibling.hidden = false;
     }, { once: true }));
+    // clips act like GIFs: silent, looping, no controls, playing only while on screen
+    clipWatch.disconnect();
+    $("lessonMain").querySelectorAll(".clip video").forEach(c => { c.muted = true; clipWatch.observe(c); });
     const v = $("lessonMain").querySelector(".video-frame:not(.clip) video");
     if (v) {
       v.addEventListener("error", () => { v.parentElement.innerHTML = placeholder("Video", l.video); }, { once: true });
