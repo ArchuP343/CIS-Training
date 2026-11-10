@@ -197,9 +197,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "Clicking the connect to shared folder and navigating to the folder location",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/1.3.mp4"
           },
           {
             "type": "text",
@@ -228,9 +228,9 @@ window.LESSONS = [
           },
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "Typing in project and shed name and pressing create",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/1.4.mp4"
           },
           {
             "type": "text",
@@ -288,9 +288,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "Scrolling down add hole info page, clicking on the excel drop downs",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/1.5.mp4"
           },
           {
             "type": "text",
@@ -321,9 +321,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "switching around the shed layout",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/1.6.mp4"
           },
           {
             "type": "text",
@@ -345,9 +345,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "On the home page open the core move drop down, then open the uneditable shed",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/2.2.mp4"
           },
           {
             "type": "text",
@@ -386,9 +386,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "Manage drop down list",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/2.4.mp4"
           },
           {
             "type": "text",
@@ -405,9 +405,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "Adding sheds to a project",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/2.5.mp4"
           },
           {
             "type": "text",
@@ -420,9 +420,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "how to export a shed/core move inventory",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/2.6.mp4"
           },
           {
             "type": "text",
@@ -448,9 +448,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "navigating around the rack plan page",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/3.2.mp4"
           },
           {
             "type": "text",
@@ -463,9 +463,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "Playing with the shed map",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/3.3.mp4"
           },
           {
             "type": "text",
@@ -482,9 +482,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "doing a move",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/3.4.mp4"
           },
           {
             "type": "text",
@@ -501,9 +501,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "opening tabs in the edit tab",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/3.5.mp4"
           },
           {
             "type": "text",
@@ -516,9 +516,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "using the search and filters",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/3.6.mp4"
           },
           {
             "type": "text",
@@ -554,9 +554,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "navigating the lock list",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/3.8.mp4"
           },
           {
             "type": "text",
@@ -581,9 +581,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "using the size panel",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/3.9.mp4"
           },
           {
             "type": "text",
@@ -613,9 +613,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "using the shed overview",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/4.2.mp4"
           },
           {
             "type": "text",
@@ -632,9 +632,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "using the bay views",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/4.3.mp4"
           },
           {
             "type": "text",
@@ -670,9 +670,9 @@ window.LESSONS = [
                 "blocks": [
                   {
                     "type": "media",
-                    "kind": "gif",
+                    "kind": "video",
                     "desc": "moving rows",
-                    "src": null
+                    "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/5.2.1.mp4"
                   },
                   {
                     "type": "text",
@@ -685,9 +685,9 @@ window.LESSONS = [
                 "blocks": [
                   {
                     "type": "media",
-                    "kind": "gif",
+                    "kind": "video",
                     "desc": "merging rows",
-                    "src": null
+                    "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/5.2.2.mp4"
                   },
                   {
                     "type": "text",
@@ -700,9 +700,9 @@ window.LESSONS = [
                 "blocks": [
                   {
                     "type": "media",
-                    "kind": "gif",
+                    "kind": "video",
                     "desc": "separating bays",
-                    "src": null
+                    "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/5.2.3.mp4"
                   },
                   {
                     "type": "text",
@@ -715,9 +715,9 @@ window.LESSONS = [
                 "blocks": [
                   {
                     "type": "media",
-                    "kind": "gif",
+                    "kind": "video",
                     "desc": "editing bays",
-                    "src": null
+                    "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/5.2.4.mp4"
                   },
                   {
                     "type": "text",
@@ -730,9 +730,9 @@ window.LESSONS = [
                 "blocks": [
                   {
                     "type": "media",
-                    "kind": "gif",
+                    "kind": "video",
                     "desc": "changing row directions and bay directions",
-                    "src": null
+                    "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/5.2.5.mp4"
                   },
                   {
                     "type": "text",
@@ -745,9 +745,9 @@ window.LESSONS = [
                 "blocks": [
                   {
                     "type": "media",
-                    "kind": "gif",
+                    "kind": "video",
                     "desc": "changing row numbering",
-                    "src": null
+                    "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/5.2.6.mp4"
                   },
                   {
                     "type": "text",
@@ -768,9 +768,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "adding elements to the map",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/5.3.mp4"
           },
           {
             "type": "text",
@@ -792,9 +792,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "using a pallet",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/5.4.mp4"
           },
           {
             "type": "text",
@@ -838,9 +838,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "display button",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/5.5.mp4"
           },
           {
             "type": "text",
@@ -853,9 +853,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "saving PNG",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/5.6.mp4"
           },
           {
             "type": "text",
@@ -900,9 +900,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "Uploading data",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/6.3.mp4"
           },
           {
             "type": "text",
@@ -1043,9 +1043,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "print sheet screen and downloading the pdf",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/6.6.mp4"
           },
           {
             "type": "text",
@@ -1063,9 +1063,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "hitting the back from move button and changing order",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/6.7.mp4"
           },
           {
             "type": "text",
@@ -1106,9 +1106,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "no pallet sheet option",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/6.8.mp4"
           },
           {
             "type": "text",
@@ -1135,9 +1135,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "Using issues tab",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/7.2.mp4"
           },
           {
             "type": "text",
@@ -1150,9 +1150,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "using holes and boxes tab",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/7.3.mp4"
           },
           {
             "type": "text",
@@ -1177,9 +1177,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "using bay settings tab",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/7.4.mp4"
           },
           {
             "type": "text",
@@ -1196,9 +1196,9 @@ window.LESSONS = [
         "blocks": [
           {
             "type": "media",
-            "kind": "gif",
+            "kind": "video",
             "desc": "using advanced tab",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/7.5.mp4"
           },
           {
             "type": "text",

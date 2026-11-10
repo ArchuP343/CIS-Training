@@ -4,6 +4,7 @@ Build goa-data.js (what GOA knows) from the files in the goa folder:
 
   goa/manual.md       the manual GOA answers from
   goa/small-talk.md   his replies to everyday chat ("hi", "how are you", "thanks"…)
+  goa/prompts.md      suggested questions he picks from at random when a chat starts
   goa/learned*.json   optional: extra learning to build in for everyone (same format as GOA's memory).
                       Each person's own feedback stays in their browser.
 
@@ -34,6 +35,15 @@ def small_talk(text):
     return [c for c in out if c["match"] and c["replies"]]
 
 
+def prompts(text):
+    out, cur = {}, None
+    for line in strip_comments(text).splitlines():
+        line = line.strip()
+        if line.startswith("## "): cur = out.setdefault(line[3:].strip().lower(), [])
+        elif cur is not None and line.startswith("- "): cur.append(line[2:].strip())
+    return out
+
+
 def learned():
     merged = {"votes": {}, "good": [], "fixes": []}
     for f in sorted(GOA.glob("learned*.json")):
@@ -49,12 +59,13 @@ def learned():
 def main():
     manual = strip_comments((GOA / "manual.md").read_text(encoding="utf-8"))
     talk = small_talk((GOA / "small-talk.md").read_text(encoding="utf-8")) if (GOA / "small-talk.md").exists() else []
-    data = {"manual": manual, "smallTalk": talk, "learned": learned()}
+    pr = prompts((GOA / "prompts.md").read_text(encoding="utf-8")) if (GOA / "prompts.md").exists() else {}
+    data = {"manual": manual, "smallTalk": talk, "prompts": pr, "learned": learned()}
     OUT.write_text("// Built from the goa folder by build-goa.py — edit those files, not this one.\n"
                    "window.GOA_DATA = " + json.dumps(data, ensure_ascii=False, indent=1) + ";\n", encoding="utf-8")
     sections = len(re.findall(r"^## ", manual, re.M))
     print(f"GOA: {sections} manual sections, {len(talk)} kinds of small talk, "
-          f"{len(data['learned']['good'])} learned answers — wrote {OUT.name}")
+          f"{sum(len(v) for v in pr.values())} suggested questions — wrote {OUT.name}")
 
 
 if __name__ == "__main__":

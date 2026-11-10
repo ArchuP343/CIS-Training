@@ -25,7 +25,7 @@ It also plans and guides core moves. Give CIS a list of boxes and it works out w
 ## Opening CIS
 Questions: where is cis | where is the cis file kept | where do i find the program | how do i open cis | where is the software saved | where's the file | how do i launch it | which folder is cis in
 Lesson: 1 › Finding the program
-CIS is in the Z_Geology folder under Software → Core management tool → Core Inventory System.html. Open it straight from that folder and it opens in your default web browser.
+CIS is at S:/BW Asset Delivery/Z_Geology/Software/Core Shed Planner/Core Inventory System.html. Copy that path into File Explorer, or browse to the Z_Geology folder → Software → Core Shed Planner. Open it straight from that folder and it opens in your default web browser.
 
 If it doesn't open properly, set Microsoft Edge as your default browser and try again.
 

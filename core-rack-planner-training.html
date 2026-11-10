@@ -141,6 +141,9 @@ header.top .wrap { padding-block: 22px 20px; display: flex; flex-wrap: wrap; gap
 code { font-family: var(--f-mono); font-size: .88em; background: var(--sunken); padding: 1px 5px; border-radius: 4px; }
 .video-frame { position: relative; aspect-ratio: 16 / 9; max-width: 100%; background: #0B0F0E; border-radius: 8px; overflow: hidden; }
 .video-frame video { width: 100%; height: 100%; display: block; }
+.clip { margin: 4px 0; }
+.clip.missing { display: grid; place-items: center; background: var(--sunken); border: 2px dashed var(--line); }
+.clip-missing { margin: 0; padding: 24px; max-width: 42ch; text-align: center; color: var(--muted); }
 .placeholder { position: absolute; inset: 0; display: grid; place-content: center; gap: 8px; text-align: center; padding: 20px; color: var(--muted);
   background: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--line) 45%, transparent) 14px 15px), var(--sunken); }
 .placeholder strong { color: var(--ink); font-family: var(--f-display); font-weight: 600; font-size: 18px; }
@@ -229,11 +232,12 @@ figcaption { font-size: 13px; color: var(--muted); }
 .typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: tdot 1s infinite; }
 .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
 @keyframes tdot { 0%, 100% { opacity: .25; transform: translateY(0) } 50% { opacity: 1; transform: translateY(-2px) } }
-.quick { display: flex; gap: 6px; overflow-x: auto; padding: 8px 14px; background: var(--bg); scrollbar-width: none; }
+.quick { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px; background: var(--bg); }
+.quick .pill { white-space: normal; text-align: left; }
 .pill { appearance: none; cursor: pointer; flex: none; font-size: 13px; border: 1px solid var(--accent); color: var(--accent); background: var(--surface); padding: 5px 11px; border-radius: 99px; white-space: nowrap; }
 .pill:hover { background: var(--accent); color: var(--accent-ink); }
 .related, .alts, .feedback { flex: none; }
-.related, .alts { display: flex; flex-wrap: nowrap; align-items: center; gap: 5px; margin: -2px 0 8px 40px; overflow-x: auto; scrollbar-width: none; font-size: 11.5px; color: var(--muted); }
+.related, .alts { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin: -2px 0 8px 40px; font-size: 11.5px; color: var(--muted); }
 .related::-webkit-scrollbar, .alts::-webkit-scrollbar { display: none; }
 .related > span, .alts > span { flex: none; white-space: nowrap; }
 .related .pill, .alts .pill { flex: none; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11.5px; padding: 2px 9px; line-height: 1.5; }
@@ -604,7 +608,12 @@ mark.sugg { background: color-mix(in srgb, #7C5CFF 16%, transparent); color: inh
   background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; font-weight: 700; }
 .lesson-link span { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--brand); color: var(--brand-ink); font-size: 9px; flex: none; }
 .lesson-link:hover { border-color: var(--brand); background: color-mix(in srgb, var(--brand) 8%, var(--surface)); }
-.feedback { display: flex; align-items: center; gap: 6px; margin: -4px 0 8px 40px; font-size: 12.5px; color: var(--muted); flex-wrap: wrap; }
+.feedback { display: flex; align-items: center; gap: 6px; margin: -6px 0 10px 40px; flex-wrap: wrap; }
+.feedback button { font-size: 11.5px !important; padding: 2px 9px !important; color: var(--muted) !important; }
+.feedback button:hover { color: var(--ink) !important; }
+.them .bubble { position: relative; }
+.reaction { position: absolute; top: -10px; right: -10px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; line-height: 1;
+  background: var(--surface); border: 2px solid var(--bg); box-shadow: 0 2px 6px rgb(10 31 46 / .18); animation: pop .25s cubic-bezier(.2,.9,.3,1.3); }
 .feedback button { appearance: none; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 3px 10px; font: inherit; font-size: 12.5px; }
 .feedback button:hover:not(:disabled) { border-color: var(--accent); }
 .feedback button:disabled { cursor: default; opacity: .5; }
@@ -1357,6 +1366,7 @@ const CONFIG = {
         case "tip": case "warn": return tipBox(b);
         case "image": return shot(b.src, b.caption);
         case "media": if (!b.src && /flowchart/i.test(b.desc) && current && current.branches) return processFlow(current);
+          if (b.src && b.kind === "video") return `<div class="video-frame clip"><video controls preload="metadata" playsinline src="${esc(b.src)}" aria-label="${esc(b.desc)}"></video><p class="clip-missing" hidden>This clip plays from the S: drive. Open the training page from the S: drive on a work computer to watch it.</p></div>`;
           return b.src ? shot(b.src, b.desc)
           : `<div class="media-todo"><span>${b.kind === "gif" ? "GIF" : b.kind === "video" ? "Video" : "Screenshot"} coming</span><p>${inline(b.desc)}</p></div>`;
         case "goa": {
@@ -1405,7 +1415,10 @@ const CONFIG = {
     $("lessonMain").querySelectorAll('[data-act="say-hi"]').forEach(b => b.addEventListener("click", () => openChat(true)));
     $("lessonMain").querySelectorAll(".demo-mount").forEach(mountDemo);
 
-    const v = $("lessonMain").querySelector("video");
+    $("lessonMain").querySelectorAll(".clip video").forEach(c => c.addEventListener("error", () => {
+      c.hidden = true; c.parentElement.classList.add("missing"); c.nextElementSibling.hidden = false;
+    }, { once: true }));
+    const v = $("lessonMain").querySelector(".video-frame:not(.clip) video");
     if (v) {
       v.addEventListener("error", () => { v.parentElement.innerHTML = placeholder("Video", l.video); }, { once: true });
       v.addEventListener("ended", () => setDone("video", true));
@@ -1725,6 +1738,7 @@ const CONFIG = {
   function showStep(i, scroll = true) {
     const l = current, secs = sectionsOf(l); if (!secs.length) return;
     stepIdx = Math.max(0, Math.min(secs.length - 1, i));
+    document.querySelectorAll("#lessonMain video").forEach(x => { if (!x.paused) x.pause(); });
     const d = doneMap(l);
     secs.forEach((x, k) => { const el = $("sec-" + x.id); if (el) el.querySelector(".sec-num").textContent = d[x.id] ? "✓" : String(k + 1); });
     $("lessonMain").querySelectorAll(".sec").forEach(el => {
@@ -1882,13 +1896,6 @@ const CONFIG = {
     if (matchMedia("(max-width: 560px)").matches) openChat(false);
     if (current === l) { renderLesson(); renderOverall(); window.scrollTo(0, 0); } else route(l.id);
   }
-  function relatedRow(chunks) {
-    if (!chunks.length) return;
-    const row = document.createElement("div"); row.className = "related";
-    row.innerHTML = `<span>More on</span>` + chunks.map(c => `<button type="button" class="pill" data-key="${esc(c.key)}" title="${esc(c.title)}">${esc(c.title)}</button>`).join("");
-    log.appendChild(row);
-    row.querySelectorAll("button").forEach(b => b.addEventListener("click", () => showSection(ENGINE.byKey.get(b.dataset.key))));
-  }
   function showSection(c, asked) {
     if (!c) return;
     chatCtx = { chunk: c, age: 0 };
@@ -1923,22 +1930,27 @@ const CONFIG = {
   }
   ENGINE.setMemory(memoryFrom(events));
 
-  // Feedback is quiet: the chosen button stays lit and the other greys out. After 👎, the likely
-  // right answers appear under the buttons; picking one teaches GOA and shows that answer.
-  function feedbackRow(q, res) {
+  // Feedback works like an iMessage reaction: pick 👍 Helpful or 👎 Unhelpful under GOA's answer, the buttons
+  // disappear and the reaction sits on the corner of his message. After 👎, the likely right answers appear;
+  // picking one teaches GOA and shows that answer.
+  function feedbackRow(q, res, bubbleEl) {
     const row = document.createElement("div"); row.className = "feedback";
-    row.innerHTML = `<span>Did that help?</span><button type="button" data-v="yes">👍 Yes</button><button type="button" data-v="no">👎 No</button>`;
+    row.innerHTML = `<button type="button" data-v="yes" aria-label="Mark this answer helpful">👍 Helpful</button><button type="button" data-v="no" aria-label="Mark this answer unhelpful">👎 Unhelpful</button>`;
     log.appendChild(row); log.scrollTop = log.scrollHeight;
     row.querySelectorAll("button[data-v]").forEach(b => b.addEventListener("click", () => {
-      row.querySelectorAll("button[data-v]").forEach(x => { x.disabled = true; x.classList.toggle("on", x === b); x.classList.toggle("off", x !== b); });
-      record({ kind: "vote", key: res.chunk.key, up: b.dataset.v === "yes", terms: ENGINE.termsOf(q) });
+      const up = b.dataset.v === "yes";
+      record({ kind: "vote", key: res.chunk.key, up, terms: ENGINE.termsOf(q) });
+      row.remove();
+      const r = document.createElement("span"); r.className = "reaction"; r.textContent = up ? "👍" : "👎";
+      r.setAttribute("role", "img"); r.setAttribute("aria-label", up ? "You marked this helpful" : "You marked this unhelpful");
+      bubbleEl.appendChild(r);
       const alts = (res.alternatives || []).slice(0, 3);
-      if (b.dataset.v === "no" && alts.length) {
+      if (!up && alts.length) {
         const box = document.createElement("div"); box.className = "alts";
         box.innerHTML = `<span>Was it one of these?</span>${alts.map(c => `<button type="button" class="pill" data-key="${esc(c.key)}">${esc(c.title)}</button>`).join("")}`;
-        row.after(box); log.scrollTop = log.scrollHeight;
+        bubbleEl.closest(".row").nextElementSibling.after(box); log.scrollTop = log.scrollHeight;
         box.querySelectorAll("[data-key]").forEach(p => p.addEventListener("click", () => {
-          box.querySelectorAll("button").forEach(x => { x.disabled = true; x.classList.toggle("on", x === p); x.classList.toggle("off", x !== p); });
+          box.remove();
           record({ kind: "fix", wrong: res.chunk.key, right: p.dataset.key, terms: ENGINE.termsOf(q) });
           showSection(ENGINE.byKey.get(p.dataset.key), p.textContent);
         }));
@@ -1951,6 +1963,7 @@ const CONFIG = {
   let chatCtx = null;
   function ask(q) {
     q = q.trim(); if (!q) return;
+    if (!chatStarted) { chatStarted = true; $("quick").hidden = true; }
     bubble("me", esc(q));
     typingThen((el) => {
       if (chatCtx && ++chatCtx.age > 3) chatCtx = null;
@@ -1984,7 +1997,7 @@ const CONFIG = {
         const c = res.chunk; chatCtx = { chunk: c, age: 0 };
         el.innerHTML = pre + `<p>You're on the part <b>${esc(c.title)}</b> in ${lessonName(l)}. In short:</p>` + renderUnits(c.units, res.idxs)
           + (c.units.length > res.idxs.length ? `<button type="button" class="more">Read the whole part</button>` : "");
-        attachMore(el, c); relatedRow(res.more.slice(0, 3)); return;
+        attachMore(el, c); return;
       }
       if (res.kind === "nextLesson") {
         el.innerHTML = pre + `<p>After ${lessonName(res.lesson)} comes <b>${lessonName(res.next)}: ${esc(res.next.title)}</b>${res.next.summary ? `: ${esc(clean(res.next.summary).replace(/^./, c => c.toLowerCase()))}` : ""}.</p><div class="lesson-links">${lessonBtn({ id: res.next.id, num: res.next.num, k: -1, step: res.next.title }, `Start ${lessonName(res.next)}`)}</div>`;
@@ -2012,22 +2025,26 @@ const CONFIG = {
         + srcLine(c) + (full ? `<button type="button" class="more">Read the full section</button>` : "")
         + (res.lesson && WANTS_LESSON.test(q) ? `<div class="lesson-links">${lessonBtn(res.lesson, `Learn this in ${partName(res.lesson)}`)}</div>` : "");
       attachMore(el, c); wireLessonLinks(el);
-      relatedRow(res.related);
-      feedbackRow(q, res);
+      feedbackRow(q, res, el);
     });
   }
-  // suggested questions: from the manual sections that go with the lesson you're on
+  // Suggested questions: 3 picked at random from goa/prompts.md (plus, in a lesson, that lesson's own questions).
+  // They disappear once the first message is sent, and come back fresh when the chat is cleared.
+  let chatStarted = false;
+  const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   function renderQuick() {
-    let qs = [];
+    const P = GOA_DATA.prompts || {};
+    let pool = (P.anywhere || []).slice();
     if (current) {
-      const own = ENGINE.chunks.filter(c => c.kind === "manual" && c.lessonLink && c.lessonLink.id === current.id && c.questions.length);
-      qs = own.slice(0, 3).map(c => c.questions[0]);
+      const own = ENGINE.chunks.filter(c => c.kind === "manual" && c.lessonLink && c.lessonLink.id === current.id && c.questions.length).map(c => c.questions[0]);
+      pool = (P.lesson || []).concat(own, shuffle(pool).slice(0, 3));
     }
-    if (current) qs = ["What is this lesson about?", ...qs].slice(0, 3);
+    let qs = shuffle(pool).slice(0, 3);
     if (!qs.length) qs = ["What does CIS do?", "Where do I start?", "How do I make a backup?"];
     qs = qs.map(q => q.replace(/^./, x => x.toUpperCase()).replace(/\b(cis|goa|png|csv|id)\b/gi, w => w.toUpperCase()).replace(/[?.]?$/, "?"));
     $("quick").innerHTML = qs.map(q => `<button type="button" class="pill">${esc(q)}</button>`).join("");
     $("quick").querySelectorAll(".pill").forEach(p => p.addEventListener("click", () => ask(p.textContent)));
+    $("quick").hidden = chatStarted;
   }
   function openChat(open) {
     if (open) endRoamNow();
@@ -2037,7 +2054,7 @@ const CONFIG = {
     else { $("launchBtn").focus(); armIdle(); }
   }
   // start a fresh conversation (what GOA has learned is kept)
-  function clearChat() { log.innerHTML = `<div class="day">Today</div>`; lastWho = null; chatCtx = null; bubble("them", `<p>${esc(CONFIG.botGreeting)}</p>`); }
+  function clearChat() { log.innerHTML = `<div class="day">Today</div>`; lastWho = null; chatCtx = null; chatStarted = false; bubble("them", `<p>${esc(CONFIG.botGreeting)}</p>`); renderQuick(); }
 
   /* ---------- GOA's idle adventures (home screen only) ---------- */
   const IDLE_MS = 10000, INK = "#13222D";
@@ -2539,6 +2556,9 @@ const CONFIG = {
     if (e.key !== "Escape") return;
     if (!$("lightbox").hidden) closeBox(); else if (!$("chat").hidden) openChat(false);
   });
+  // a clip keeps playing if its dropdown is closed; pause any that are no longer on screen
+  document.addEventListener("click", () => setTimeout(() =>
+    document.querySelectorAll("#lessonMain video").forEach(v => { if (!v.paused && !v.offsetParent) v.pause(); })), true);
   window.addEventListener("hashchange", () => show(location.hash.slice(1)));
   document.addEventListener("keydown", (e) => {
     if (!current || !sectionsOf(current).length || !$("chat").hidden || !$("lightbox").hidden) return;

@@ -20,6 +20,7 @@ Steps
 
 Inside a step
   [Tip] … / [Tip #2] …          tip box            [Important!] … / [Warning] …   warning box
+  [Video – what it shows – 1.3.mp4]   a video clip; hyperlink the file name to where the video lives (e.g. the S: drive)
   [GIF – what it shows]         placeholder until the GIF exists; name a file to use it: [GIF – connect-folder.gif]
   [Image – what it shows]       same, for screenshots. A picture pasted into the doc is used directly.
   [Example – holes table]       an interactive example built into the page
@@ -137,7 +138,7 @@ def slug(s):
 
 
 def plain_of(md):
-    return re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", md).replace("**", "").strip()
+    return re.sub(r"\[([^\[\]]*)\]\([^)]*\)", r"\1", md).replace("**", "").strip()
 
 
 MANUAL_HEADING = re.compile(r"^(\d+(?:\.\d+)*)\.?\s+((?:\[[^\]]+\]\s*)?[A-Z][^.!?–—]{0,70})$")
@@ -290,9 +291,14 @@ def main():
         mm = MEDIA.match(plain)
         if mm:
             k = mm.group(1).lower(); desc = mm.group(2).strip()
-            f = re.search(r"[\w\- ]+\.(gif|png|jpe?g|webp|mp4)\b", desc, re.I)
-            add({"type": "media", "kind": "gif" if k == "gif" else ("video" if k == "video" else "image"),
-                 "desc": desc, "src": ("screenshots/" + f.group(0).strip()) if f else None},
+            # a linked file name ("… – 1.3.mp4" with a hyperlink) plays from the link; a bare one from the screenshots folder
+            link = re.search(r"\]\(([^)\s]+\.(?:gif|png|jpe?g|webp|mp4|webm|mov))\)", md, re.I)
+            f = re.search(r"(?:^|[–—-]\s*)([\w\-. ]+\.(?:gif|png|jpe?g|webp|mp4|webm|mov))\s*$", desc, re.I)
+            if f: desc = desc[:f.start()].rstrip(" –—-")
+            src = link.group(1) if link else ("screenshots/" + f.group(1).strip()) if f else None
+            is_video = k == "video" or bool(src and re.search(r"\.(mp4|webm|mov)$", src, re.I))
+            add({"type": "media", "kind": "video" if is_video else ("gif" if k == "gif" else "image"),
+                 "desc": desc, "src": src},
                 into_item=dd_mode or group is not None)
             continue
 
