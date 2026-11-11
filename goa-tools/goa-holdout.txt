@@ -3,7 +3,7 @@
 
 # --- how-to, in people's own words
 where's the cis file kept => Opening CIS
-it opens weird in my browser => Opening CIS
+it opens weird in my browser => CIS won't open
 whats the data folder called => Connecting to the shared folder
 can i get rid of the data folder => Never delete the Data [Program Files] folder
 my mate and i are both in the same project => Two people editing the same project
@@ -38,7 +38,7 @@ i'm back from moving boxes on paper, now what => After an offline move
 how do i fix duplicate boxes => Issues
 how do i move a box further up the order => Changing a box's planned slot
 how do i remove a bay => Bay settings
-can i add my own column => Advanced settings
+can i add my own column => Custom columns
 the page is blank => CIS won't open
 what does hole id mean => Terms
 

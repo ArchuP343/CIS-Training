@@ -23,6 +23,10 @@ After editing, run:  python3 build-lessons.py   (it rebuilds GOA too)
 - How do I save the map as a PNG?
 - Which lesson covers pallets?
 - What can you do?
+- Why does CIS ask for the folder every time?
+- How do I save my changes in a core move?
+- What's the difference between locked and blocked?
+- How do I filter boxes by depth?
 
 ## lesson
 - What is this lesson about?
