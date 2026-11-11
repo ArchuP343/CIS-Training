@@ -638,7 +638,7 @@ mark.sugg { background: color-mix(in srgb, #7C5CFF 16%, transparent); color: inh
 <script>
 const CONFIG = {
   appName: "Core Inventory System",
-  showSampleNotice: true,        // set to false once you've swapped in your own content
+  showSampleNotice: false,        // set to false once you've swapped in your own content
   helpContact: "the person who looks after CIS",
   showSuggestions: false,        // true highlights Claude's tracked-change suggestions from Lessons.docx
   storageKey: "crp-training-v2",
@@ -670,7 +670,7 @@ const CONFIG = {
       <p>Pick a lesson to watch the video and follow the written steps. Stuck? Ask GOA in the bottom corner.</p>
     </div>
     <div class="overall" id="overall"></div>
-    <p class="sample-note" id="sampleNote" hidden>Draft lessons from <code>Lessons.docx</code>. GOA is answering from a first-pass manual (<code>goa/manual.md</code>) until the full CIS manual goes in.</p>
+    <p class="sample-note" id="sampleNote" hidden></p>
   </div>
 </header>
 
@@ -1359,7 +1359,7 @@ const CONFIG = {
   }
   const checkBtn = (sid, on) => `<button type="button" class="check" data-sec="${sid}" aria-pressed="${on}"><i>${on ? "✓" : ""}</i>${on ? "Done" : "Mark done"}</button>`;
 
-  const shot = (src, cap) => `<figure class="shot"><button type="button" class="shot-btn" data-src="${esc(encodeURI(src))}" aria-label="Enlarge: ${esc(cap || "screenshot")}"><img src="${esc(encodeURI(src))}" alt="${esc(cap || "")}" loading="lazy"></button>${cap ? `<figcaption>${inline(cap)}</figcaption>` : ""}</figure>`;
+  const shot = (src, cap) => `<figure class="shot"><button type="button" class="shot-btn" data-src="${esc(/^[a-z]+:/i.test(src) ? src : encodeURI(src))}" aria-label="Enlarge: ${esc(cap || "screenshot")}"><img src="${esc(/^[a-z]+:/i.test(src) ? src : encodeURI(src))}" alt="${esc(cap || "")}" loading="lazy"></button>${cap ? `<figcaption>${inline(cap)}</figcaption>` : ""}</figure>`;
   const tipBox = (b) => `<div class="tip ${b.type === "warn" ? "warn" : ""}"><b>${b.type === "warn" ? "Important" : "Tip"}</b>${inline(b.md)}</div>`;
   const guidanceBlocks = [];
   function renderBlocks(blocks, title) {
