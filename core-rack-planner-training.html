@@ -652,11 +652,15 @@ const CONFIG = {
 
 </script>
 
-<!-- Lessons are built from Lessons/Lessons.docx by build-lessons.py -->
-<script src="lessons-data.js"></script>
+<!-- Lessons are built from Lessons/Lessons.docx by build-lessons.py.
+     On the S: drive this page sits in Core Shed Planner, with the data in CIS-Tutorial [Program Files]/Lessons and /Bot.
+     If those aren't there (e.g. working in the CIS-Training folder), it falls back to the files next to the page. -->
+<script src="CIS-Tutorial%20%5BProgram%20Files%5D/Lessons/lessons-data.js"></script>
+<script>if (!window.LESSONS) document.write('<script src="lessons-data.js"><\/script>');</script>
 
 <!-- What GOA knows: built from the goa folder by build-goa.py (build-lessons.py runs it) -->
-<script src="goa-data.js"></script>
+<script src="CIS-Tutorial%20%5BProgram%20Files%5D/Bot/goa-data.js"></script>
+<script>if (!window.GOA_DATA) document.write('<script src="goa-data.js"><\/script>');</script>
 
 <header class="top">
   <div class="wrap">
@@ -1372,7 +1376,7 @@ const CONFIG = {
         case "goa": {
           // GOA's picture sits beside the paragraph that follows it
           const next = blocks[i + 1], text = next && next.type === "text" ? md(next.md) : "";
-          return `<div class="meet-goa"><img src="goa-art/goa-waving.png" alt="GOA, a cartoon piece of granite drill core wearing a crown, waving"><div class="meet-goa-text">${text}<button type="button" class="btn primary" data-act="say-hi">Say hi to GOA</button></div></div>`;
+          return `<div class="meet-goa"><img src="CIS-Tutorial%20%5BProgram%20Files%5D/Bot/goa-waving.png" onerror="this.onerror=null;this.src='goa-art/goa-waving.png'" alt="GOA, a cartoon piece of granite drill core wearing a crown, waving"><div class="meet-goa-text">${text}<button type="button" class="btn primary" data-act="say-hi">Say hi to GOA</button></div></div>`;
         }
         case "options": return `<div class="options">${b.items.map(it => `<details><summary><span>${it.suggested && CONFIG.showSuggestions ? `<mark class="sugg">${inline(it.title)}</mark>` : inline(it.title)}</span><i aria-hidden="true"></i></summary><div class="opt-body">${it.blocks ? renderBlocks(it.blocks) : md(it.md || "") + (it.notes || []).map(tipBox).join("")}</div></details>`).join("")}</div>`;
         case "example": return /hole/i.test(b.name) ? `<div class="demo-mount" data-demo="holes"></div>` : "";
