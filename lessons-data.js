@@ -203,11 +203,11 @@ window.LESSONS = [
           },
           {
             "type": "text",
-            "md": "The program is designed to be collaborative so it must be connected to a shared folder before use. Connect to the folder called [Data] Program Files in the same place you found the program. Any changes you make to a project or core move will automatically be saved in this folder."
+            "md": "The program is designed to be collaborative so it must be connected to a shared folder before use. Connect to the folder called {{+Data [Program Files]+}} in the same place you found the program. Any changes you make to a project or core move will automatically be saved in this folder."
           },
           {
             "type": "warn",
-            "md": "Never delete the [Data] folder. A deletion will not break the software, but it will wipe any records in it. If this is a concern, create a copy of the folder elsewhere as a backup."
+            "md": "Never delete the Data [Program Files] folder. A deletion will not break the software, but it will wipe any records in it. If this is a concern, create a copy of the folder elsewhere as a backup."
           },
           {
             "type": "tip",
@@ -1287,7 +1287,7 @@ window.LESSONS = [
                 "blocks": [
                   {
                     "type": "text",
-                    "md": "{{+Check you’re connected to the [Data] Program Files folder in the shared drive, not a copy somewhere else. You can also load a backup with ‘Open project file’ (Lesson 2).+}}"
+                    "md": "{{+Check you’re connected to the Data [Program Files] folder in the shared drive, not a copy somewhere else. You can also load a backup with ‘Open project file’ (Lesson 2).+}}"
                   }
                 ],
                 "suggested": true

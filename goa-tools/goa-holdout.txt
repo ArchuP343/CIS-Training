@@ -5,7 +5,7 @@
 where's the cis file kept => Opening CIS
 it opens weird in my browser => Opening CIS
 whats the data folder called => Connecting to the shared folder
-can i get rid of the data folder => Never delete the [Data] folder
+can i get rid of the data folder => Never delete the Data [Program Files] folder
 my mate and i are both in the same project => Two people editing the same project
 how do i start a new dam => Projects
 i want to add a second core shed => Adding sheds to a project

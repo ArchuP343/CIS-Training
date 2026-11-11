@@ -8,7 +8,7 @@ which browser do i use => Which browser to use
 does cis work in firefox => Which browser to use
 how do i connect to the shared folder => Connecting to the shared folder
 where are my projects saved => Connecting to the shared folder
-what happens if i delete the data folder => Never delete the [Data] folder
+what happens if i delete the data folder => Never delete the Data [Program Files] folder
 can two people edit at once => Two people editing the same project
 it says someone else changed the project => Two people editing the same project
 

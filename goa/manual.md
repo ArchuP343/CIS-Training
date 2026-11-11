@@ -41,14 +41,14 @@ CIS must be connected to a shared folder before you use it, so the whole team wo
 
 1. Open CIS and choose to connect to a shared folder.
 2. Go to the same place you found the program.
-3. Choose the folder called [Data] Program Files.
+3. Choose the folder called Data [Program Files].
 
 Any changes you make to a project or core move are saved in this folder automatically. For security, the browser asks for permission to the folder each time you open CIS. Allow it.
 
-## Never delete the [Data] folder
+## Never delete the Data [Program Files] folder
 Questions: can i delete the data folder | what happens if the data folder is deleted | is it safe to delete the data folder | clean up the data folder
 Lesson: 1 › Connect to a shared folder
-Never delete the [Data] Program Files folder. Deleting it won't break the software, but it wipes every record in it. If you're worried, copy the folder somewhere else as a backup.
+Never delete the Data [Program Files] folder. Deleting it won't break the software, but it wipes every record in it. If you're worried, copy the folder somewhere else as a backup.
 
 ## Two people editing the same project
 Questions: can two people use it at once | someone else changed the project | my changes haven't been saved | load their version | can we both edit | working on the same project at the same time
@@ -413,7 +413,7 @@ Use Microsoft Edge or Google Chrome: other browsers can't connect to a shared fo
 ## My project is missing
 Questions: my project is missing | can't find my project | project disappeared | where did my project go | project not in the list
 Lesson: 8 › Troubleshooting
-Check you're connected to the [Data] Program Files folder in the shared drive, not a copy somewhere else. You can also load a backup with ‘Open project file’.
+Check you're connected to the Data [Program Files] folder in the shared drive, not a copy somewhere else. You can also load a backup with ‘Open project file’.
 
 # Glossary
 
