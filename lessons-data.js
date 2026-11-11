@@ -5,7 +5,7 @@ window.LESSONS = [
     "num": null,
     "title": "Overview",
     "summary": "Welcome to the Core Inventory System! Start here to find out what it is and what it can do.",
-    "video": "videos/Overview_intro.mp4",
+    "video": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/CIS%20Promo%20Video%20%28with%20subtitles%29.mp4",
     "steps": [
       {
         "title": "What CIS does",
@@ -177,7 +177,7 @@ window.LESSONS = [
     "num": 1,
     "title": "Getting started",
     "summary": "Finding the program, connecting it to a shared folder, creating a project",
-    "video": "videos/Lesson 1.mp4",
+    "video": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/Lesson%201.mp4",
     "steps": [
       {
         "title": "Finding the program",
@@ -312,7 +312,7 @@ window.LESSONS = [
             "type": "media",
             "kind": "image",
             "desc": "Import preview",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/1.5.1.png"
           }
         ]
       },
@@ -338,7 +338,7 @@ window.LESSONS = [
     "num": 2,
     "title": "Managing projects",
     "summary": "Creating backups, exporting sheds, saving moves, adding more sheds",
-    "video": "videos/Lesson2.mp4",
+    "video": null,
     "steps": [
       {
         "title": "Shed vs core move",
@@ -441,7 +441,7 @@ window.LESSONS = [
     "num": 3,
     "title": "Navigating shed dashboards",
     "summary": "Rack plan, shed map, move mode, edit tabs, searching and filtering, statistics",
-    "video": "videos/Lesson3.mp4",
+    "video": null,
     "steps": [
       {
         "title": "Rack plan tab",
@@ -541,7 +541,7 @@ window.LESSONS = [
             "type": "media",
             "kind": "image",
             "desc": "Statistics section",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/3.7.png"
           },
           {
             "type": "text",
@@ -606,7 +606,7 @@ window.LESSONS = [
     "num": 4,
     "title": "Rack plan",
     "summary": "Shed overview, bay views",
-    "video": "videos/Lesson4.mp4",
+    "video": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/Lesson4.mp4",
     "steps": [
       {
         "title": "Shed overview",
@@ -653,7 +653,7 @@ window.LESSONS = [
     "num": 5,
     "title": "Shed map",
     "summary": "How to use, adding elements, pallets, tidying up, saving PNGs",
-    "video": "videos/Lesson5.mp4",
+    "video": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/Lesson5.mp4",
     "steps": [
       {
         "title": "The basics",
@@ -870,7 +870,7 @@ window.LESSONS = [
     "num": 6,
     "title": "Move mode",
     "summary": "Overview, uploading data, connection type, order preferences, move guidance, saving, alternative approaches",
-    "video": "videos/Lesson6.mp4",
+    "video": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/Lesson6.mp4",
     "steps": [
       {
         "title": "Overview",
@@ -1128,7 +1128,7 @@ window.LESSONS = [
     "num": 7,
     "title": "Edit",
     "summary": "Issues, holes and boxes, bay settings, advanced editing",
-    "video": "videos/Lesson7.mp4",
+    "video": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/Lesson7.mp4",
     "steps": [
       {
         "title": "Issues",
@@ -1254,7 +1254,7 @@ window.LESSONS = [
             "type": "media",
             "kind": "image",
             "desc": "held box image",
-            "src": null
+            "src": "file:///S:/BW%20Asset%20Delivery/Z_Geology/Software/Core%20Shed%20Planner/CIS-Tutorial%20%5BProgram%20Files%5D/Clips%20for%20training%20site/Final%20cuts/8.1.png"
           },
           {
             "type": "text",

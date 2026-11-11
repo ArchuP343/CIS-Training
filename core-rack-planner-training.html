@@ -1410,7 +1410,7 @@ const CONFIG = {
         <p>${inline(l.summary || "")}</p>
         ${secs.length ? `<div class="chips">${l.video ? `<span class="chip">Video${l.duration ? " · " + esc(l.duration) : ""}</span>` : ""}<span class="chip">${secs.length} sections</span></div>` : ""}
       </div>
-      ${l.video ? section("video", "Watch the video", `<div class="video-frame"><video controls preload="metadata" playsinline src="${esc(encodeURI(l.video))}"></video></div>`) : ""}
+      ${l.video ? section("video", "Watch the video", `<div class="video-frame"><video controls preload="metadata" playsinline src="${esc(/^[a-z]+:/i.test(l.video) ? l.video : encodeURI(l.video))}"></video></div>`) : ""}
       ${l.steps.map((s, k) => (!s.branch || s.branch === br) ? section("step-" + k, s.title, stepBody(s, k), s.branch ? shortBranch(s.branch) : "", s.suggested) : "").join("")}
       ${secs.length ? `<nav class="stepnav bottom" id="stepBottom" aria-label="Lesson steps"></nav>` : ""}
       ${secs.length ? "" : `<div class="soon-box"><strong>This lesson is still being written.</strong><span>Check back soon, or ask GOA in the meantime.</span></div>`}
@@ -1427,7 +1427,7 @@ const CONFIG = {
     $("lessonMain").querySelectorAll(".clip video").forEach(c => { c.muted = true; clipWatch.observe(c); });
     const v = $("lessonMain").querySelector(".video-frame:not(.clip) video");
     if (v) {
-      v.addEventListener("error", () => { v.parentElement.innerHTML = placeholder("Video", l.video); }, { once: true });
+      v.addEventListener("error", () => { const f = v.parentElement; if (/^file:/i.test(l.video)) { f.classList.add("missing"); f.style.display = "grid"; f.style.placeItems = "center"; f.innerHTML = `<p class="clip-missing" style="color:#cfd8d6">This video plays from the S: drive. Open the training page from the S: drive on a work computer to watch it.</p>`; } else f.innerHTML = placeholder("Video", l.video); }, { once: true });
       v.addEventListener("ended", () => setDone("video", true));
     }
     $("lessonMain").querySelectorAll(".shot-btn img").forEach(img => img.addEventListener("error", () => {

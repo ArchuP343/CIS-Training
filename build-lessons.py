@@ -13,7 +13,7 @@ Lessons
 
 Steps
   - Each NUMBERED line (1., 2. … or 4.1 sub-levels) starts a step. Typed numbers work too: "1. Holding boxes", "4.2 Slot sheet".
-  - "Watch the video [file.mp4]" sets the lesson's video (looked for in the videos folder).
+  - "Watch the video [file.mp4]" sets the lesson's video (looked for in the videos folder, or played from the link if the file name is hyperlinked).
   - "[Online connection type] Offload order" puts a step on a branch. Steps on different branches are
     alternative paths: the learner picks one, and a flowchart shows both.
   - BULLETED lines are a plain bullet list inside the step.
@@ -242,7 +242,11 @@ def main():
         if (kind == "decimal" and md and not imgs) or manual:
             title = manual.group(2).strip() if manual else plain
             v = re.match(r"^watch the video\s*\[([^\]]+)\]", title, re.I)
-            if v: lesson["video"] = "videos/" + v.group(1).strip(); section = None; continue
+            if v:
+                # a hyperlinked file name plays from the link (e.g. the S: drive); a bare one from the videos folder
+                vl = re.search(r"\]\(([^)\s]+\.(?:mp4|webm|mov))\)", md, re.I)
+                lesson["video"] = vl.group(1) if vl else "videos/" + re.sub(r"\]\([^)]*\)", "", v.group(1)).strip("[ ")
+                section = None; continue
             b = re.match(r"^\[([^\]]+)\]\s*(.+)$", title)
             new_section(b.group(2).strip() if b else title, b.group(1).strip() if b else None, sugg)
             continue
